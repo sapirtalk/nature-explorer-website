@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Nature Explorer
+
+Nature Explorer is a web application for exploring nature trails, wildlife, and plant life. It allows users to discover various trails, learn about local wildlife species, and explore plant life native to the area.
+
+## Features
+
+- Browse a catalog of nature trails with detailed information
+- Learn about local wildlife species, including their habitats and conservation status
+- Explore plant life native to the area, with descriptions and photos
+- Create a user account to contribute observations, reviews, and photos
+- Admin dashboard for managing trails, wildlife, and user accounts
+
+## Technologies Used
+
+- Next.js: React framework for building server-side rendered web applications
+- Tailwind CSS: Utility-first CSS framework for styling components
+- MongoDB: NoSQL database for storing trail, wildlife, and user data
 
 ## Getting Started
 
-First, run the development server:
+To get started working on Nature Explorer, follow these steps:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. Clone this repository to your local machine.
+2. Install dependencies using `npm install`.
+3. Set up environment variables. See `.env.example` for reference. (still not present)
+4. Start the development server using `npm run dev`.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Folder Structure
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- `pages/`: Contains Next.js pages for routing and rendering UI components.
+- `components/`: Reusable React components used throughout the application.
+- `styles/`: CSS files, including Tailwind CSS and custom styles.
+- `public/`: Static assets such as images, fonts, and other files.
+- `api/`: Backend API routes for handling server-side logic (e.g., CRUD operations, authentication).
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Contributing
 
-## Learn More
+Contributions:
 
-To learn more about Next.js, take a look at the following resources:
+1. Fork this repository and create a new branch for your feature or bug fix.
+2. Commit your changes and push to your fork.
+3. Submit a pull request detailing your changes and any relevant information.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## License
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+This project is licensed under the MIT License. See the `LICENSE` file for details.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
