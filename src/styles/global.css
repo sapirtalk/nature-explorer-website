@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* set global background color  */
+body {
+  background-color: #D8DFE9;
+}

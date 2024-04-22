@@ -1,9 +1,14 @@
+import "../styles/global.css";
+import Navbar from "../components/Navbar";
 
-export default function Home() {
+
+export default function App() {
   return (
     <div>
-      <h1>Home</h1>
-      <h1>This is going to be the homepage</h1>
+      <Navbar />
+      <div>
+        <h1 className="text-4xl text-center pt-[30%]">חג שמח חלאות</h1>
+      </div>
     </div>
   );
 }
