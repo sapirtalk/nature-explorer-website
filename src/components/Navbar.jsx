@@ -51,16 +51,16 @@ const Navbar = () => {
                 <IoMdClose onClick={handleNav} className='text-4xl text-text' />
               </div>
               <ul className={`${navbar.ul_opened_menu}`}>
-                <Link href='/home'>
+                <Link onClick={handleNav} href='/home'>
                   <li className={`${navbar.li_opened_menu}`}>בית</li>
                 </Link>
-                <Link href='/news'>
+                <Link onClick={handleNav} href='/news'>
                   <li className={`${navbar.li_desktop}`}>חדשות</li>
                 </Link>
-                <Link href='/about'>
+                <Link onClick={handleNav} href='/about'>
                   <li className={`${navbar.li_opened_menu}`}>קצת עלינו</li>
                 </Link>
-                <Link href='/contact'>
+                <Link onClick={handleNav} href='/contact'>
                   <li className={`${navbar.li_opened_menu}`}>צרו קשר</li>
                 </Link>
               </ul>
