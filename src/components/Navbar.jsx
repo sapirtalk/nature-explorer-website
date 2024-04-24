@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoMdClose } from "react-icons/io";
 import { useState } from 'react'
-import navbar from '../styles/tailwindSaved'
+import { navbar } from '../styles/tailwindSaved'
 
 
 const Navbar = () => {
@@ -29,8 +29,11 @@ const Navbar = () => {
           </Link>
           <div>
             <ul className={`${navbar.ul_desktop}`}>
-                <Link href='/'>
+                <Link href='/home'>
                   <li className={`${navbar.li_desktop}`}>בית</li>
+                </Link>
+                <Link href='/news'>
+                  <li className={`${navbar.li_desktop}`}>חדשות</li>
                 </Link>
                 <Link href='/about'>
                   <li className={`${navbar.li_desktop}`}>קצת עלינו</li>
@@ -48,8 +51,11 @@ const Navbar = () => {
                 <IoMdClose onClick={handleNav} className='text-4xl text-text' />
               </div>
               <ul className={`${navbar.ul_opened_menu}`}>
-                <Link href='/'>
+                <Link href='/home'>
                   <li className={`${navbar.li_opened_menu}`}>בית</li>
+                </Link>
+                <Link href='/news'>
+                  <li className={`${navbar.li_desktop}`}>חדשות</li>
                 </Link>
                 <Link href='/about'>
                   <li className={`${navbar.li_opened_menu}`}>קצת עלינו</li>

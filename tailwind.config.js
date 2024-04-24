@@ -5,6 +5,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        'sans': ['Roboto', 'sans-serif'],
+        'serif': ['Rubik', 'serif'],
+      },
       screens: {
         'sm': '640px', // Small screens, default: 640px
         'md': '768px', // Medium screens, default: 768px

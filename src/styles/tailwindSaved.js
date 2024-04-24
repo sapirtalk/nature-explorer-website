@@ -15,7 +15,12 @@ const navbar = {
     li_opened_menu: 'text-xl text-primary hover:text-accent'
 }
 
+const news = {
+    latest_container: 'flex flex-col items-center justify-center w-full h-full bg-tertiary bg-opacity-70 p-4 shadow-2xl bg-opacity-50',
+    latest_title: 'mb-[3vw] text-text text-2xl',
+    latest_news: 'text-xl text-primary text-center w-[80%] lg:w-[50%] h-[10vh] bg-secondary rounded-lg p-4 shadow-2xl bg-opacity-50'
+}
 
 
 
-export default navbar;
+export { navbar, news }
