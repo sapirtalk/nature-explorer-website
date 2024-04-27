@@ -3,7 +3,7 @@
 
 
 const navbar = {
-    container: 'fixed text-text w-full h-24 shadow-2xl bg-tertiary',
+    container: 'fixed text-text w-full h-24 shadow-2xl bg-tertiary rounded-b-xl',
     inner_div: 'flex justify-between items-center w-full h-full px-4 lg:px-16',
     ul_desktop: 'space-x-4 hidden lg:flex',
     li_desktop: 'text-xl text-primary hover:text-accent',
