@@ -22,9 +22,6 @@ export default function RootLayout({ children }) {
     const data = await db.collection('movies').find({}).limit(1).toArray();
     // print to console
     console.log('fetched single year:' , data[0].year);
-
-    // Disconnect from the database
-    await disconnectFromDatabase();
   }
   
   return (
@@ -40,7 +37,7 @@ export default function RootLayout({ children }) {
           <Greeting />
         </div>
         <main className="pt-[10%] lg:pt-[6%]">
-        {test()}
+        {test()}  
         {children}
         </main>
       </body>
