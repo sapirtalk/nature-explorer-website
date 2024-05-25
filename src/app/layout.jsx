@@ -1,6 +1,7 @@
 
 import { Rubik } from "next/font/google";
 import Navbar from "@/components/Navbar";
+import Greeting from "@/components/home_comp/Greeting";
 import "../styles/global.css";
 import { connectToDatabase , disconnectFromDatabase } from '@/api/middleware/mongo';
 
@@ -14,7 +15,7 @@ const rubik = Rubik ({subsets: ['latin'] , weight: ['300', '400', '500', '700']}
 export default function RootLayout({ children }) {
 
   
-
+  // this is a test function to check if the connection to the database is working and it is!
   const test = async () => {
     const db = await connectToDatabase(); // Connect to the database when the website starts
     // fetch data
@@ -35,7 +36,10 @@ export default function RootLayout({ children }) {
       </head>
       <body className={`${rubik.className}`}>
         <Navbar />
-        <main className="pt-[30%] lg:pt-[10%]">
+        <div className='pt-[20%] lg:pt-[6%]'>
+          <Greeting />
+        </div>
+        <main className="pt-[10%] lg:pt-[6%]">
         {test()}
         {children}
         </main>

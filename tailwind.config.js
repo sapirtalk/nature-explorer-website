@@ -18,8 +18,8 @@ module.exports = {
       colors: {
         'primary': '#D8DFE9', // Primary color
         'secondary': '#04566E', // Secondary color
-        'tertiary': '#689368', // Tertiary color
-        'text': '#022831', // Text color
+        'tertiary': '#B8E4BE', // Tertiary color
+        'text': '#264027', // Text color
         'accent': '#B4D330', // Accent color
         'blocked': '#F2F2F2', // Blocked color
       },

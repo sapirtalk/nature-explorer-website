@@ -1,4 +1,4 @@
-import LatestNews from '@/components/LatestNews'
+import LatestNews from '@/components/home_comp/LatestNews'
 import React from 'react'
 
 function Home() {
@@ -7,7 +7,7 @@ function Home() {
 
   return (
     <div>
-        <div>
+        <div className='w-full h-[20vh]'>
             <LatestNews newsItems={newsItems} />
         </div>
     </div>

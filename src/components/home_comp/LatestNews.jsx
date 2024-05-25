@@ -2,7 +2,7 @@
 "use client";
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { news } from '../styles/tailwindSaved'
+import { news } from '../../styles/tailwindSaved'
 
 
 
@@ -20,7 +20,8 @@ const LatestNews = ({ newsItems }) => {
   }, [newsItems.length]);
 
   return (
-    <div className={news.latest_container}>
+    <div dir="rtl" className={news.latest_container}>
+      <h1 className={news.latest_title}>הודעות אחרונות:</h1>
       <div className={news.latest_news}>
         {newsItems[currentNewsIndex]}
       </div>
