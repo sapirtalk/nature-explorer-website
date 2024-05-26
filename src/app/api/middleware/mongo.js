@@ -11,6 +11,7 @@ if (!uri) {
     throw new Error('Please define the MONGODB_URI environment variable');
 }
 
+// connect to the database, or return the cached database connection
 export async function connectToDatabase() {
     if (cachedDb) {
         return cachedDb;
@@ -21,7 +22,7 @@ export async function connectToDatabase() {
     try {
         await client.connect();
         console.log('Connected to MongoDB');
-        cachedDb = client.db('sample_mflix'); // change the database name here
+        cachedDb = client.db('Nature_Haifa'); // change the database name here
         return cachedDb;
     } catch (error) {
         console.error('Error connecting to MongoDB:', error);
@@ -36,3 +37,6 @@ export async function disconnectFromDatabase() {
         cachedDb = null;
     }
 }
+
+
+

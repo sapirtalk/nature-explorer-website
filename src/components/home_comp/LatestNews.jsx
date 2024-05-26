@@ -2,12 +2,37 @@
 "use client";
 import React from 'react'
 import { useState, useEffect } from 'react'
+import { fetchData , formatTime } from '@/utils';
 import { news } from '../../styles/tailwindSaved'
 
 
 
-const LatestNews = ({ newsItems }) => {
+const LatestNews = () => {
+
+  const [newsItems, setNewsItems ] = useState([]);
+
   const [currentNewsIndex, setCurrentNewsIndex] = useState(0);
+
+
+  
+
+  useEffect(() => {
+    fetchData('/api/admin_news')
+    .then((data) => {
+      console.log('Data fetched:', data.news);
+      setNewsItems(data.news.map((newsItem) => (
+        <div key={newsItem._id}>
+          <h2>{newsItem.title}</h2>
+          <p>{newsItem.description}</p>
+          <p>{formatTime(newsItem.date)}</p>
+        </div>
+      ))
+      )
+    })
+    .catch((error) => {
+      console.log('Error fetching data:', error);
+    });
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
