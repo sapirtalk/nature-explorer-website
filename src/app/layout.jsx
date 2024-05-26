@@ -25,7 +25,7 @@ export default function RootLayout({ children }) {
       </head>
       <body className={`${rubik.className}`}>
         <Navbar />
-        <div className='pt-[20%] lg:pt-[6%]'>
+        <div className='pt-[15vh] px-3  lg:p-[6%]'>
           <Greeting />
         </div>
         <main className="pt-[10%] lg:pt-[6%]"> 

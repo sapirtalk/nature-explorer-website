@@ -21,10 +21,10 @@ const LatestNews = () => {
     .then((data) => {
       console.log('Data fetched:', data.news);
       setNewsItems(data.news.map((newsItem) => (
-        <div key={newsItem._id}>
-          <h2>{newsItem.title}</h2>
-          <p>{newsItem.description}</p>
-          <p>{formatTime(newsItem.date)}</p>
+        <div className='h-[100%]' key={newsItem._id}>
+          <h2 className='h-[30%] text-l'>{newsItem.title}</h2>
+          <p className='h-[50%] text-sm'>{newsItem.description}</p>
+          <p className='h-[20%] text-sm border-t-2'>{formatTime(newsItem.date)}</p>
         </div>
       ))
       )
@@ -46,7 +46,7 @@ const LatestNews = () => {
 
   return (
     <div dir="rtl" className={news.latest_container}>
-      <h1 className={news.latest_title}>הודעות אחרונות:</h1>
+      <h1 className={news.latest_title}>הודעות אחרונות</h1>
       <div className={news.latest_news}>
         {newsItems[currentNewsIndex]}
       </div>
