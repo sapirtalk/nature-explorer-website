@@ -29,7 +29,7 @@ const SingleTrail = ({key ,image , name , desc , length , difficulty , duration 
           <p>לילדים: {kids ? 'כן' : 'לא'}</p>
         </div>
         <div className='w-[40%]'>
-          <p>לחיות מחמד: {pets ? `כן` : 'לא'} </p>
+          <p>לחיות מחמד: {pets ? 'כן' : 'לא'} </p>
         </div>
         <div className='w-[30%]'>
           <p>לעגלות: {babyStroller ? 'כן' : 'לא'}</p>
