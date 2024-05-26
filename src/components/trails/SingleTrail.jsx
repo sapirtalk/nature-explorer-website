@@ -19,7 +19,7 @@ const SingleTrail = ({key ,image , name , desc , length , difficulty , duration 
           <p className='p-2'>{desc}</p>
         </div>
         <div className='flex flex-col justify-start w-[35%] border-r-2 pr-2 text-[15px]'>
-          <p>מרחק: {length} ק"מ</p>
+          <p>מרחק: {length} קמ</p>
           <p>קושי: {difficulty}</p>
           <p>זמן: {duration} שעות</p>
         </div>  
