@@ -3,6 +3,7 @@
 import SingleTrail from "../trails/SingleTrail"
 import { fetchData } from "@/utils"
 import { useEffect, useState } from "react"
+import Link from 'next/link'
 
 
 
@@ -11,21 +12,24 @@ const RecommendedTrails = () => {
     const [trails, setTrails] = useState([]);
     
     useEffect(() => {
-        fetchData('/api/trails_recommended')
+        fetchData('/api/trails_recommended/?count=5')
         .then((data) => {
             console.log('Data fetched:', data.trails);
             setTrails(data.trails.map((trail) => (
-                <SingleTrail 
-                key={trail._id} 
-                image={trail.image} 
-                name={trail.name} 
-                desc={trail.description} 
-                length={trail.distance} 
-                difficulty={trail.difficulty} 
-                duration={trail.duration} 
-                kids={trail.kidsFriendly} 
-                pets={trail.petsFriendly} 
-                babyStroller={trail.babyStrollerFriendly} />
+                <Link href = {`/trails/${trail._id}`} key = {trail._id}>
+                    <SingleTrail 
+                        id={trail._id} 
+                        image={trail.image} 
+                        name={trail.name} 
+                        desc={trail.description} 
+                        length={trail.distance} 
+                        difficulty={trail.difficulty} 
+                        duration={trail.duration} 
+                        kids={trail.kidsFriendly} 
+                        pets={trail.petsFriendly} 
+                        babyStroller={trail.babyStrollerFriendly} 
+                    />
+                </Link>
             ))
             )
         })

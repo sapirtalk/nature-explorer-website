@@ -2,7 +2,7 @@
 
 
 
-// Function to fetch data from the API endpoint to be used in Pages or Components that are Client-Side Rendered
+// Function to fetch data from the API endpoint to be used in Components that are Client-Side Rendered
 export async function fetchData(path) {
     // Determine the protocol (http or https)
     const protocol = window.location.protocol.replace(':', '');

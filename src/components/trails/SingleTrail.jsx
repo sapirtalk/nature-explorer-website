@@ -3,11 +3,11 @@ import photo from '../../resources/images/trails/trail_image.jpg'
 
 
 
-const SingleTrail = ({key ,image , name , desc , length , difficulty , duration , kids , pets , babyStroller}) => {
+const SingleTrail = ({id ,image , name , desc , length , difficulty , duration , kids , pets , babyStroller}) => {
 
 
   return (
-    <div dir="rtl" className='flex h-[40vh] rounded-lg bg-white shadow-2xl flex-col mt-4 '>
+    <div dir="rtl" className='flex text-text h-[40vh] rounded-lg bg-white shadow-2xl flex-col mt-4 '>
       <div className='h-[40%]'>
         <Image src={photo}  alt={name} className='w-full h-full rounded-t-lg' />
       </div>  

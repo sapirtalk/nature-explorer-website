@@ -28,7 +28,7 @@ export default function RootLayout({ children }) {
         <div className='pt-[15vh] px-3  lg:p-[6%]'>
           <Greeting />
         </div>
-        <main className="pt-[10%] lg:pt-[6%]"> 
+        <main className="lg:pt-[6%]"> 
         {children}
         </main>
       </body>
