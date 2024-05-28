@@ -4,15 +4,16 @@ import { NextResponse } from 'next/server';
 
 export async function GET(request ,params){
     const db = await connectToDatabase();
+    let id = null;
+    let count = null;
 
-    console.log('GET trail req:', params);
 
-    const url = new URL(request.url);
-    const count = url.searchParams.get('count');
-    const id = url.searchParams.get('id');
-
+    if (params){
+        const url = new URL(request.url);
+        count = url.searchParams.get('count');
+        id = url.searchParams.get('id');
+    }
     
-
     // if id is provided, return the trail with that id
     if (id){
         console.log('id from GET trail req:', id);
