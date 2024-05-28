@@ -1,3 +1,6 @@
+
+export const dynamic = "force-dynamic"; // tell the builder this is a dynamic route and should not be treated as a static route
+
 import { connectToDatabase } from '../middleware/mongo';
 import { NextResponse } from 'next/server';
 
