@@ -12,7 +12,7 @@ const RecommendedTrails = () => {
     const [trails, setTrails] = useState([]);
     
     useEffect(() => {
-        fetchData('/api/trails_recommended/?count=5')
+        fetchData('/api/trails_recommended')
         .then((data) => {
             console.log('Data fetched:', data.trails);
             setTrails(data.trails.map((trail) => (
