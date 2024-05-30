@@ -19,7 +19,6 @@ const loader = async ({ params }) => {
   const db = await connectToDatabase();
   const id = ObjectId.createFromHexString(params.id);
   const trail = await db.collection('Trails').findOne({ _id: id });
-  console.log('Trail:', trail);
   return {trail};
 };
 

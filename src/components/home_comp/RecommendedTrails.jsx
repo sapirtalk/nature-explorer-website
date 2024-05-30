@@ -14,7 +14,6 @@ const RecommendedTrails = () => {
     useEffect(() => {
         fetchData('/api/trails_recommended')
         .then((data) => {
-            console.log('Data fetched:', data.trails);
             setTrails(data.trails.map((trail) => (
                 <Link href = {`/trails/${trail._id}`} key = {trail._id}>
                     <SingleTrail 

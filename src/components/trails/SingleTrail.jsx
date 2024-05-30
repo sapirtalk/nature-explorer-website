@@ -1,10 +1,10 @@
+
 import Image from 'next/image'
 import photo from '../../../public/resources/images/trails/trail_image.jpg'
 
 
 
 const SingleTrail = ({id ,image , name , desc , length , difficulty , duration , kids , pets , babyStroller}) => {
-
 
   return (
     <div dir="rtl" className='flex text-text h-[40vh] rounded-lg bg-white shadow-2xl flex-col mt-4 '>
