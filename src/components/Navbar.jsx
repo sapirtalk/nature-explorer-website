@@ -2,7 +2,7 @@
 "use client";
 
 import Image from 'next/image';
-import logo from '../resources/images/logo/logo.png';
+import logo from '../../public/resources/images/logo/logo.png';
 import Link from 'next/link';
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoMdClose } from "react-icons/io";

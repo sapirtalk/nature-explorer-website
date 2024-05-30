@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import photo from '../../resources/images/trails/trail_image.jpg'
+import photo from '../../../public/resources/images/trails/trail_image.jpg'
 
 
 
