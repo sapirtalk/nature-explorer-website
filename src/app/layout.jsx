@@ -1,6 +1,7 @@
 
 import { Rubik } from "next/font/google";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import Greeting from "@/components/home_comp/Greeting";
 import "../styles/global.css";
 
@@ -31,6 +32,7 @@ export default function RootLayout({ children }) {
         <main className="lg:pt-[6%]"> 
         {children}
         </main>
+        <Footer />
       </body>
     </html>
   );

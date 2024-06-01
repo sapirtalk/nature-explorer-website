@@ -15,6 +15,14 @@ const navbar = {
     li_opened_menu: 'text-xl text-text hover:text-accent'
 }
 
+// Footer styles
+
+const footer = {
+    container: 'flex flex-col items-center justify-center w-full h-[20vh] py-[5%] bg-tertiary text-text text-center',
+    row: 'flex flex-row lg:flex-row text-center justify-between items-center w-full h-[30%] px-[15%] lg:px-16',
+    col: 'flex text-l text-text text-center justify-center items-center w-full h-full px-4 lg:px-16'
+}
+
 
 
 // Home page Styles
@@ -37,4 +45,4 @@ const navbar = {
 
 
 
-export { navbar, news , greeting}
+export { navbar, footer ,news , greeting}
