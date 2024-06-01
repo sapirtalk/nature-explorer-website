@@ -8,6 +8,13 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { IoMdClose } from "react-icons/io";
 import { useState, useEffect } from 'react';
 import { navbar } from '../styles/tailwindSaved';
+import { IoHome } from "react-icons/io5";
+import { IoNewspaperSharp } from "react-icons/io5";
+import { BsFillInfoCircleFill } from "react-icons/bs";
+import { AiFillMessage } from "react-icons/ai";
+
+
+
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -66,16 +73,24 @@ const Navbar = () => {
             </div>
             <ul className={`${navbar.ul_opened_menu}`}>
               <Link onClick={handleNav} href='/home'>
-                <li className={`${navbar.li_opened_menu}`}>בית</li>
+                <li className={`${navbar.li_opened_menu}`}>בית
+                  <IoHome size={25} />
+                </li>
               </Link>
               <Link onClick={handleNav} href='/news'>
-                <li className={`${navbar.li_opened_menu}`}>חדשות</li>
+                <li className={`${navbar.li_opened_menu}`}>חדשות
+                  <IoNewspaperSharp size={25} />
+                </li>
               </Link>
               <Link onClick={handleNav} href='/about'>
-                <li className={`${navbar.li_opened_menu}`}>קצת עלינו</li>
+                <li className={`${navbar.li_opened_menu}`}>קצת עלינו
+                  <BsFillInfoCircleFill size={25} />
+                </li>
               </Link>
               <Link onClick={handleNav} href='/contact'>
-                <li className={`${navbar.li_opened_menu}`}>צרו קשר</li>
+                <li className={`${navbar.li_opened_menu}`}>צרו קשר
+                  <AiFillMessage size={25} />
+                </li>
               </Link>
             </ul>
           </div>
