@@ -18,14 +18,21 @@ import { AiFillMessage } from "react-icons/ai";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [curPath , setPath] = useState('/home');
 
   const handleNav = () => {
     setMenuOpen(!menuOpen);
   };
 
+  
 
+
+    
   // Close the menu when clicking outside of it
   useEffect(() => {
+
+    setPath(window.location.pathname);
+    
     const handleClickOutside = (e) => {
       if (!e.target.closest('.navbar-container') && menuOpen) {
         setMenuOpen(false);
@@ -51,7 +58,7 @@ const Navbar = () => {
         </Link>
         <div>
           <ul className={`${navbar.ul_desktop}`}>
-            <Link href='/home'>
+            <Link className={curPath == '/home' ? 'opacity-50' : ''} href='/home'>
               <li className={`${navbar.li_desktop}`}>בית</li>
             </Link>
             <Link href='/news'>
@@ -72,22 +79,22 @@ const Navbar = () => {
               <IoMdClose onClick={handleNav} className='text-4xl text-text' />
             </div>
             <ul className={`${navbar.ul_opened_menu}`}>
-              <Link onClick={handleNav} href='/home'>
+              <Link className={curPath == '/home' ? ' border-b-[2px] opacity-70 border-text' : ''} onClick={handleNav} href='/home'>
                 <li className={`${navbar.li_opened_menu}`}>בית
                   <IoHome size={25} />
                 </li>
               </Link>
-              <Link onClick={handleNav} href='/news'>
+              <Link className={curPath == '/news' ? ' border-b-[2px] opacity-70 border-text' : ''} onClick={handleNav} href='/news'>
                 <li className={`${navbar.li_opened_menu}`}>חדשות
                   <IoNewspaperSharp size={25} />
                 </li>
               </Link>
-              <Link onClick={handleNav} href='/about'>
+              <Link className={curPath == '/about' ? ' border-b-[2px] opacity-70 border-text' : ''} onClick={handleNav} href='/about'>
                 <li className={`${navbar.li_opened_menu}`}>קצת עלינו
                   <BsFillInfoCircleFill size={25} />
                 </li>
               </Link>
-              <Link onClick={handleNav} href='/contact'>
+              <Link className={curPath == '/contact' ? ' border-b-[2px] opacity-70 border-text' : ''} onClick={handleNav} href='/contact'>
                 <li className={`${navbar.li_opened_menu}`}>צרו קשר
                   <AiFillMessage size={25} />
                 </li>

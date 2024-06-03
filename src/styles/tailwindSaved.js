@@ -12,13 +12,13 @@ const navbar = {
     menu_closed: 'fixed right-[-100%] top-0 p-10 ease-in duration-300',
     inner_menu_close_btn: 'flex justify-start h-[10%]',
     ul_opened_menu: 'flex flex-col space-y-8',
-    li_opened_menu: 'text-2xl text-text hover:text-accent flex justify-between items-center w-full h-full lg:px-16'
+    li_opened_menu: 'text-2xl text-text lg:hover:text-accent flex justify-between items-center w-full h-full lg:px-16'
 }
 
 // Footer styles
 
 const footer = {
-    container: 'flex flex-col items-center justify-center w-full h-[20vh] py-[5%] bg-tertiary text-text text-center',
+    container: 'flex flex-col items-center justify-center w-full h-[20vh] mt-4 py-[5%] bg-tertiary text-text text-center',
     row: 'flex flex-row lg:flex-row text-center justify-between items-center w-full h-[30%] px-[15%] lg:px-16',
     col: 'flex text-l text-text text-center justify-center items-center w-full h-full px-4 lg:px-16'
 }

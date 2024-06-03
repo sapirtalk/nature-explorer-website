@@ -1,3 +1,4 @@
+
 import { footer } from "@/styles/tailwindSaved"
 import { FaFacebook } from "react-icons/fa";
 import { BsInstagram } from "react-icons/bs";
@@ -5,7 +6,16 @@ import { SiWhatsapp } from "react-icons/si";
 import Link from "next/link";
 
 
+
 const Footer = () => {
+
+   
+
+   
+
+
+ 
+
     return (
         <footer>
             <div className={footer.container}>
