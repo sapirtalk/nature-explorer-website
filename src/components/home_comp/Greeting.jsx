@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { greeting } from '@/styles/tailwindSaved';
+import Link from 'next/link';
 
 
 const greetingText = {
@@ -13,7 +14,8 @@ const greetingText = {
 
 const Greeting = () => {
     
-    const [opened, setOpened] = useState(true)
+    const [opened, setOpened] = useState(true);
+
 
     return (
         <div dir='rtl' className={opened ? greeting.greeting_container : 'hidden'}>
@@ -27,8 +29,8 @@ const Greeting = () => {
             <p className={greeting.greeting_text}>{greetingText.body3}</p>
             </div>
             <div className='flex justify-between pt-10  items-center w-[80%]'>
-                <button className='bg-accent text-text text-xl rounded-lg p-2'>להרשמה</button>
-                <button className='bg-accent text-text text-xl rounded-lg p-2'>התחברות</button>
+                <Link href={'/register'} className='bg-accent text-text text-xl rounded-lg p-2'>להרשמה</Link>
+                <Link href={'/login'} className='bg-accent text-text text-xl rounded-lg p-2'>התחברות</Link>
             </div>    
         </div>        
     );

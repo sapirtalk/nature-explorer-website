@@ -10,12 +10,14 @@
     "export": "next export"
   },
   "dependencies": {
+    "formik": "^2.4.6",
     "mongodb": "^6.5.0",
     "next": "14.2.2",
     "next-cookies": "^2.0.3",
     "react": "^18",
     "react-dom": "^18",
-    "react-icons": "^5.1.0"
+    "react-icons": "^5.1.0",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.19",

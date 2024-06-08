@@ -2,7 +2,8 @@
 
 import { connectToDatabase } from '@/app/api/middleware/mongo';
 import { ObjectId } from 'mongodb';
-import SingleTrail from '@/components/trails/SingleTrail';
+import TrailDetails from '@/components/trails/TrailDetails';
+import ImageCarousel from '@/components/trails/ImageCarousel';
 
 
 export const generateStaticParams = async () => {
@@ -35,26 +36,19 @@ const Trail = async ({ params }) => {
   }
 
   return (
-    <div className='p-3'>
-      <div>
-      <SingleTrail
-        id={trail._id}
-        image={trail.image}
-        name={trail.name}
-        desc={trail.description}
-        length={trail.distance}
-        difficulty={trail.difficulty}
-        duration={trail.duration}
-        kids={trail.kidsFriendly}
-        pets={trail.petsFriendly}
-        babyStroller={trail.babyStrollerFriendly} />
-        </div>
-        <div className='h-[30vh]'>
+    <div className='p-3 bg-white mx-3'>
+      <div className='h-[40vh]'>
+        <ImageCarousel images={trail.image} />
+      </div>
+      <div className='h-[40vh] border-t-2'>
+        <TrailDetails trail={trail} />
+      </div>
+      <div className='h-[30vh]'>
         <h1>פה תהיה מפה</h1>
-        </div>
-        <div className='h-[30vh]'>
+      </div>
+      <div className='h-[20vh]'>
         <h1>פה יהיה דירוג משתמשים</h1>
-        </div>
+      </div>
     </div>
   );
 };

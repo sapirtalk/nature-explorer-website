@@ -2,7 +2,6 @@
 import { Rubik } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import Greeting from "@/components/home_comp/Greeting";
 import "../styles/global.css";
 
 export const metadata = {
@@ -26,10 +25,7 @@ export default function RootLayout({ children }) {
       </head>
       <body className={`${rubik.className}`}>
         <Navbar />
-        <div className='pt-[15vh] px-3  lg:p-[6%]'>
-          <Greeting />
-        </div>
-        <main className="lg:pt-[6%]"> 
+        <main className="pt-[100px] lg:pt-[6%]">
         {children}
         </main>
         <Footer />

@@ -6,13 +6,11 @@ import Image from 'next/image'
 const SingleTrail = ({id ,image , name , desc , length , difficulty , duration , kids , pets , babyStroller}) => {
 
 
-  console.log('image:', image)
-
   return (
     <div dir="rtl" className='flex text-text h-[40vh] rounded-lg bg-white shadow-2xl flex-col mt-4 '>
       <div className='h-[40%]'>
         <Image 
-          src={`/resources/images/trails/${image}.jpg`} 
+          src={`/resources/images/trails/${image[0]}/${image[0]}.jpg`}
           alt={name}
           width={500}
           height={500} 
