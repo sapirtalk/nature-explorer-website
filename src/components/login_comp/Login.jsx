@@ -30,6 +30,8 @@ const Login = () => {
 
     const { email, password, rememberMe } = values;
 
+    console.log('Form input', values);
+
     fetch('/api/users/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
