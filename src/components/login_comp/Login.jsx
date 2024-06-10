@@ -4,10 +4,14 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useState } from 'react';
 import * as Yup from 'yup';
+import HelloLogin from './HelloLogin';
+import { toast } from 'react-toastify';
 
 const Login = () => {
 
     const [showPassword, setShowPassword] = useState(false);
+    const [badLogin, setBadLogin] = useState(false);
+    const [user, setUser] = useState(null);
 
     
   const initialValues = {
@@ -18,17 +22,59 @@ const Login = () => {
 
   const validationSchema = Yup.object({
     email: Yup.string().email('אימייל לא תקין').required('שדה חובה'),
-    password: Yup.string().min(6, 'סיסמא לא תקינה').required('שדה חובה'),
+    password: Yup.string().min(4, 'סיסמא לא תקינה').required('שדה חובה'),
   });
 
   const onSubmit = (values, { setSubmitting }) => {
     // Handle form submission
-    console.log('Form data', values);
+
+    const { email, password, rememberMe } = values;
+
+    fetch('/api/users/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, password: password}),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        
+        if (data.error) {
+          setBadLogin(true);
+          toast.error('אימייל או סיסמא לא נכונים');
+          return;
+        }
+
+        localStorage.setItem('user', JSON.stringify(data.user));
+        
+        if (rememberMe) {
+          localStorage.setItem('rememberMe', 'true');
+        }
+
+
+        setUser(data.user);
+        toast.success('התחברת בהצלחה');
+      })
+      .catch((error) => {
+        console.error('Login error', error);
+        toast.error('אופס! משהו השתבש... נסה שוב מאוחר יותר');
+      });
+    
+
+
+
+    console.log('Form input', values);
     setSubmitting(false);
   };
 
-  return (
-    <div dir='rtl' className="max-w-md mx-auto mt-10 p-6">
+  if (user) {
+    return (
+      <div className="max-w-md h-full mx-auto mt-10 p-6">
+        <HelloLogin firstName={user.firstName} />
+      </div>
+    );
+  }
+  else return ( 
+    <div dir='rtl' className="max-w-md h-full mx-auto mt-10 p-6">
       <h1 className="text-2xl text-center mb-6">התחברות</h1>
       <Formik
         initialValues={initialValues}
@@ -42,6 +88,7 @@ const Login = () => {
               <Field
                 type="email"
                 name="email"
+                placeholder="name@email.com"
                 id="email"
                 className="p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
               />
@@ -53,6 +100,7 @@ const Login = () => {
                 type={showPassword ? 'text' : 'password'}
                 name="password"
                 id="password"
+                placeholder="******"
                 className="p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
               />
                 <div className="flex justify-end items-center mt-1">
@@ -83,9 +131,13 @@ const Login = () => {
               >
                 כנס/י
               </button>
+              {badLogin && <div className="text-red-500 text-sm mt-1">אימייל או סיסמא לא נכונים</div>}
             </div>
             <div className="text-center">
-              <a href="#" className="text-blue-500 hover:underline">שכחת את הסיסמא?</a>
+              <a href="/forgotpassword" className="text-blue-500 hover:underline">שכחת את הסיסמא?</a>
+            </div>
+            <div className="text-center">
+              <a href="/register" className="text-blue-500 hover:underline">לא רשום? הירשם כאן</a>
             </div>
           </Form>
         )}

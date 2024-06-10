@@ -1,15 +1,18 @@
+import Register from "@/components/register_comp/Register";
 
 
 
 
-const Register = () => {
+
+const RegisterPage = () => {
+
     return (
-        <div>
-            <h1>Register</h1>
+        <div className="h-[80vh]">
+            <Register />
         </div>
     )
 }
 
 
 
-export default Register;
+export default RegisterPage;

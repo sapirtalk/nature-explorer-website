@@ -1,5 +1,6 @@
 'use client';
-import React, { useState } from 'react';
+
+import React, { useState , useEffect } from 'react';
 import { greeting } from '@/styles/tailwindSaved';
 import Link from 'next/link';
 
@@ -14,9 +15,25 @@ const greetingText = {
 
 const Greeting = () => {
     
-    const [opened, setOpened] = useState(true);
+    const [opened, setOpened] = useState(false);
+    const [parsedUser, setParsedUser] = useState(null);
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const user = localStorage.getItem('user');
+            if (user) {
+                setParsedUser(JSON.parse(user));
+            }
+            else {
+                setOpened(true);
+            }
+        }
+      }, []);
 
 
+    if (parsedUser) {
+        return null;
+    }
     return (
         <div dir='rtl' className={opened ? greeting.greeting_container : 'hidden'}>
             <div className='flex w-full'>
@@ -30,7 +47,7 @@ const Greeting = () => {
             </div>
             <div className='flex justify-between pt-10  items-center w-[80%]'>
                 <Link href={'/register'} className='bg-accent text-text text-xl rounded-lg p-2'>להרשמה</Link>
-                <Link href={'/login'} className='bg-accent text-text text-xl rounded-lg p-2'>התחברות</Link>
+                <Link href={'/login'} className='bg-blue-500 text-white text-xl rounded-lg p-2'>התחברות</Link>
             </div>    
         </div>        
     );

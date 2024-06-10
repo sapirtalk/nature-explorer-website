@@ -10,6 +10,8 @@ import Greeting from '@/components/home_comp/Greeting'
 
 const Home = () => {
 
+
+
   return (
     <div>
         <Greeting />

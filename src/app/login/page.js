@@ -3,8 +3,10 @@ import Login from "@/components/login_comp/Login"
 
 
 const LoginPage = () => {
+
+
     return (
-        <div>
+        <div className="h-[80vh]">
             <Login />
         </div>
     )

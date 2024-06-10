@@ -3,6 +3,7 @@ import { Rubik } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import "../styles/global.css";
+import ToastProvider from "@/components/toast_container/ToastProvider";
 
 export const metadata = {
   title: "בשבילי חיפה",
@@ -24,11 +25,13 @@ export default function RootLayout({ children }) {
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body className={`${rubik.className}`}>
+        <ToastProvider>
         <Navbar />
         <main className="pt-[100px] lg:pt-[6%]">
         {children}
         </main>
         <Footer />
+        </ToastProvider>
       </body>
     </html>
   );

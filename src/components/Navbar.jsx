@@ -13,7 +13,10 @@ import { IoNewspaperSharp } from "react-icons/io5";
 import { BsFillInfoCircleFill } from "react-icons/bs";
 import { AiFillMessage } from "react-icons/ai";
 import { BiLogIn } from "react-icons/bi";
+import { BiLogOut } from "react-icons/bi";
 import { GiArchiveRegister } from "react-icons/gi";
+import { CgProfile } from "react-icons/cg";
+import { toast } from 'react-toastify';
 
 
 
@@ -21,10 +24,44 @@ import { GiArchiveRegister } from "react-icons/gi";
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [curPath , setPath] = useState('/home');
+  const [user, setUser] = useState(null);
 
   const handleNav = () => {
     setMenuOpen(!menuOpen);
   };
+
+
+  const handleLogout = () => {
+
+    const confirmation = window.confirm('האם אתה בטוח שברצונך להתנתק?');
+
+    if (confirmation) {
+
+      const rememberMe = localStorage.getItem('rememberMe');
+
+      if (rememberMe !== 'true') {
+        localStorage.removeItem('user');
+      }
+
+
+      localStorage.removeItem('rememberMe');
+      setUser(null);
+      handleNav();
+      toast.success('התנתקת בהצלחה');
+      // redirect to login after 2 seconds
+      setTimeout(() => {
+        window.location.href = '/login';
+      }, 2000);
+    }
+
+  };
+
+
+
+
+  useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem('user')));
+  }, []);
 
   
 
@@ -81,7 +118,7 @@ const Navbar = () => {
               <IoMdClose onClick={handleNav} className='text-4xl text-text' />
             </div>
             <div className={`${navbar.user_intro}`}>
-              <p>,שלום אורח</p>
+              {user == null ? <p className='text-black text-xl'>,שלום אורח</p> : <p className='text-black text-xl'>,שלום {user.firstName}</p>}
             </div>
             <ul className={`${navbar.ul_opened_menu}`}>
               <Link className={curPath == '/home' ? '  opacity-70 border-text' : ''} onClick={handleNav} href='/home'>
@@ -105,16 +142,33 @@ const Navbar = () => {
                 </li>
               </Link>
               <hr className='w-full border-[2px] border-text' />
-              <Link className={curPath == '/login' ? '  opacity-70 border-text' : ''} onClick={handleNav} href='/login'>
-                <li className={`${navbar.li_opened_menu}`}>התחברות
-                  <BiLogIn size={25} />
-                </li>
-              </Link>
-              <Link className={curPath == '/register' ? '  opacity-70 border-text' : ''} onClick={handleNav} href='/register'>
-                <li className={`${navbar.li_opened_menu}`}>הרשמה
-                  <GiArchiveRegister size={25} />
-                </li>
-              </Link>
+              {user == null ? (
+                <ul className={`${navbar.ul_opened_menu}`}>
+                  <Link className={curPath == '/login' ? '  opacity-70 border-text' : ''} onClick={handleNav} href='/login'>
+                    <li className={`${navbar.li_opened_menu}`}>התחברות
+                      <BiLogIn size={25} />
+                    </li>
+                  </Link>
+                  <Link className={curPath == '/register' ? '  opacity-70 border-text' : ''} onClick={handleNav} href='/register'>
+                    <li className={`${navbar.li_opened_menu}`}>הרשמה
+                      <GiArchiveRegister size={25} />
+                    </li>
+                  </Link>
+                </ul>
+              ) : (
+                <ul className={`${navbar.ul_opened_menu}`}>
+                  <Link className={curPath == '/profile' ? '  opacity-70 border-text' : ''} onClick={handleNav} href='/profile'>
+                    <li className={`${navbar.li_opened_menu}`}>פרופיל
+                      <CgProfile size={25} />
+                    </li>
+                  </Link>
+                  <button onClick={handleLogout} 
+                          className={`${navbar.li_opened_menu} text-text`}>
+                            התנתק
+                          <BiLogOut size={25} />
+                  </button>
+                </ul>
+              )}
             </ul>
           </div>
         </div>
