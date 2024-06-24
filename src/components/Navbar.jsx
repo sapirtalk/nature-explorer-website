@@ -16,6 +16,8 @@ import { BiLogIn } from "react-icons/bi";
 import { BiLogOut } from "react-icons/bi";
 import { GiArchiveRegister } from "react-icons/gi";
 import { CgProfile } from "react-icons/cg";
+import { FaMapSigns } from "react-icons/fa";
+import { FaCircleExclamation } from "react-icons/fa6";
 import { toast } from 'react-toastify';
 
 
@@ -126,8 +128,18 @@ const Navbar = () => {
                   <IoHome size={25} />
                 </li>
               </Link>
+              <Link className={curPath == '/trail_catalogue' ? '  opacity-70 border-text' : ''} onClick={handleNav} href='/trail_catalogue'>
+                <li className={`${navbar.li_opened_menu}`}>מסלולים
+                  <FaMapSigns size={25} />
+                </li>
+              </Link>
               <Link className={curPath == '/news' ? '  opacity-70 border-text' : ''} onClick={handleNav} href='/news'>
-                <li className={`${navbar.li_opened_menu}`}>חדשות
+                <li className={`${navbar.li_opened_menu}`}>עדכונים
+                  <FaCircleExclamation size={25} />
+                </li>
+              </Link>
+              <Link className={curPath == '/articles' ? '  opacity-70 border-text' : ''} onClick={handleNav} href='/articles'>
+                <li className={`${navbar.li_opened_menu}`}>כתבות
                   <IoNewspaperSharp size={25} />
                 </li>
               </Link>

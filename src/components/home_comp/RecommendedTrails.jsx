@@ -10,6 +10,7 @@ import Link from 'next/link'
 const RecommendedTrails = () => {
     
     const [trails, setTrails] = useState([]);
+    const [loading, setLoading] = useState(true);
     
     useEffect(() => {
         fetchData('/api/trails_recommended')
@@ -31,6 +32,7 @@ const RecommendedTrails = () => {
                 </Link>
             ))
             )
+            setLoading(false);
         })
         .catch((error) => {
             console.log('Error fetching data:', error);
@@ -38,9 +40,9 @@ const RecommendedTrails = () => {
     }, []);
     
     return (
-        <div className='flex flex-row justify-center flex-wrap'>
+        <div className='flex flex-col justify-center items-center flex-wrap'>
             <h1 className='text-2xl'>מסלולים מומלצים</h1>
-            {trails}
+            {loading ? <div className="flex justify-center pt-3 h-[80vh] items-start"><h1>טוען מסלולים...</h1></div> : trails}
         </div>
     )
 }
