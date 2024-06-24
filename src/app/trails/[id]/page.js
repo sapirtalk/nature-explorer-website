@@ -36,11 +36,11 @@ const Trail = async ({ params }) => {
   }
 
   return (
-    <div className='p-3 bg-white mx-3'>
+    <div className='p-3 h-full bg-white mx-3'>
       <div className='h-[40vh]'>
         <ImageCarousel images={trail.image} />
       </div>
-      <div className='h-[40vh] border-t-2'>
+      <div className='h-[50vh] border-t-2'>
         <TrailDetails trail={trail} />
       </div>
       <div className='h-[30vh]'>

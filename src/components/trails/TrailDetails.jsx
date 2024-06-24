@@ -12,8 +12,8 @@ const TrailDetails = ({ trail }) => {
       <div className='flex justify-center p-3 h-[20%]'>
         <h2 className='text-3xl text-center'>{name}</h2>
       </div>
-      <div className='flex flex-col justify-center h-[40%]'>
-        <div className='w-full h-[40%]'>
+      <div className='flex flex-col justify-center h-full'>
+        <div className='w-full'>
           <p className='p-2'>{description}</p>
         </div>
         <div className='flex flex-row text-center justify-between border-t-2 px-3 pt-1 w-full'>
@@ -23,13 +23,13 @@ const TrailDetails = ({ trail }) => {
         </div>  
       </div>
       <div className='flex flex-row  text-center justify-between px-3 border-t-2 pt-1'>
-        <div className='w-[30%]'>
+        <div className=''>
           <p>לילדים: <p className='font-bold' >{kids ? 'כן' : 'לא'}</p></p>
         </div>
-        <div className='w-[40%] flex justify-center'>
+        <div className='flex justify-center'>
           <p>לחיות מחמד: <p className='font-bold'>{pets ? 'כן' : 'לא'}</p> </p>
         </div>
-        <div className='w-[30%]'>
+        <div className=''>
           <p>לעגלות: <p className='font-bold' >{babyStroller ? 'כן' : 'לא'}</p></p>
         </div>
       </div>  
