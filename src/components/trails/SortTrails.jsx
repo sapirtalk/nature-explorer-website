@@ -1,5 +1,6 @@
 'use client'
 
+import { Button } from "@nextui-org/react";
 import { useEffect } from "react";
 
 
@@ -26,10 +27,10 @@ const SortTrails = ({ updateSort , updateOpenSort , sort , openSort }) => {
 
 
     return (
-        <div className='flex flex-col justify-center'>
-            <div classname = 'flex flex-col justify-center items-center'>
+        <div className='flex h-full flex-col'>
+            <div classname = 'flex flex-col h-full'>
                 <p className='text-xl pb-1'>מיון לפי:</p>
-            <div className='flex flex-row w-full justify-center items-center'>
+            <div className='flex flex-row w-full justify-center my-2 items-center'>
                 <button onClick={() => updateSort('distance')} className={`flex flex-row-reverse w-[20vw] justify-center ${sort.by == 'distance' ? 'bg-slate-400' : 'bg-slate-500'} items-center text-white text-xl rounded-lg p-2 px-4`}>
                     <p className='pl-1 text-[12px]'>מרחק</p>
                 </button>
@@ -39,6 +40,11 @@ const SortTrails = ({ updateSort , updateOpenSort , sort , openSort }) => {
                 <button onClick={() => updateSort('duration')} className={`flex w-[20vw] flex-row-reverse justify-center ${sort.by == 'duration' ? 'bg-slate-400' : 'bg-slate-500'} items-center text-white text-xl rounded-lg p-2 px-4`}>
                     <p className='pl-1 text-[12px]'>זמן</p>
                 </button>
+                </div>
+                <div className='flex justify-center items-center '>
+                    <Button onClick={() => updateOpenSort(false)} className='w-[20vw] text-white bg-blue-500 mt-5' auto>
+                        סגור X
+                    </Button>
                 </div>
             </div>
 
