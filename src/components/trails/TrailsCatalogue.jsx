@@ -8,7 +8,7 @@ import { FaFilter } from "react-icons/fa";
 import SortTrails from './SortTrails';
 import { FaSortAmountDownAlt } from "react-icons/fa";
 import { FaSortAmountUp } from "react-icons/fa";
-import FilterTrails from './FilterTrails';
+import FilterTrails from './filter/FilterTrails';
 
 
 const TrailsCatalogue = () => {
@@ -68,6 +68,30 @@ const TrailsCatalogue = () => {
     }
 
 
+    const trailsShow = () => {
+        if (trails.length > 0) {
+          return trails.map((trail) => (
+            <Link href={`/trails/${trail._id}`} key={trail._id}>
+              <SingleTrail 
+                id={trail._id} 
+                image={trail.image} 
+                name={trail.name} 
+                desc={trail.description} 
+                length={trail.distance} 
+                difficulty={trail.difficulty} 
+                duration={trail.duration} 
+                kids={trail.kidsFriendly} 
+                pets={trail.petsFriendly} 
+                babyStroller={trail.babyStrollerFriendly} 
+              />
+            </Link>
+          ));
+        } else {
+          return <h1>לא נמצאו מסלולים מתאימים</h1>;
+        }
+      };
+      
+
 
     useEffect(() => {
 
@@ -91,11 +115,12 @@ const TrailsCatalogue = () => {
         fetchTrails().then((trails) => {
             setTrails(trails);
             setLoading(false);
+        }).catch((err) => {
+            console.log(err);
         });
     }
     , [filter, sort]);
         
-
 
 
     return (
@@ -127,28 +152,13 @@ const TrailsCatalogue = () => {
                         <h1 className='text-xl'>טוען מסלולים...</h1>
                         </div> 
                         :  
-                        trails.map((trail) => (
-                <Link href = {`/trails/${trail._id}`} key = {trail._id}>
-                    <SingleTrail 
-                        id={trail._id} 
-                        image={trail.image} 
-                        name={trail.name} 
-                        desc={trail.description} 
-                        length={trail.distance} 
-                        difficulty={trail.difficulty} 
-                        duration={trail.duration} 
-                        kids={trail.kidsFriendly} 
-                        pets={trail.petsFriendly} 
-                        babyStroller={trail.babyStrollerFriendly} 
-                    />
-                </Link>
-            )
-            )}
+                        trailsShow()
+            }
 
-            <div className={openSort ? 'fixed bottom-0 w-[100%] sm:hidden backdrop-blur h-[20vh] bg-white bg-opacity-70 p-5 ease-in duration-300' : 'fixed bottom-[-100%] p-10 ease-in duration-300'}>
+            <div className={openSort ? 'fixed bottom-0 w-[100%] sm:hidden backdrop-blur h-[30vh] bg-white bg-opacity-70 p-5 ease-in duration-300' : 'fixed bottom-[-100%] p-10 ease-in duration-300'}>
                 <SortTrails updateSort={updateSort} updateOpenSort={updateOpenSort} sort = {sort} openSort = {openSort}  />
             </div>
-            <div className={openFilter ? 'fixed bottom-0 w-[100%] sm:hidden backdrop-blur h-[30vh] bg-white bg-opacity-70 p-5 ease-in duration-300' : 'fixed bottom-[-100%] p-10 ease-in duration-300'}>
+            <div className={openFilter ? 'fixed bottom-0 w-[100%] sm:hidden backdrop-blur h-[60vh] bg-white bg-opacity-70 p-5 ease-in duration-300' : 'fixed bottom-[-100%] p-10 ease-in duration-300'}>
                 <FilterTrails updateFilter={updateFilter} updateOpenFilter={updateOpenFilter} filter = {filter} openFilter = {openFilter}  />
             </div>      
 

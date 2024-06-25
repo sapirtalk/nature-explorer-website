@@ -27,13 +27,16 @@ export async function POST(req) {
     const {filterReq , SortReq} = await req.json();
     const db = await connectToDatabase();
 
-    
 
     const SortIndex = SortReq ? { [SortReq.by]: SortReq.order === 'asc' ? 1 : -1 } : { name: 1 };
 
-    const query = MakeQuery(filterReq);    
+    const query = MakeQuery(filterReq); 
+    
+   
 
     const trails = await db.collection('Trails').find(query).sort(SortIndex).toArray();
+
+
     return NextResponse.json({ trails });
 }
 
@@ -51,7 +54,7 @@ const MakeQuery = (filterReq) => {
 
     if (filterReq) {
         if (filterReq.difficulty) filterArr.push({ difficulty: { $in: filterReq.difficulty } });
-        if (filterReq.length) filterArr.push({ distance: { $gte: filterReq.length[0], $lte: filterReq.length[1] } });
+        if (filterReq.distance) filterArr.push({ distance: { $gte: filterReq.distance[0], $lte: filterReq.distance[1] } });
         if (filterReq.duration) filterArr.push({ duration: { $gte: filterReq.duration[0], $lte: filterReq.duration[1] } });
         if (filterReq.kids) filterArr.push({ kidsFriendly: { $eq: filterReq.kids } });
         if (filterReq.pets) filterArr.push({ petsFriendly: { $eq: filterReq.pets } });

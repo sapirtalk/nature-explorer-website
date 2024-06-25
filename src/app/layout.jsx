@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import "../styles/global.css";
 import ToastProvider from "@/components/toast_container/ToastProvider";
 import BackButton from "@/components/BackButton";
+import Providers from "./providers";
 
 
 export const metadata = {
@@ -27,6 +28,7 @@ export default function RootLayout({ children }) {
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body className={`${rubik.className}`}>
+        <Providers>
         <ToastProvider>
         <Navbar />
         <main className="pt-[100px] lg:pt-[6%]">
@@ -35,6 +37,7 @@ export default function RootLayout({ children }) {
         </main>
         <Footer />
         </ToastProvider>
+        </Providers>
       </body>
     </html>
   );
