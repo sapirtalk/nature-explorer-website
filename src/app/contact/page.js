@@ -2,7 +2,7 @@ import React from 'react'
 
 function Contact() {
   return (
-    <div className='place-content-center text-center justify-center item-center p-3 text-text'>
+    <div className='text-center justify-start item-start p-3 text-text h-[55vh]'>
       <span dir='rtl'>
       <header className='text-2xl font-bold'>צור קשר</header>
       <br/>
