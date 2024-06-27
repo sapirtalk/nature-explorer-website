@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 
 
-const SingleTrail = ({id ,image , name , desc , length , difficulty , duration , kids , pets , babyStroller}) => {
+const SingleTrail = ({id ,image , name , desc , length , difficulty , duration , kids , pets , babyStroller , rating}) => {
 
 
   const difficultyTranslate = (diff) => {

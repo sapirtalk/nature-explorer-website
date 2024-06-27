@@ -32,7 +32,7 @@ const Footer = () => {
                         </Link>
                     </div>
                 </div>
-                <div>
+                <div className={footer.rights}>
                     <p>בשבילי חיפה</p>
                     <p>כל הזכויות שמורות</p>
                 </div>        
