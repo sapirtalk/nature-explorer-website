@@ -1,11 +1,17 @@
 import { connectToDatabase } from '../../../middleware/mongo';
 import { NextResponse } from 'next/server';
 
-// Example route handler for adding an article
+// input for example:
+// {
+//     "title": "title",
+//     "text": "text",
+//     "writtenAt": "2020-01-01",
+//     "image": []
+// }
 export async function POST(req) {
     const db = await connectToDatabase();
 
-    const { title, text, writtenAt, isArchived, image } = await req.json();
+    const { title, text, writtenAt, image } = await req.json();
 
 
     // Create article object
@@ -13,7 +19,7 @@ export async function POST(req) {
         title,
         text,
         writtenAt: new Date(writtenAt),
-        isArchived,
+        isArchive: false,
         image,
         createdAt: new Date(),
         updatedAt: new Date()

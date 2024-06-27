@@ -1,10 +1,25 @@
 import { connectToDatabase } from '../../../middleware/mongo';
 import { NextResponse } from 'next/server';
 
+// input for example:
+// {
+//     "articleId": "667dba5a2f4666fa50754110",
+//     "updatedFields": {
+//         "writtenAt": "2022-02-02",
+//         "image": ["1", "2"],
+//         "text": "updated_text",
+//         "title": "updated_title"
+//     }
+// }
 
 export async function PUT(req) {
     try {
         const { articleId, updatedFields } = await req.json();
+
+        if (updatedFields.writtenAt) {
+            updatedFields.writtenAt = new Date(updatedFields.writtenAt);
+        }
+
         const response = await updateArticleById(articleId, updatedFields);
         return NextResponse.json(response);
     } catch (error) {
