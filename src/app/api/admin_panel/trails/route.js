@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
 // Input Example:
 // POST /api/admin_panel/trails
 // {
+//     "requesterId": "667dcd842f4666fa50754116",
 //     "name": "trail",
 //     "difficulty": 2,
 //     "location": "location",
@@ -21,9 +22,18 @@ import { NextResponse } from 'next/server';
 //   }
 export async function POST(req) {
     try {
-        const { name, difficulty, location, distance, duration, kidsFriendly, petsFriendly, babyStrollerFriendly, description, image, rating } = await req.json();
+        const { requesterId, name, difficulty, location, distance, duration, kidsFriendly, petsFriendly, babyStrollerFriendly, description, image } = await req.json();
         const db = await connectToDatabase();
-        
+        var ObjectId = require('mongodb').ObjectId;
+
+        // Check if requester is authorized
+        const requester = await db.collection('Users').findOne({_id: new ObjectId(requesterId)})
+        if (requester) {
+            if (requester.role !== "admin" && requester.role !== "editor") { 
+                return NextResponse.json({ success: false, message: "Not authorized!" });
+            }
+        } else return NextResponse.json({ success: false, message: "Requester user not found" });
+
         const newTrail = {
             name,
             difficulty,
@@ -35,7 +45,7 @@ export async function POST(req) {
             babyStrollerFriendly,
             description,
             image,
-            rating,
+            ratings: {},
             isArchived: false,
             createdAt: new Date(),
             updatedAt: new Date()
@@ -51,13 +61,23 @@ export async function POST(req) {
 // Input Example:
 // DELETE /api/admin_panel/trails
 // {
+//     "requesterId": "667dcd842f4666fa50754116",
 //     "trailId": "667dc4272f4666fa50754112"
 // }
 export async function DELETE(req) {
     try {
-        const { trailId } = await req.json();
+        const { requesterId, trailId } = await req.json();
         const db = await connectToDatabase();
         var ObjectId = require('mongodb').ObjectId;
+
+        // Check if requester is authorized
+        const requester = await db.collection('Users').findOne({_id: new ObjectId(requesterId)})
+        if (requester) {
+            if (requester.role !== "admin" && requester.role !== "editor") { 
+                return NextResponse.json({ success: false, message: "Not authorized!" });
+            }
+        } else return NextResponse.json({ success: false, message: "Requester user not found" });
+
 
         const result = await db.collection('Trails').deleteOne({ _id: new ObjectId(trailId) });
 
@@ -70,6 +90,7 @@ export async function DELETE(req) {
         return NextResponse.json({ success: false, message: error.message });
     }
 }
+
 
 // GET /api/admin_panel/trails
 export async function GET(req) {
@@ -85,6 +106,7 @@ export async function GET(req) {
 // Input Example:
 // PUT /api/admin_panel/trails
 // {
+//     "requesterId": "667dcd842f4666fa50754116",
 //     "trailId": "667dc4272f4666fa50754112",
 //     "updatedFields": {
 //         "name": "updated_trail",
@@ -103,9 +125,19 @@ export async function GET(req) {
 // }
 export async function PUT(req) {
     try {
-        const { trailId, updatedFields } = await req.json();
+        const { requesterId, trailId, updatedFields } = await req.json();
+        const db = await connectToDatabase();
+        var ObjectId = require('mongodb').ObjectId;
 
-        const response = await updateTrailById(trailId, updatedFields);
+        // Check if requester is authorized
+        const requester = await db.collection('Users').findOne({_id: new ObjectId(requesterId)})
+        if (requester) {
+            if (requester.role !== "admin" && requester.role !== "editor") { 
+                return NextResponse.json({ success: false, message: "Not authorized!" });
+            }
+        } else return NextResponse.json({ success: false, message: "Requester user not found" });
+
+        const response = await updateTrailById(db, ObjectId, trailId, updatedFields);
         return NextResponse.json(response);
     } catch (error) {
         return NextResponse.json({ success: false, message: error.message });
@@ -113,10 +145,8 @@ export async function PUT(req) {
 }
 
 // Helper function to update trail by trailId
-async function updateTrailById(trailId, updatedFields) {
-    const db = await connectToDatabase();
+async function updateTrailById(db, ObjectId, trailId, updatedFields) {
     updatedFields.updatedAt = new Date();
-    var ObjectId = require('mongodb').ObjectId;
     try {
         const result = await db.collection('Trails').updateOne(
             { _id: new ObjectId(trailId) },

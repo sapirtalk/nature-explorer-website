@@ -1,66 +1,77 @@
 import { connectToDatabase } from '../../middleware/mongo';
 import { NextResponse } from 'next/server';
 
-// Input Example:
-// POST /api/admin_panel/users
-// {
-//   "email": "admin@admin.com",
-//   "password_hash": "admin_password",
-//   "isAdmin": true,
-//   "firstName": "admin",
-//   "lastName": "admin",
-//   "fromFacebook": false
-// }
-export async function POST(req) {
-    try {
-        const { email, password_hash, isAdmin, firstName, lastName, fromFacebook } = await req.json();
-        const db = await connectToDatabase();
+// delete POST later
+// export async function POST(req) {
+//     try {
+//         const { email, password_hash, isAdmin, firstName, lastName, fromFacebook } = await req.json();
+//         const db = await connectToDatabase();
         
-        // Check if user with the same email already exists
-        const existingUser = await db.collection("Users").findOne({ email });
+//         // Check if user with the same email already exists
+//         const existingUser = await db.collection("Users").findOne({ email });
 
-        if (existingUser) {
-            return NextResponse.json({ success: false, message: 'User already exists' });
-        }
+//         if (existingUser) {
+//             return NextResponse.json({ success: false, message: 'User already exists' });
+//         }
 
-        const newUser = {
-            email,
-            password_hash,
-            isAdmin,
-            firstName,
-            lastName,
-            fromFacebook,
-            LastLogin: new Date(),
-            RegisterDate: new Date()
-        };
+//         const newUser = {
+//             email,
+//             password_hash,
+//             isAdmin,
+//             role: "user",
+//             favoriteTrails: [],
+//             firstName,
+//             lastName,
+//             fromFacebook,
+//             LastLogin: new Date(),
+//             RegisterDate: new Date()
+//         };
 
-        // Insert new user into the database
-        const result = await db.collection('Users').insertOne(newUser);
-        return NextResponse.json({ success: true, userId: result.insertedId });
-    } catch (error) {
-        return NextResponse.json({ success: false, message: error.message });
-    }
-}
+//         // Insert new user into the database
+//         const result = await db.collection('Users').insertOne(newUser);
+//         return NextResponse.json({ success: true, userId: result.insertedId });
+//     } catch (error) {
+//         return NextResponse.json({ success: false, message: error.message });
+//     }
+// }
+
 
 // Input Example:
 // DELETE /api/admin_panel/users
 // {
+//     "requesterId": "667dcd842f4666fa50754116"
 //     "userId": "667dcb312f4666fa50754115"
 // }
 export async function DELETE(req) {
     try {
-        const { userId } = await req.json();
+        const { requesterId, userId } = await req.json();
         const db = await connectToDatabase();
         const ObjectId = require('mongodb').ObjectId;
-        
-        // Delete user by userId
-        const result = await db.collection('Users').deleteOne({ _id: new ObjectId(userId) });
 
+        // Check if requester is authorized
+        const requester = await db.collection('Users').findOne({_id: new ObjectId(requesterId)})
+        if (requester) {
+            if (requester.role !== "admin") { 
+                return NextResponse.json({ success: false, message: "Not authorized!" });
+            }
+        } else return NextResponse.json({ success: false, message: "Requester user not found" });
+        
+        // Check if the user intended to be deleted is not an admin
+        const user = await db.collection('Users').findOne({_id: new ObjectId(userId)})
+        if (user) {
+            if (user.role == "admin") { 
+                return NextResponse.json({ success: false, message: "Admins cannot be deleted by other admins!" });
+            }
+        } else return NextResponse.json({ success: false, message: "User not found" });
+        
+        // Delete user by 
+        const result = await db.collection('Users').deleteOne({ _id: new ObjectId(userId) });
         if (result.deletedCount > 0) {
             return NextResponse.json({ success: true });
         } else {
             return NextResponse.json({ success: false, message: 'User not found' });
         }
+
     } catch (error) {
         return NextResponse.json({ success: false, message: error.message });
     }
@@ -92,13 +103,29 @@ export async function GET(req) {
 // }
 export async function PUT(req) {
     try {
-        const { userId, updatedFields } = await req.json();
+        const { requesterId, userId, updatedFields } = await req.json();
+        const db = await connectToDatabase();
+        const ObjectId = require('mongodb').ObjectId;
+
+        // Check if requester is authorized
+        const requester = await db.collection('Users').findOne({_id: new ObjectId(requesterId)})
+        if (requester) {
+            if (requester.role !== "admin") { 
+                return NextResponse.json({ success: false, message: "Not authorized!" });
+            }
+        } else return NextResponse.json({ success: false, message: "Requester user not found" });
+
+        // Check if the user intended to be modified is not an admin
+        const user = await db.collection('Users').findOne({_id: new ObjectId(userId)})
+        if (user) {
+            if (user.role == "admin") { 
+                return NextResponse.json({ success: false, message: "Admins cannot be modified by other admins!" });
+            }
+        } else return NextResponse.json({ success: false, message: "User not found" });
 
         // If updating email, check if the new email already exists
         if (updatedFields.email) {
-            const db = await connectToDatabase();
             const existingUser = await db.collection("Users").findOne({ email: updatedFields.email });
-
             if (existingUser && existingUser._id.toString() !== userId) {
                 return NextResponse.json({ success: false, message: 'Email already in use' });
             }
@@ -130,3 +157,4 @@ async function updateUserById(userId, updatedFields) {
         return { success: false, message: error.message };
     }
 }
+
