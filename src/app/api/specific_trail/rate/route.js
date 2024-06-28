@@ -2,6 +2,30 @@ import { connectToDatabase } from '../../middleware/mongo';
 import { NextResponse } from 'next/server';
 import { ObjectId } from 'mongodb'; // Import ObjectId from mongodb
 
+
+// Input Example:
+// POST /api/specific_trail/rate
+// {
+//     "trailId": "667917be7068d871a92d482d"
+// }
+export async function POST(req) {
+    try {
+        const { trailId } = await req.json();
+        const db = await connectToDatabase();
+        var ObjectId = require('mongodb').ObjectId;
+
+        const trail = await db.collection('Trails').findOne({_id: new ObjectId(trailId)})
+
+        if (!trail) {
+            return NextResponse.json({ success: false, message: "Trail not found" });
+        }
+
+        return NextResponse.json({ success: true, average_rating: trail.averageRating });
+    } catch (error) {
+        return NextResponse.json({ success: false, message: error.message });
+    }
+}
+
 export async function PUT(req) {
     try {
         const { requesterId, trailId, rating } = await req.json();
@@ -17,16 +41,42 @@ export async function PUT(req) {
 // Helper function to update trail by trailId
 async function updateTrailById(db, requesterId, trailId, rating) {
     try {
-        const result = await db.collection('Trails').updateOne(
+        // Update the specific rating as before
+        const updateResult = await db.collection('Trails').updateOne(
             { _id: new ObjectId(trailId) },
             { 
                 $set: { 
-                    [`ratings.${requesterId}`]: rating // Update specific field using bracket notation
+                    [`ratings.${requesterId}`]: rating, 
                 } 
             }
         );
 
-        if (result.matchedCount > 0) {
+        // If the update was successful, calculate and update the average
+        if (updateResult.matchedCount > 0) {
+            // Get the trail document after the update
+            const trail = await db.collection('Trails').findOne({ _id: new ObjectId(trailId) });
+
+            if (trail) {
+                const trailRatings = Object.values(trail.ratings);
+                if (trailRatings.length > 0) {
+                    let sum = 0;
+                    for (const number of trailRatings) {
+                        sum += number;
+                    }
+                    const average = sum / trailRatings.length;
+
+                    // Update the 'averageRating' field and the 'rating' field
+                    await db.collection('Trails').updateOne(
+                        { _id: new ObjectId(trailId) },
+                        {
+                            $set: {
+                                averageRating: average, // New field for average rating
+                            }
+                        }
+                    );
+                }
+            }
+
             return { success: true };
         } else {
             return { success: false, message: 'Trail not found' };
