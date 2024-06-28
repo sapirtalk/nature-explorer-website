@@ -26,6 +26,13 @@ export async function POST(req) {
     }
 }
 
+// Input Example:
+// PUT /api/specific_trail/rate
+// {
+//     "requesterId": "66530ccdd001059ab08fb5af",
+//     "trailId": "667917be7068d871a92d482d",
+//     "rating": 1
+// }
 export async function PUT(req) {
     try {
         const { requesterId, trailId, rating } = await req.json();
