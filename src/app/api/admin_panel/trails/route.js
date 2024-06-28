@@ -1,9 +1,8 @@
 import { connectToDatabase } from '../../middleware/mongo';
 import { NextResponse } from 'next/server';
 
-
-// POST /api/admin_panel/trails
 // Input Example:
+// POST /api/admin_panel/trails
 // {
 //     "name": "trail",
 //     "difficulty": 2,
@@ -49,8 +48,8 @@ export async function POST(req) {
     }
 }
 
-// DELETE /api/admin_panel/trails
 // Input Example:
+// DELETE /api/admin_panel/trails
 // {
 //     "trailId": "667dc4272f4666fa50754112"
 // }
@@ -83,8 +82,8 @@ export async function GET(req) {
     }
 }
 
-// PUT /api/admin_panel/trails
 // Input Example:
+// PUT /api/admin_panel/trails
 // {
 //     "trailId": "667dc4272f4666fa50754112",
 //     "updatedFields": {
