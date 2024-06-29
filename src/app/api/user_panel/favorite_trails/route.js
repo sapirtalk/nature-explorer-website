@@ -1,6 +1,14 @@
 import { connectToDatabase } from '../../middleware/mongo';
 import { NextResponse } from 'next/server';
 
+
+// POST /api/user_panel/favorite_trails
+// Purpose:
+// Present the user his favorite trails.
+// Input Example:
+// {
+// "requesterId": "667dcb312f4666fa50754115" 
+// }
 export async function POST(req) {
     try {
         const { requesterId } = await req.json();

@@ -1,6 +1,13 @@
 import { connectToDatabase } from '../../middleware/mongo';
 import { NextResponse } from 'next/server';
 
+// POST /api/admin_panel/statistics
+// Purpose:
+// Present some statistics for the admins and editors
+// Input Example:
+// {
+// "includeArchived": false
+// }
 export async function POST(req) {
     const { includeArchived } = await req.json();
 
@@ -14,14 +21,15 @@ export async function POST(req) {
 
     const numOfUsers = await db.collection("Users").countDocuments();
     const numOfUsersFromFB = await db.collection("Users").countDocuments( {fromFacebook: true} );
-    const numOfAdmins = await db.collection("Users").countDocuments( {isAdmin: true} );
+    const numOfAdmins = await db.collection("Users").countDocuments( {role: "admin"} );
+    const numOfEditors = await db.collection("Users").countDocuments( {role: "editor"} );
     const numOfTrails = await db.collection("Trails").countDocuments(archiveFilter);
     const numOfArticles = await db.collection("Articles").countDocuments(archiveFilter);
     const latestLoginDate = await getLatestDate(db, "Users", "LastLogin");
     const latestRegisterDate = await getLatestDate(db, "Users", "RegisterDate");
     const dateRangeCounts = await getDateRangeCounts(db);    
     
-    return NextResponse.json({ numOfAdmins, numOfUsers, numOfUsersFromFB,
+    return NextResponse.json({ numOfAdmins, numOfEditors, numOfUsers, numOfUsersFromFB,
         numOfTrails, numOfArticles, latestLoginDate, latestRegisterDate,
          ...dateRangeCounts});
 }

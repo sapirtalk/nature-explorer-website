@@ -35,9 +35,10 @@ import { NextResponse } from 'next/server';
 //     }
 // }
 
-
-// Input Example:
 // DELETE /api/admin_panel/users
+// Purpose:
+// Allow admins to delete a user from the database
+// Input Example:
 // {
 //     "requesterId": "667dcd842f4666fa50754116"
 //     "userId": "667dcb312f4666fa50754115"
@@ -78,6 +79,9 @@ export async function DELETE(req) {
 }
 
 // GET /api/admin_panel/users
+// Purpose:
+// Present to admins the entire users collection from the database,
+// so they can modify/delete if needed
 export async function GET(req) {
     try {
         const db = await connectToDatabase();
@@ -88,8 +92,10 @@ export async function GET(req) {
     }
 }
 
-// Input Example:
 // PUT /api/admin_panel/users
+// Purpose:
+// Allow admins to modify a user (maybe should be restricted to a role change only)
+// Input Example:
 // {
 //   "userId": "667dcb312f4666fa50754115",
 //   "updatedFields": {

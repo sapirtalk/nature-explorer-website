@@ -1,8 +1,10 @@
 import { connectToDatabase } from '../../middleware/mongo';
 import { NextResponse } from 'next/server';
 
-// Input Example:
 // POST /api/admin_panel/articles
+// Purpose:
+// allow admins and editors to add a new article to the database
+// Input Example:
 // {
 //     "requesterId": "667dcd842f4666fa50754116",
 //     "title": "title",
@@ -43,8 +45,10 @@ export async function POST(req) {
     }
   }
 
-// Input Example:
 // DELETE /api/admin_panel/articles
+// Purpose:
+// Allow admins and editors to delete an article from the database
+// Input Example:
 // {
 //     "requesterId": "667dcd842f4666fa50754116",
 //     "articleId": "667dba5a2f4666fa50754110"
@@ -78,6 +82,9 @@ export async function DELETE(req) {
   
 
 // GET /api/admin_panel/trails
+// Purpose:
+// Present to admins/editors the entire articles collection from the database,
+// so they can modify/delete if needed
 export async function GET(req) {
     try {
       const db = await connectToDatabase();
@@ -90,8 +97,10 @@ export async function GET(req) {
     }
   }
 
-// Input Example:
 // PUT /api/admin_panel/articles
+// Purpose:
+// Allow admins/editors to modify an article (change the title, add to archive etc.) 
+// Input Example:
 // {
 //     "requesterId": "667dcd842f4666fa50754116",
 //     "articleId": "667dba5a2f4666fa50754110",

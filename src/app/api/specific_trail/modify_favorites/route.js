@@ -3,6 +3,15 @@ import { NextResponse } from 'next/server';
 import { ObjectId } from 'mongodb'; // Import ObjectId from mongodb
 
 
+// PUT /api/specific_trail/modify_favorites
+// Purpose:
+// Allow a user to add/delete a specific trail to/from his favorite trails
+// Input Example:
+// {
+//   "userId": "667dcb312f4666fa50754115",
+//   "trailId": "667dc4272f4666fa50754112",
+//   "action": "add"
+// }
 export async function PUT(req) {
     try {
         const { userId, trailId, action } = await req.json();

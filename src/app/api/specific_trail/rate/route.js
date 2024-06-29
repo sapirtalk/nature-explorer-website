@@ -2,32 +2,11 @@ import { connectToDatabase } from '../../middleware/mongo';
 import { NextResponse } from 'next/server';
 import { ObjectId } from 'mongodb'; // Import ObjectId from mongodb
 
-
-// Input Example:
-// POST /api/specific_trail/rate
-// {
-//     "trailId": "667917be7068d871a92d482d"
-// }
-export async function POST(req) {
-    try {
-        const { trailId } = await req.json();
-        const db = await connectToDatabase();
-        var ObjectId = require('mongodb').ObjectId;
-
-        const trail = await db.collection('Trails').findOne({_id: new ObjectId(trailId)})
-
-        if (!trail) {
-            return NextResponse.json({ success: false, message: "Trail not found" });
-        }
-
-        return NextResponse.json({ success: true, average_rating: trail.averageRating });
-    } catch (error) {
-        return NextResponse.json({ success: false, message: error.message });
-    }
-}
-
-// Input Example:
 // PUT /api/specific_trail/rate
+// Purpose:
+// Allow a user to add or update a rating for a trail.
+// Note: After the rating is submitted, it automatically updates the average rating for the trail.
+// Input Example:
 // {
 //     "requesterId": "66530ccdd001059ab08fb5af",
 //     "trailId": "667917be7068d871a92d482d",
