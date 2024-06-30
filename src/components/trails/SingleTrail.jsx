@@ -68,15 +68,15 @@ const SingleTrail = ({id ,image , name , desc , length , difficulty , duration ,
           className='w-full h-full rounded-r-lg' />
       </div>
       <div className='w-[70%] flex flex-col'>  
-      <div className='flex flex-col px-3 h-[20%] border-b-2'>
+      <div className='flex flex-col px-3 h-[28%] border-b-2'>
         <Stars rating = {rating == 0 ? 3 : rating} readOnly={true} />
         <h2 className='text-l'>{name}</h2>
       </div>
       <div className='flex flex-row justify-start h-[45%] px-3'>
-        <div className='w-[60%] overflow-hidden '>
-          <p className='px-1 text-[12px]'>{desc}</p>
+        <div className='w-[60%] overflow-scroll'>
+          <p className='px-2 py-4 text-[12px]'>{desc}</p>
         </div>
-        <div className='flex flex-col justify-start w-[40%] border-r-2 pr-2 text-[12px]'>
+        <div className='flex flex-col justify-center w-[40%] border-r-2 pr-2 text-[12px]'>
           <p>מרחק: {length} קמ</p>
           <p>קושי: {difficultyTranslate(difficulty)}</p>
           <p>זמן: {duration} שעות</p>
