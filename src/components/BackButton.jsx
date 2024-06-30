@@ -21,7 +21,7 @@ const BackButton = () => {
 
 
     return (
-        <button onClick={handleClickBack} className='flex flex-row items-center justify-center text-black rounded-lg p-2 px-4'>
+        <button onClick={handleClickBack} className='flex lg:hidden flex-row items-center justify-center text-black rounded-lg p-2 px-4'>
             <MdKeyboardBackspace className='text-2xl' />
         </button>
     );

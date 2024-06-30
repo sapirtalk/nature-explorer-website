@@ -19,6 +19,8 @@ import { CgProfile } from "react-icons/cg";
 import { FaMapSigns } from "react-icons/fa";
 import { FaCircleExclamation } from "react-icons/fa6";
 import { toast } from 'react-toastify';
+import { FaFlag } from "react-icons/fa";
+import { Tooltip } from '@nextui-org/react';
 
 
 
@@ -94,23 +96,81 @@ const Navbar = () => {
   return (
     <nav className={`navbar-container ${navbar.container}`}>
       <div className={`${navbar.inner_div}`}>
+        <div className='flex items-center flex-row'>
+        <div className='lg:hidden'> 
         <Link href='/'>
           <Image src={logo} alt='logo' width={80} height={80} />
         </Link>
+        </div>
+        <div className='hidden lg:flex lg:items-center lg:flex-row '>
+        <Tooltip content="בית" size='lg' shadow='none' showArrow>
+          <Link href='/'>
+            <Image src={logo} alt='logo' width={100} height={100} />
+          </Link>
+        </Tooltip>
+        </div>
+        {user == null ?  (
+          <div className='hidden lg:ml-[10vw] lg:flex lg:items-center lg:flex-row '>
+          <Tooltip placement='bottom' content={<div className='text-xl p-1'>הרשמה</div>} shadow='none' showArrow>  
+            <Link href='/register' className={curPath == '/register' ? 'opacity-50 mx-5' : 'mx-5'} onClick={() => setPath('/register')}>
+              <GiArchiveRegister size={40}/>
+            </Link>
+          </Tooltip>
+          <Tooltip placement='bottom' content={<div className='text-xl p-1'>התחברות</div>} shadow='none' showArrow>
+            <Link href='/login' className={curPath == '/login' ? 'opacity-50 mx-5' : 'mx-5'} onClick={() => setPath('/login')}>
+              <BiLogIn size={40} />
+            </Link>
+          </Tooltip>
+        </div>
+        ) : (
+          <div className='hidden lg:ml-[10vw] lg:flex lg:items-center lg:flex-row '>
+          <p className='mx-5 text-2xl'> ,שלום {user.firstName}</p>
+        <Tooltip placement='bottom' content={<div className='text-xl p-1'>הפרופיל שלי</div>} shadow='none' showArrow>
+          <Link href='/profile' className={curPath == '/profile' ? 'opacity-50 mx-5' : 'mx-5'} onClick={() => setPath('/profile')}>
+            <CgProfile size={40} />
+          </Link>
+        </Tooltip>
+        <Tooltip placement='bottom' content={<div className='text-xl p-1'>התנתק</div>} shadow='none' showArrow>
+          <button onClick={handleLogout} className='mx-5'>
+            <BiLogOut size={40} />
+          </button>  
+        </Tooltip>
+        </div>   
+          )}
+        
+        </div>
         <div>
           <ul className={`${navbar.ul_desktop}`}>
-            <Link className={curPath == '/home' ? 'opacity-50' : ''} href='/home'>
-              <li className={`${navbar.li_desktop}`}>בית</li>
+            <Tooltip placement='bottom' content={<div className='text-xl p-1'>דף הבית</div>} shadow='none' showArrow>
+            <Link onClick={() => setPath('/home')} className={curPath == '/home' ? 'opacity-50 mx-5' : 'mx-5'} href='/home'>
+              <IoHome size={40} />
             </Link>
-            <Link href='/news'>
-              <li className={`${navbar.li_desktop}`}>חדשות</li>
+            </Tooltip>
+            <Tooltip placement='bottom' content={<div className='text-xl p-1'>סיורים</div>} shadow='none' showArrow>
+            <Link className={curPath == '/tours' ? 'opacity-50 mx-5' : 'mx-5'} onClick={() => setPath('/tours')} href='/tours'>
+              <FaFlag size={40} />
             </Link>
-            <Link href='/about'>
-              <li className={`${navbar.li_desktop}`}>קצת עלינו</li>
+            </Tooltip>
+            <Tooltip placement='bottom' content={<div className='text-xl p-1'>אודות</div>} shadow='none' showArrow>
+            <Link href='/about' className={curPath == '/about' ? 'opacity-50 mx-5' : 'mx-5'} onClick={() => setPath('/about')}>
+               <BsFillInfoCircleFill size={40} />
             </Link>
-            <Link href='/contact'>
-              <li className={`${navbar.li_desktop}`}>צרו קשר</li>
+            </Tooltip>
+            <Tooltip placement='bottom' content={<div className='text-xl p-1'>צור קשר</div>} shadow='none' showArrow>
+            <Link href='/contact' className={curPath == '/contact' ? 'opacity-50 mx-5' : 'mx-5'} onClick={() => setPath('/contact')}>
+              <AiFillMessage size={40} />
             </Link>
+            </Tooltip>
+            <Tooltip placement='bottom' content={<div className='text-xl p-1'>כתבות</div>} shadow='none' showArrow>
+            <Link href = '/articles' className={curPath == '/articles' ? 'opacity-50 mx-5' : 'mx-5'} onClick={() => setPath('/articles')}>
+              <IoNewspaperSharp size={40} />
+            </Link>
+            </Tooltip>
+            <Tooltip  placement='bottom' content={<div className='text-xl p-1'>מסלולים</div>} shadow='none' showArrow>
+            <Link href = '/trail_catalogue' className={curPath == '/trail_catalogue' ? 'opacity-50 mx-5' : 'mx-5'} onClick={() => setPath('/trail_catalogue')}>
+              <FaMapSigns size={40} />
+            </Link>
+            </Tooltip>
           </ul>
           <div className={`${navbar.hamburger}`}>
             <RxHamburgerMenu onClick={handleNav} className={!menuOpen ? 'text-4xl text-text' : 'text-blocked text-4xl'} />

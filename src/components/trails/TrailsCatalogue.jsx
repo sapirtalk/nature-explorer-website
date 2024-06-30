@@ -153,7 +153,7 @@ const TrailsCatalogue = () => {
                         <h1 className='text-xl'>טוען מסלולים...</h1>
                         </div> 
                         :  
-                        trailsShow()
+                        <div className="lg:grid lg:mb-10 lg:grid-cols-4 lg:items-start lg:justify-normal lg:gap-4 lg:flex-none">{trailsShow()}</div>
             }
 
             <div className={openSort ? 'fixed bottom-0 w-[100%] sm:hidden backdrop-blur h-[30vh] bg-white bg-opacity-70 p-5 ease-in duration-300' : 'fixed bottom-[-100%] p-10 ease-in duration-300'}>

@@ -27,11 +27,11 @@ export default function RootLayout({ children }) {
         <meta name="description" content={metadata.description} />
         <link rel="icon" href="/favicon.ico" />
       </head>
-      <body className={`${rubik.className}`}>
+      <body className={`${rubik.className} `}>
         <Providers>
         <ToastProvider>
         <Navbar />
-        <main className="pt-[100px] lg:pt-[6%]">
+        <main className="pt-[100px] lg:pt-[2%] lg:mx-20">
          <BackButton /> 
         {children}
         </main>
