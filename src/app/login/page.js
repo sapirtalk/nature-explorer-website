@@ -8,9 +8,9 @@ const LoginPage = () => {
     return (
         <div className="h-[80vh] lg:flex lg:flex-row lg:w-[100%]">
 
-            <div className="w-[50%] h-full">
+            <div className="hidden lg:flex w-[50%] h-full">
             </div>
-            <div className="w-[50%] h-full">
+            <div className="lg:w-[50%] h-full">
                 <Login />
             </div>
         </div>
