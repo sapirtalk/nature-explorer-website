@@ -1,5 +1,6 @@
 
 import Image from 'next/image'
+import Stars from './ratingStars/Stars';
 
 
 
@@ -67,7 +68,8 @@ const SingleTrail = ({id ,image , name , desc , length , difficulty , duration ,
           className='w-full h-full rounded-r-lg' />
       </div>
       <div className='w-[70%] flex flex-col'>  
-      <div className='flex px-3 h-[20%] border-b-2'>
+      <div className='flex flex-col px-3 h-[20%] border-b-2'>
+        <Stars rating = {rating == 0 ? 3 : rating} readOnly={true} />
         <h2 className='text-l'>{name}</h2>
       </div>
       <div className='flex flex-row justify-start h-[45%] px-3'>

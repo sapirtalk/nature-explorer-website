@@ -83,7 +83,7 @@ const TrailsCatalogue = () => {
                 kids={trail.kidsFriendly} 
                 pets={trail.petsFriendly} 
                 babyStroller={trail.babyStrollerFriendly}
-                rating = {trail.rating} 
+                rating = {trail.Rating} 
               />
             </Link>
           ));
