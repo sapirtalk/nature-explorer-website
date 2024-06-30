@@ -20,7 +20,7 @@ const navbar = {
 
 const footer = {
     container: 'bottom-0 flex flex-col items-center justify-center w-full md:h-[30vh] h-[20vh] mt-4 py-[5%] bg-tertiary text-text text-center',
-    row: 'flex flex-row lg:flex-row text-center justify-between items-center w-full h-[30%] px-[15%] lg:px-16',
+    row: 'flex flex-row lg:flex-row text-center justify-between items-center lg:w-[30%] w-full h-[30%] px-[15%] lg:px-16',
     col: 'flex text-l text-text text-center justify-center items-center w-full h-full px-4 lg:px-16',
     rights: 'text-s text-text text-center w-full h-full px-4 lg:px-16 lg:text-l lg:py-5',
 }
