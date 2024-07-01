@@ -9,6 +9,7 @@ import SortTrails from './SortTrails';
 import { FaSortAmountDownAlt } from "react-icons/fa";
 import { FaSortAmountUp } from "react-icons/fa";
 import FilterTrails from './filter/FilterTrails';
+import { Spinner } from '@nextui-org/react';
 
 
 const TrailsCatalogue = () => {
@@ -125,7 +126,8 @@ const TrailsCatalogue = () => {
 
 
     return (
-        <div dir="rtl" className='flex flex-col items-center pt-1 w-full'>
+        <div>
+        <div dir="rtl" className='lg:hidden flex flex-col items-center pt-1 w-full'>
             <div className='flex justify-between my-[2vh] w-[100%] items-center'>
                 <button className={`${openSort ? 'bg-blue-300'  : 'bg-blue-500'} flex flex-row-reverse justify-center items-center text-white text-xl rounded-lg p-2 px-4`}
                         onClick={() => updateOpenSort(!openSort) }>
@@ -150,7 +152,7 @@ const TrailsCatalogue = () => {
             </button>   
             </div>
             {loading ? <div className='flex h-[80vh] justify-center items-start'>
-                        <h1 className='text-xl'>טוען מסלולים...</h1>
+                        <Spinner label="...טוען מסלולים" color="secondary" labelColor="secondary" size="lg" />
                         </div> 
                         :  
                         <div className="lg:grid lg:mb-10 lg:grid-cols-4 lg:items-start lg:justify-normal lg:gap-4 lg:flex-none">{trailsShow()}</div>
@@ -163,6 +165,34 @@ const TrailsCatalogue = () => {
                 <FilterTrails updateFilter={updateFilter} updateOpenFilter={updateOpenFilter} filter = {filter} openFilter = {openFilter}  />
             </div>      
 
+        </div>
+
+        {/* DESKTOP */}
+
+        <div dir="rtl" className='hidden lg:flex flex-row pt-1 w-full'>
+            <div className='flex flex-col justify-start my-[2vh] h-[70vh] pr-[4vw] w-[15vw] items-center'>
+                <SortTrails desktop={true} updateSort={updateSort} updateOpenSort={updateOpenSort} sort = {sort} openSort = {openSort}  />
+                <FilterTrails desktop={true} updateFilter={updateFilter} updateOpenFilter={updateOpenFilter} filter = {filter} openFilter = {openFilter}  />
+                <button onClick={() => clearSortAndFilter()} className={`${checkCleared() ? 'disabled opacity-40 p-2 px-4 mt-10 rounded-lg shadow-lg bg-slate-600' : 'p-2 px-4 mt-10 rounded-lg shadow-lg bg-slate-600'}`}>
+                <p className='pl-1 text-[12px]'>X בטל שינויים</p>
+                </button>
+            </div>     
+            <div className='flex m-2 justify-start flex-col w-[75vw] px-[4vw] items-center'>
+                <input onInput={(e) => updateFilter({name: e.target.value})} type="text" placeholder="חיפוש מסלולים" className='w-[60vw] p-2 rounded-lg' />
+            
+            <div className='flex m-1 justify-start p-2 items-center'>
+            <button onClick={() => updateDirection()} >
+             {sort.order === 'asc' ? <FaSortAmountDownAlt size={20}/> : <FaSortAmountUp size={20} />}
+            </button>   
+            </div>
+            {loading ? <div className='flex h-[80vh] w-full justify-center items-start'>
+                        <Spinner label="...טוען מסלולים" color="secondary" labelColor="secondary" size="lg" />
+                        </div> 
+                        :  
+                        <div className="lg:flex lg:mb-10 lg:flex-col lg:items-start lg:justify-center">{trailsShow()}</div>
+            }
+            </div> 
+        </div>
         </div>
     )
     }
