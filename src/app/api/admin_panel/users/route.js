@@ -2,40 +2,6 @@ import { connectToDatabase } from '../../middleware/mongo';
 import { NextResponse } from 'next/server';
 import { ObjectId } from 'mongodb';
 
-// delete POST later
-// export async function POST(req) {
-//     try {
-//         const { email, password_hash, isAdmin, firstName, lastName, fromFacebook } = await req.json();
-//         const db = await connectToDatabase();
-        
-//         // Check if user with the same email already exists
-//         const existingUser = await db.collection("Users").findOne({ email });
-
-//         if (existingUser) {
-//             return NextResponse.json({ success: false, message: 'User already exists' });
-//         }
-
-//         const newUser = {
-//             email,
-//             password_hash,
-//             isAdmin,
-//             role: "user",
-//             favoriteTrails: [],
-//             firstName,
-//             lastName,
-//             fromFacebook,
-//             LastLogin: new Date(),
-//             RegisterDate: new Date()
-//         };
-
-//         // Insert new user into the database
-//         const result = await db.collection('Users').insertOne(newUser);
-//         return NextResponse.json({ success: true, userId: result.insertedId });
-//     } catch (error) {
-//         return NextResponse.json({ success: false, message: error.message });
-//     }
-// }
-
 // DELETE /api/admin_panel/users
 // Purpose:
 // Allow admins to delete a user from the database
@@ -85,7 +51,21 @@ export async function DELETE(req) {
 export async function GET(req) {
     try {
         const db = await connectToDatabase();
-        const users = await db.collection('Users').find().toArray();
+        
+        // Specify the fields you want to include
+        const projection = {
+            firstName: 1,
+            lastName: 1,
+            email: 1,
+            role: 1,
+            fromFacebook: 1,
+            registeredTours: 1,
+            favoriteTrails: 1,
+            LastLogin: 1,
+            RegisterDate: 1
+        };
+
+        const users = await db.collection('Users').find({}, { projection }).toArray();
         return NextResponse.json({ success: true, users });
     } catch (error) {
         return NextResponse.json({ success: false, message: error.message });
