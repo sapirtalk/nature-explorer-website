@@ -12,17 +12,17 @@ const SingleStar = ({index , rating , readOnly}) => {
     const calculateStar = () => {
         
         if (index <= rating) {
-            return <FaStar className='lg:text-[22px]' color='green' />
+            return <FaStar color='green' />
         
         } else if (index - 0.5 <= rating) {
-            return <FaStarHalfAlt className='lg:text-[22px]' color="green" />
+            return <FaStarHalfAlt color="green" />
         }
 
         if (readOnly) {
             return
         }
 
-        return <FaRegStar className='lg:text-[22px]' color="green" />
+        return <FaRegStar color="green" />
     }
 
                 

@@ -11,7 +11,6 @@ module.exports = {
     "./node_modules/@nextui-org/theme/dist/components/tooltip.js",
     "./node_modules/@nextui-org/theme/dist/components/spacer.js",
     "./node_modules/@nextui-org/theme/dist/components/modal.js",
-    "./node_modules/@nextui-org/theme/dist/components/spinner.js",
   ],
   theme: {
     extend: {

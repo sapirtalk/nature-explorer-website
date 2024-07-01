@@ -4,7 +4,6 @@ import SingleTrail from "../trails/SingleTrail"
 import { fetchData } from "@/utils"
 import { useEffect, useState } from "react"
 import Link from 'next/link'
-import { Spinner } from "@nextui-org/react";
 
 
 
@@ -44,10 +43,8 @@ const RecommendedTrails = () => {
     return (
         <div className='flex flex-col justify-center items-center flex-wrap'>
             <h1 className='text-2xl'>מסלולים מומלצים</h1>
-            {loading ? <div className="flex justify-start flex-col pt-5 h-[80vh] items-center">
-                <Spinner label="...טוען מסלולים" color="secondary" labelColor="secondary" size="lg" />
-                </div> : 
-            <div className="lg:flex lg:flex-col lg:mb-10 lg:items-center lg:justify-center">{trails}</div>}
+            {loading ? <div className="flex justify-center pt-3 h-[80vh] items-start"><h1>טוען מסלולים...</h1></div> : 
+            <div className="lg:grid lg:grid-cols-4 lg:mb-10 lg:items-start lg:justify-normal lg:gap-4 lg:flex-none">{trails}</div>}
         </div>
     )
 }

@@ -13,10 +13,7 @@ const navbar = {
     inner_menu_close_btn: 'flex justify-start h-[10%]',
     ul_opened_menu: 'flex flex-col space-y-8',
     li_opened_menu: 'text-2xl text-text lg:hover:text-accent flex justify-between items-center w-full h-full lg:px-16',
-    user_intro: 'text-xl text-text text-end w-full border-text mb-7',
-    desktop_p: 'mr-1 text-center h-fit xl:text-[23px] lg:text-[15px]',
-    desktop_link_curr: 'opacity-50 mx-5 items-center flex flex-row',
-    desktop_link: 'mx-5 items-center flex flex-row hover:text-blue-500'
+    user_intro: 'text-xl text-text text-end w-full border-text mb-7'
 }
 
 // Footer styles

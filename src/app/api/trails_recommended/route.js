@@ -7,7 +7,7 @@ import { NextResponse } from 'next/server';
 export async function GET(){
     const db = await connectToDatabase();
     
-    const trails = await db.collection('Trails').find({}).limit(4).toArray();
+    const trails = await db.collection('Trails').find({}).limit(5).toArray();
     return NextResponse.json({ trails });
 }
 

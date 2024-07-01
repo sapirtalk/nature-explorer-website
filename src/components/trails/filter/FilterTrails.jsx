@@ -10,7 +10,7 @@ import {Button} from "@nextui-org/react";
 import CheckBoxOptions from "./CheckBoxOptions";
 
 
-const FilterTrails = ({desktop ,updateFilter , updateOpenFilter , filter , openFilter }) => {
+const FilterTrails = ({ updateFilter , updateOpenFilter , filter , openFilter }) => {
 
 
     // // close the sort menu when clicking outside of it
@@ -32,7 +32,7 @@ const FilterTrails = ({desktop ,updateFilter , updateOpenFilter , filter , openF
 
 
     return (
-        <div className='lg:w-full'>
+        <div className=''>
             <div classname = ''>
                 <p className='text-l pb-1'>סנן לפי:</p>
             <div className='flex flex-col justify-center'>
@@ -40,7 +40,7 @@ const FilterTrails = ({desktop ,updateFilter , updateOpenFilter , filter , openF
                 <DurationSlider updateFilter={updateFilter} filter={filter} />
                 <CheckBoxOptions updateFilter={updateFilter} filter={filter} />
             </div>
-            <div className={ desktop ? 'hidden' :'flex justify-center items-center h-[20%] '}>
+            <div className='flex justify-center items-center h-[20%] '>
                     <Button onClick={() => updateOpenFilter(false)} className='w-[20vw] text-white bg-blue-500 mt-5' auto>
                         סגור X
                     </Button>
