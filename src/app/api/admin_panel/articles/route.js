@@ -15,7 +15,7 @@ import { ObjectId } from 'mongodb';
 // }
 export async function POST(req) {
     try {
-      const { requesterId, title, text, writtenAt, image } = await req.json();
+      const { requesterId, source, title, text, writtenAt, image } = await req.json();
       const db = await connectToDatabase();
   
       // Check if requester is authorized
@@ -27,10 +27,11 @@ export async function POST(req) {
       } else return NextResponse.json({ success: false, message: "Requester user not found" });
 
       const article = {
+        source,
         title,
         text,
         writtenAt: new Date(writtenAt),
-        isArchive: false,
+        isArchived: false,
         image,
         createdAt: new Date(),
         updatedAt: new Date()
@@ -127,7 +128,7 @@ export async function PUT(req) {
             updatedFields.writtenAt = new Date(updatedFields.writtenAt);
         }
 
-        const response = await updateArticleById(db, ObjectId, articleId, updatedFields);
+        const response = await updateArticleById(db, articleId, updatedFields);
         return NextResponse.json(response);
     } catch (error) {
         console.error('Error updating article:', error);
@@ -136,7 +137,7 @@ export async function PUT(req) {
 }
 
 // Helper function to update article by articleId
-async function updateArticleById(db, ObjectId, articleId, updatedFields) {
+async function updateArticleById(db, articleId, updatedFields) {
     updatedFields.updatedAt = new Date();
     try {
         const result = await db.collection('Articles').updateOne(
