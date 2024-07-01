@@ -1,6 +1,6 @@
 import { connectToDatabase } from '../../middleware/mongo';
 import { NextResponse } from 'next/server';
-import { ObjectId } from 'mongodb'; // Import ObjectId from mongodb
+import { ObjectId } from 'mongodb';
 
 // PUT /api/specific_trail/rate
 // Purpose:

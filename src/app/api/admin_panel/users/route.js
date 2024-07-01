@@ -1,5 +1,6 @@
 import { connectToDatabase } from '../../middleware/mongo';
 import { NextResponse } from 'next/server';
+import { ObjectId } from 'mongodb';
 
 // delete POST later
 // export async function POST(req) {
@@ -47,7 +48,6 @@ export async function DELETE(req) {
     try {
         const { requesterId, userId } = await req.json();
         const db = await connectToDatabase();
-        const ObjectId = require('mongodb').ObjectId;
 
         // Check if requester is authorized
         const requester = await db.collection('Users').findOne({_id: new ObjectId(requesterId)})
@@ -111,7 +111,6 @@ export async function PUT(req) {
     try {
         const { requesterId, userId, updatedFields } = await req.json();
         const db = await connectToDatabase();
-        const ObjectId = require('mongodb').ObjectId;
 
         // Check if requester is authorized
         const requester = await db.collection('Users').findOne({_id: new ObjectId(requesterId)})
@@ -137,6 +136,11 @@ export async function PUT(req) {
             }
         }
 
+        // don't allow to edit passwords
+        if (updatedFields.password_hash) {
+            return NextResponse.json({ success: false, message: 'passwords of other users cannot be modified' });
+        }
+
         const response = await updateUserById(userId, updatedFields);
         return NextResponse.json(response);
     } catch (error) {
@@ -147,7 +151,6 @@ export async function PUT(req) {
 // Helper function to update user by userId
 async function updateUserById(userId, updatedFields) {
     const db = await connectToDatabase();
-    const ObjectId = require('mongodb').ObjectId;
     try {
         const result = await db.collection('Users').updateOne(
             { _id: new ObjectId(userId) },

@@ -1,5 +1,6 @@
 import { connectToDatabase } from '../../middleware/mongo';
 import { NextResponse } from 'next/server';
+import { ObjectId } from 'mongodb';
 
 // POST /api/admin_panel/articles
 // Purpose:
@@ -16,7 +17,6 @@ export async function POST(req) {
     try {
       const { requesterId, title, text, writtenAt, image } = await req.json();
       const db = await connectToDatabase();
-      var ObjectId = require('mongodb').ObjectId;
   
       // Check if requester is authorized
       const requester = await db.collection('Users').findOne({_id: new ObjectId(requesterId)})
@@ -57,7 +57,6 @@ export async function DELETE(req) {
     try {
       const { requesterId, articleId } = await req.json();
       const db = await connectToDatabase();
-      var ObjectId = require('mongodb').ObjectId;
 
       // Check if requester is authorized
       const requester = await db.collection('Users').findOne({_id: new ObjectId(requesterId)})
@@ -115,7 +114,6 @@ export async function PUT(req) {
     try {
         const { requesterId, articleId, updatedFields } = await req.json();
         const db = await connectToDatabase(); 
-        var ObjectId = require('mongodb').ObjectId;
 
         // Check if requester is authorized
         const requester = await db.collection('Users').findOne({_id: new ObjectId(requesterId)})

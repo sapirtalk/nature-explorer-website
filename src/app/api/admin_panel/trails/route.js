@@ -1,5 +1,6 @@
 import { connectToDatabase } from '../../middleware/mongo';
 import { NextResponse } from 'next/server';
+import { ObjectId } from 'mongodb';
 
 // POST /api/admin_panel/trails
 // Purpose:
@@ -26,7 +27,6 @@ export async function POST(req) {
     try {
         const { requesterId, name, difficulty, location, distance, duration, kidsFriendly, petsFriendly, babyStrollerFriendly, description, image } = await req.json();
         const db = await connectToDatabase();
-        var ObjectId = require('mongodb').ObjectId;
 
         // Check if requester is authorized
         const requester = await db.collection('Users').findOne({_id: new ObjectId(requesterId)})
@@ -72,7 +72,6 @@ export async function DELETE(req) {
     try {
         const { requesterId, trailId } = await req.json();
         const db = await connectToDatabase();
-        var ObjectId = require('mongodb').ObjectId;
 
         // Check if requester is authorized
         const requester = await db.collection('Users').findOne({_id: new ObjectId(requesterId)})
@@ -136,7 +135,6 @@ export async function PUT(req) {
     try {
         const { requesterId, trailId, updatedFields } = await req.json();
         const db = await connectToDatabase();
-        var ObjectId = require('mongodb').ObjectId;
 
         // Check if requester is authorized
         const requester = await db.collection('Users').findOne({_id: new ObjectId(requesterId)})
@@ -146,7 +144,7 @@ export async function PUT(req) {
             }
         } else return NextResponse.json({ success: false, message: "Requester user not found" });
 
-        const response = await updateTrailById(db, ObjectId, trailId, updatedFields);
+        const response = await updateTrailById(db, trailId, updatedFields);
         return NextResponse.json(response);
     } catch (error) {
         return NextResponse.json({ success: false, message: error.message });
@@ -154,7 +152,7 @@ export async function PUT(req) {
 }
 
 // Helper function to update trail by trailId
-async function updateTrailById(db, ObjectId, trailId, updatedFields) {
+async function updateTrailById(db, trailId, updatedFields) {
     updatedFields.updatedAt = new Date();
     try {
         const result = await db.collection('Trails').updateOne(
