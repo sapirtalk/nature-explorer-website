@@ -15,7 +15,7 @@ import { ObjectId } from 'mongodb';
 // }
 export async function POST(req) {
     try {
-      const { requesterId, source, title, text, writtenAt, image } = await req.json();
+      const { requesterId, source, title, url, writtenAt, image } = await req.json();
       const db = await connectToDatabase();
   
       // Check if requester is authorized
@@ -29,7 +29,7 @@ export async function POST(req) {
       const article = {
         source,
         title,
-        text,
+        url,
         writtenAt: new Date(writtenAt),
         isArchived: false,
         image,
