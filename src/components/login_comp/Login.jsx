@@ -70,13 +70,13 @@ const Login = () => {
 
   if (user) {
     return (
-      <div className="max-w-md h-full mx-auto mt-10 p-6">
+      <div className="max-w-md  h-full mx-auto mt-10 p-6">
         <HelloLogin firstName={user.firstName} />
       </div>
     );
   }
   else return ( 
-    <div dir='rtl' className="max-w-md h-full mx-auto mt-10 p-6">
+    <div dir='rtl' className="max-w-md lg:w-[50vw]  h-full mx-auto mt-10 p-6">
       <h1 className="text-2xl text-center mb-6">התחברות</h1>
       <Formik
         initialValues={initialValues}

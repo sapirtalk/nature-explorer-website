@@ -2,21 +2,18 @@ import { connectToDatabase } from '../../middleware/mongo';
 import { NextResponse } from 'next/server';
 import { ObjectId } from 'mongodb';
 
-// POST /api/admin_panel/articles
+// POST /api/admin_panel/tours
 // Purpose:
-// allow admins and editors to add a new article to the database
+// allow admins and editors to add a new tour to the database
 // Input Example:
 // {
 //     "requesterId": "667dcd842f4666fa50754116",
-//     "source": "ynet"
 //     "title": "title",
-//     "url": "https://ynet.co.il/article" 
-//     "writtenAt": "2020-01-01",
-//     "image": []
+//     "description": "description"
 // }
 export async function POST(req) {
     try {
-      const { requesterId, source, title, url, writtenAt, image } = await req.json();
+      const { requesterId, title, description } = await req.json();
       const db = await connectToDatabase();
   
       // Check if requester is authorized
@@ -27,29 +24,30 @@ export async function POST(req) {
           }
       } else return NextResponse.json({ success: false, message: "Requester user not found" });
 
-      const article = {
-        source,
+
+
+      const tour = {
         title,
-        url,
-        writtenAt: new Date(writtenAt),
+        description,
+        registeredUsers: {},
+        registeredUsersCount: 0,
         isArchived: false,
-        image,
         createdAt: new Date(),
         updatedAt: new Date()
       };
   
-      const { insertedId } = await db.collection('Articles').insertOne(article);
+      const { insertedId } = await db.collection('Tours').insertOne(tour);
   
-      return NextResponse.json({ success: true, articleId: insertedId });
+      return NextResponse.json({ success: true, tourId: insertedId });
     } catch (error) {
       console.error('Error creating article:', error);
       return NextResponse.json({ success: false, message: 'Failed to create article' });
     }
   }
 
-// DELETE /api/admin_panel/articles
+// DELETE /api/admin_panel/tours
 // Purpose:
-// Allow admins and editors to delete an article from the database
+// Allow admins and editors to delete a tour from the database
 // Input Example:
 // {
 //     "requesterId": "667dcd842f4666fa50754116",
@@ -57,7 +55,7 @@ export async function POST(req) {
 // }
 export async function DELETE(req) {
     try {
-      const { requesterId, articleId } = await req.json();
+      const { requesterId, tourId } = await req.json();
       const db = await connectToDatabase();
 
       // Check if requester is authorized
@@ -68,52 +66,50 @@ export async function DELETE(req) {
           }
       } else return NextResponse.json({ success: false, message: "Requester user not found" });
   
-      const result = await db.collection('Articles').deleteOne({ _id: new ObjectId(articleId) });
+      const result = await db.collection('Tours').deleteOne({ _id: new ObjectId(tourId) });
   
       if (result.deletedCount > 0) {
         return NextResponse.json({ success: true });
       } else {
-        return NextResponse.json({ success: false, message: 'Article not found' });
+        return NextResponse.json({ success: false, message: 'Tour not found' });
       }
     } catch (error) {
       console.error('Error deleting article:', error);
-      return NextResponse.json({ success: false, message: 'Failed to delete article' });
+      return NextResponse.json({ success: false, message: 'Failed to delete tour' });
     }
   }
   
 
-// GET /api/admin_panel/trails
+// GET /api/admin_panel/tours
 // Purpose:
-// Present to admins/editors the entire articles collection from the database,
+// Present to admins/editors the entire tours collection from the database,
 // so they can modify/delete if needed
 export async function GET(req) {
     try {
       const db = await connectToDatabase();
-      const articles = await db.collection('Articles').find({}).toArray();
+      const articles = await db.collection('Tours').find({}).toArray();
   
       return NextResponse.json({ success: true, articles });
     } catch (error) {
-      console.error('Error retrieving articles:', error);
-      return NextResponse.json({ success: false, message: 'Failed to retrieve articles' });
+      console.error('Error retrieving tours:', error);
+      return NextResponse.json({ success: false, message: 'Failed to retrieve tours' });
     }
   }
 
-// PUT /api/admin_panel/articles
+// PUT /api/admin_panel/tours
 // Purpose:
-// Allow admins/editors to modify an article (change the title, add to archive etc.) 
+// Allow admins/editors to modify a tour (change the description, add to archive etc.) 
 // Input Example:
 // {
 //     "requesterId": "667dcd842f4666fa50754116",
-//     "articleId": "667dba5a2f4666fa50754110",
 //     "updatedFields": {
-//         "writtenAt": "2022-02-02",
-//         "image": ["1", "2"],
-//         "title": "updated_title"
+//         "description": "updated_description"
+//         "isArchived": false
 //     }
 // }
 export async function PUT(req) {
     try {
-        const { requesterId, articleId, updatedFields } = await req.json();
+        const { requesterId, tourId, updatedFields } = await req.json();
         const db = await connectToDatabase(); 
 
         // Check if requester is authorized
@@ -123,32 +119,32 @@ export async function PUT(req) {
                 return NextResponse.json({ success: false, message: "Not authorized!" });
             }
         } else return NextResponse.json({ success: false, message: "Requester user not found" });
-
-        if (updatedFields.writtenAt) {
-            updatedFields.writtenAt = new Date(updatedFields.writtenAt);
+        
+        if (updatedFields.registeredUsers) {
+            return NextResponse.json({ success: false, message: 'Cannot modify the registered users list' }); 
         }
 
-        const response = await updateArticleById(db, articleId, updatedFields);
+        const response = await updateArticleById(db, tourId, updatedFields);
         return NextResponse.json(response);
     } catch (error) {
-        console.error('Error updating article:', error);
-        return NextResponse.json({ success: false, message: 'Failed to update article' });
+        console.error('Error updating tour:', error);
+        return NextResponse.json({ success: false, message: 'Failed to update tour' });
     }
 }
 
-// Helper function to update article by articleId
-async function updateArticleById(db, articleId, updatedFields) {
+// Helper function to update article by tourId
+async function updateArticleById(db, tourId, updatedFields) {
     updatedFields.updatedAt = new Date();
     try {
-        const result = await db.collection('Articles').updateOne(
-            { _id: new ObjectId(articleId) },
+        const result = await db.collection('Tours').updateOne(
+            { _id: new ObjectId(tourId) },
             { $set: updatedFields }
         );
 
         if (result.matchedCount > 0) {
             return { success: true };
         } else {
-            return { success: false, message: 'Article not found' };
+            return { success: false, message: 'Tour not found' };
         }
     } catch (error) {
         return { success: false, message: error.message };

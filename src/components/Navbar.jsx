@@ -19,6 +19,8 @@ import { CgProfile } from "react-icons/cg";
 import { FaMapSigns } from "react-icons/fa";
 import { FaCircleExclamation } from "react-icons/fa6";
 import { toast } from 'react-toastify';
+import { FaFlag } from "react-icons/fa";
+import { Tooltip } from '@nextui-org/react';
 
 
 
@@ -94,23 +96,88 @@ const Navbar = () => {
   return (
     <nav className={`navbar-container ${navbar.container}`}>
       <div className={`${navbar.inner_div}`}>
+        <div className='flex items-center flex-row'>
+        <div className='lg:hidden'> 
         <Link href='/'>
           <Image src={logo} alt='logo' width={80} height={80} />
         </Link>
+        </div>
+        <div className='hidden lg:flex lg:items-center lg:flex-row '>
+          <Link href='/'>
+            <Image src={logo} alt='logo' width={120} height={120} />
+          </Link>
+        </div>
+        {user == null ?  (
+          <div className='hidden lg:ml-[10vw] lg:flex lg:items-center lg:flex-row '>
+          <Tooltip placement='bottom' content={<div className='text-xl p-1'>הרשמה</div>} shadow='none' showArrow>  
+            <Link href='/register' className={curPath == '/register' ? navbar.desktop_link_curr : navbar.desktop_link} onClick={() => setPath('/register')}>
+              <p className={navbar.desktop_p}>הרשמה</p>
+              <GiArchiveRegister className='xl:text-[40px] lg:text-[30px]'/>
+            </Link>
+          </Tooltip>
+          <Tooltip placement='bottom' content={<div className='text-xl p-1'>התחברות</div>} shadow='none' showArrow>
+            <Link href='/login' className={curPath == '/login' ? navbar.desktop_link_curr : navbar.desktop_link} onClick={() => setPath('/login')}>
+              <p className={navbar.desktop_p}>התחברות</p>
+              <BiLogIn className='xl:text-[40px] lg:text-[30px]' />
+            </Link>
+          </Tooltip>
+        </div>
+        ) : (
+          <div className='hidden lg:ml-[10vw] lg:flex lg:items-center lg:flex-row '>
+          <Tooltip placement='bottom' content={<div className='text-xl p-1'>הפרופיל שלי</div>} shadow='none' showArrow>
+          <Link href='/profile' className={curPath == '/profile' ? navbar.desktop_link_curr : navbar.desktop_link} onClick={() => setPath('/profile')}>
+            <p className={navbar.desktop_p}>{user.firstName}</p>
+            <CgProfile className='xl:text-[40px] lg:text-[30px]' />
+          </Link>
+        </Tooltip>
+        <Tooltip placement='bottom' content={<div className='text-xl p-1'>התנתק</div>} shadow='none' showArrow>
+          <button onClick={handleLogout} className='mx-5 flex items-center flex-row hover:text-blue-500'>
+            <p className={navbar.desktop_p}>התנתק</p>
+            <BiLogOut className='xl:text-[40px] lg:text-[30px]' />
+          </button>  
+        </Tooltip>
+        </div>   
+          )}
+        
+        </div>
         <div>
           <ul className={`${navbar.ul_desktop}`}>
-            <Link className={curPath == '/home' ? 'opacity-50' : ''} href='/home'>
-              <li className={`${navbar.li_desktop}`}>בית</li>
+            <Tooltip placement='bottom' content={<div className='text-xl p-1'>דף הבית</div>} shadow='none' showArrow>
+            <Link onClick={() => setPath('/home')} className={curPath == '/home' ? navbar.desktop_link_curr : navbar.desktop_link} href='/home'>
+              <p className={navbar.desktop_p}>דף הבית</p>
+              <IoHome className='xl:text-[40px] lg:text-[30px]' />
             </Link>
-            <Link href='/news'>
-              <li className={`${navbar.li_desktop}`}>חדשות</li>
+            </Tooltip>
+            <Tooltip placement='bottom' content={<div className='text-xl p-1'>סיורים</div>} shadow='none' showArrow>
+            <Link className={curPath == '/tours' ? navbar.desktop_link_curr : navbar.desktop_link} onClick={() => setPath('/tours')} href='/tours'>
+              <p className={navbar.desktop_p}>סיורים</p>
+              <FaFlag className='xl:text-[40px] lg:text-[30px]' />
             </Link>
-            <Link href='/about'>
-              <li className={`${navbar.li_desktop}`}>קצת עלינו</li>
+            </Tooltip>
+            <Tooltip placement='bottom' content={<div className='text-xl p-1'>אודות</div>} shadow='none' showArrow>
+            <Link href='/about' className={curPath == '/about' ? navbar.desktop_link_curr : navbar.desktop_link} onClick={() => setPath('/about')}>
+              <p className={navbar.desktop_p}>אודות</p>
+              <BsFillInfoCircleFill className='xl:text-[40px] lg:text-[30px]' />
             </Link>
-            <Link href='/contact'>
-              <li className={`${navbar.li_desktop}`}>צרו קשר</li>
+            </Tooltip>
+            <Tooltip placement='bottom' content={<div className='text-xl p-1'>צור קשר</div>} shadow='none' showArrow>
+            <Link href='/contact' className={curPath == '/contact' ? navbar.desktop_link_curr : navbar.desktop_link} onClick={() => setPath('/contact')}>
+              <p className={navbar.desktop_p}>צור קשר</p>
+              <AiFillMessage className='xl:text-[40px] lg:text-[30px]' />
             </Link>
+            </Tooltip>
+            <Tooltip placement='bottom' content={<div className='text-xl p-1'>כתבות</div>} shadow='none' showArrow>
+            <Link href = '/articles' className={curPath == '/articles' ? navbar.desktop_link_curr : navbar.desktop_link} onClick={() => setPath('/articles')}>
+              <p className={navbar.desktop_p}>כתבות</p>
+              <IoNewspaperSharp className='xl:text-[40px] lg:text-[30px]' />
+            </Link>
+            </Tooltip>
+            <Tooltip  placement='bottom' content={<div className='text-xl p-1'>מסלולים</div>} shadow='none' showArrow>
+            <Link href = '/trail_catalogue' className={curPath == '/trail_catalogue' ? navbar.desktop_link_curr : navbar.desktop_link} onClick={() => setPath('/trail_catalogue')}>
+              <p className={navbar.desktop_p}>מסלולים</p>
+              <FaMapSigns className='xl:text-[40px] lg:text-[30px]' />
+            </Link>
+            </Tooltip>
           </ul>
           <div className={`${navbar.hamburger}`}>
             <RxHamburgerMenu onClick={handleNav} className={!menuOpen ? 'text-4xl text-text' : 'text-blocked text-4xl'} />

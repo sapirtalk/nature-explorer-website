@@ -1,39 +1,6 @@
 import { connectToDatabase } from '../../middleware/mongo';
 import { NextResponse } from 'next/server';
-
-// delete POST later
-// export async function POST(req) {
-//     try {
-//         const { email, password_hash, isAdmin, firstName, lastName, fromFacebook } = await req.json();
-//         const db = await connectToDatabase();
-        
-//         // Check if user with the same email already exists
-//         const existingUser = await db.collection("Users").findOne({ email });
-
-//         if (existingUser) {
-//             return NextResponse.json({ success: false, message: 'User already exists' });
-//         }
-
-//         const newUser = {
-//             email,
-//             password_hash,
-//             isAdmin,
-//             role: "user",
-//             favoriteTrails: [],
-//             firstName,
-//             lastName,
-//             fromFacebook,
-//             LastLogin: new Date(),
-//             RegisterDate: new Date()
-//         };
-
-//         // Insert new user into the database
-//         const result = await db.collection('Users').insertOne(newUser);
-//         return NextResponse.json({ success: true, userId: result.insertedId });
-//     } catch (error) {
-//         return NextResponse.json({ success: false, message: error.message });
-//     }
-// }
+import { ObjectId } from 'mongodb';
 
 // DELETE /api/admin_panel/users
 // Purpose:
@@ -47,7 +14,6 @@ export async function DELETE(req) {
     try {
         const { requesterId, userId } = await req.json();
         const db = await connectToDatabase();
-        const ObjectId = require('mongodb').ObjectId;
 
         // Check if requester is authorized
         const requester = await db.collection('Users').findOne({_id: new ObjectId(requesterId)})
@@ -85,7 +51,21 @@ export async function DELETE(req) {
 export async function GET(req) {
     try {
         const db = await connectToDatabase();
-        const users = await db.collection('Users').find().toArray();
+        
+        // Specify the fields you want to include
+        const projection = {
+            firstName: 1,
+            lastName: 1,
+            email: 1,
+            role: 1,
+            fromFacebook: 1,
+            registeredTours: 1,
+            favoriteTrails: 1,
+            LastLogin: 1,
+            RegisterDate: 1
+        };
+
+        const users = await db.collection('Users').find({}, { projection }).toArray();
         return NextResponse.json({ success: true, users });
     } catch (error) {
         return NextResponse.json({ success: false, message: error.message });
@@ -111,7 +91,6 @@ export async function PUT(req) {
     try {
         const { requesterId, userId, updatedFields } = await req.json();
         const db = await connectToDatabase();
-        const ObjectId = require('mongodb').ObjectId;
 
         // Check if requester is authorized
         const requester = await db.collection('Users').findOne({_id: new ObjectId(requesterId)})
@@ -137,6 +116,11 @@ export async function PUT(req) {
             }
         }
 
+        // don't allow to edit passwords
+        if (updatedFields.password_hash) {
+            return NextResponse.json({ success: false, message: 'passwords of other users cannot be modified' });
+        }
+
         const response = await updateUserById(userId, updatedFields);
         return NextResponse.json(response);
     } catch (error) {
@@ -147,7 +131,6 @@ export async function PUT(req) {
 // Helper function to update user by userId
 async function updateUserById(userId, updatedFields) {
     const db = await connectToDatabase();
-    const ObjectId = require('mongodb').ObjectId;
     try {
         const result = await db.collection('Users').updateOne(
             { _id: new ObjectId(userId) },
