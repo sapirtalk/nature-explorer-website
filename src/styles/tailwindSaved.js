@@ -3,9 +3,9 @@
 // Navbar styles
 
 const navbar = {
-    container: 'fixed text-text w-full h-24 shadow-2xl bg-tertiary z-50',
-    inner_div: 'flex justify-between items-center w-full h-full px-4 lg:px-16',
-    ul_desktop: 'space-x-4 hidden lg:flex',
+    container: 'fixed text-text w-full h-24 lg:bg-primary shadow-2xl lg:py-[3%] lg:shadow-none bg-tertiary z-50 lg:relative',
+    inner_div: 'flex justify-between items-center w-full h-full px-4 lg:px-[5%] lg:py-3',
+    ul_desktop: 'space-x-8 hidden lg:flex lg:flex-row-reverse',
     li_desktop: 'text-xl text-text hover:text-accent',
     hamburger: 'lg:hidden',
     menu_opened: 'fixed right-0 top-0 w-[50%] md:w-[30%] lg:hidden backdrop-blur h-screen bg-tertiary bg-opacity-70 p-5 ease-in duration-300',
@@ -20,7 +20,7 @@ const navbar = {
 
 const footer = {
     container: 'bottom-0 flex flex-col items-center justify-center w-full md:h-[30vh] h-[20vh] mt-4 py-[5%] bg-tertiary text-text text-center',
-    row: 'flex flex-row lg:flex-row text-center justify-between items-center w-full h-[30%] px-[15%] lg:px-16',
+    row: 'flex flex-row lg:flex-row text-center justify-between items-center lg:w-[30%] w-full h-[30%] px-[15%] lg:px-16',
     col: 'flex text-l text-text text-center justify-center items-center w-full h-full px-4 lg:px-16',
     rights: 'text-s text-text text-center w-full h-full px-4 lg:px-16 lg:text-l lg:py-5',
 }

@@ -8,6 +8,9 @@ module.exports = {
     "./node_modules/@nextui-org/theme/dist/components/slider.js",
     "./node_modules/@nextui-org/theme/dist/components/switch.js",
     "./node_modules/@nextui-org/theme/dist/components/checkbox.js",
+    "./node_modules/@nextui-org/theme/dist/components/tooltip.js",
+    "./node_modules/@nextui-org/theme/dist/components/spacer.js",
+    "./node_modules/@nextui-org/theme/dist/components/modal.js",
   ],
   theme: {
     extend: {

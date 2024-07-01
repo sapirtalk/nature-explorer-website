@@ -7,7 +7,7 @@ function Contact() {
       <span dir='rtl'>
       <header className='text-2xl font-bold'>צור קשר</header>
       <br/>
-      <p>נשמח לשמוע מכם! ניתך ליצור איתנו קשר באמצעות כתובת המייל הבאה:</p>
+      <p>נשמח לשמוע מכם! ניתן ליצור איתנו קשר באמצעות כתובת המייל הבאה:</p>
       <br/>
       <Link isBlock showAnchorIcon href="mailto:ntr.explorer1@gmail.com" color="secondary" className='underline underline-offset-auto font-bold'>ntr.explorer1@gmail.com</Link>
       <br/>

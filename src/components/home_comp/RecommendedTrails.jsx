@@ -28,7 +28,7 @@ const RecommendedTrails = () => {
                         kids={trail.kidsFriendly} 
                         pets={trail.petsFriendly} 
                         babyStroller={trail.babyStrollerFriendly}
-                        rating = {trail.rating} 
+                        rating = {trail.Rating} 
                     />
                 </Link>
             ))
@@ -43,7 +43,8 @@ const RecommendedTrails = () => {
     return (
         <div className='flex flex-col justify-center items-center flex-wrap'>
             <h1 className='text-2xl'>מסלולים מומלצים</h1>
-            {loading ? <div className="flex justify-center pt-3 h-[80vh] items-start"><h1>טוען מסלולים...</h1></div> : trails}
+            {loading ? <div className="flex justify-center pt-3 h-[80vh] items-start"><h1>טוען מסלולים...</h1></div> : 
+            <div className="lg:grid lg:grid-cols-4 lg:mb-10 lg:items-start lg:justify-normal lg:gap-4 lg:flex-none">{trails}</div>}
         </div>
     )
 }

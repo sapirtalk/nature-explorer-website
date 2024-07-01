@@ -30,16 +30,19 @@ const SortTrails = ({ updateSort , updateOpenSort , sort , openSort }) => {
         <div className='flex h-full flex-col'>
             <div classname = 'flex flex-col h-full'>
                 <p className='text-xl pb-1'>מיון לפי:</p>
-            <div className='flex flex-row w-full justify-center my-2 items-center'>
-                <button onClick={() => updateSort('distance')} className={`flex flex-row-reverse w-[20vw] justify-center ${sort.by == 'distance' ? 'bg-slate-400' : 'bg-slate-500'} items-center text-white text-xl rounded-lg p-2 px-4`}>
+            <div className='flex flex-row w-full justify-between my-2 items-center'>
+                <Button size="sm" onClick={() => updateSort('distance')} className={`flex flex-row-reverse justify-center ${sort.by == 'distance' ? 'bg-slate-400' : 'bg-slate-500'} items-center text-white text-xl rounded-lg p-2 px-4`}>
                     <p className='pl-1 text-[12px]'>מרחק</p>
-                </button>
-                <button onClick={() => updateSort('difficulty')} className={`flex flex-row-reverse w-[20vw] justify-center mx-10 ${sort.by == 'difficulty' ? 'bg-slate-400' : 'bg-slate-500'} items-center text-white text-xl rounded-lg p-2 px-4`}>
+                </Button>
+                <Button size="sm" onClick={() => updateSort('difficulty')} className={`flex flex-row-reverse justify-center ${sort.by == 'difficulty' ? 'bg-slate-400' : 'bg-slate-500'} items-center text-white text-xl rounded-lg p-2 px-4`}>
                     <p className='pl-1 text-[12px]'>קושי</p>
-                </button>
-                <button onClick={() => updateSort('duration')} className={`flex w-[20vw] flex-row-reverse justify-center ${sort.by == 'duration' ? 'bg-slate-400' : 'bg-slate-500'} items-center text-white text-xl rounded-lg p-2 px-4`}>
+                </Button>
+                <Button size="sm" onClick={() => updateSort('duration')} className={`flex flex-row-reverse justify-center ${sort.by == 'duration' ? 'bg-slate-400' : 'bg-slate-500'} items-center text-white text-xl rounded-lg p-2 px-4`}>
                     <p className='pl-1 text-[12px]'>זמן</p>
-                </button>
+                </Button>
+                <Button size="sm" onClick={() => updateSort('Rating')} className={`flex flex-row-reverse justify-center ${sort.by == 'Rating' ? 'bg-slate-400' : 'bg-slate-500'} items-center text-white text-xl rounded-lg p-2 px-4`}>
+                    <p className='pl-1 text-[12px]'>דירוג</p>
+                </Button>
                 </div>
                 <div className='flex justify-center items-center '>
                     <Button onClick={() => updateOpenSort(false)} className='w-[20vw] text-white bg-blue-500 mt-5' auto>
