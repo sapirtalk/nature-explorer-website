@@ -8,8 +8,9 @@ import { ObjectId } from 'mongodb';
 // Input Example:
 // {
 //     "requesterId": "667dcd842f4666fa50754116",
+//     "source": "ynet"
 //     "title": "title",
-//     "text": "text",
+//     "url": "https://ynet.co.il/article" 
 //     "writtenAt": "2020-01-01",
 //     "image": []
 // }
@@ -107,7 +108,6 @@ export async function GET(req) {
 //     "updatedFields": {
 //         "writtenAt": "2022-02-02",
 //         "image": ["1", "2"],
-//         "text": "updated_text",
 //         "title": "updated_title"
 //     }
 // }

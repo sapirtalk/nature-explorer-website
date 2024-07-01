@@ -2,7 +2,7 @@ import { connectToDatabase } from '../../middleware/mongo';
 import { NextResponse } from 'next/server';
 import { ObjectId } from 'mongodb';
 
-// PUT /api/user_panel/rate_trail
+// PUT /api/user_panel/trail_rating
 // Purpose:
 // Allow a user to add or update a rating for a trail.
 // Note: After the rating is submitted, it automatically updates the average rating for the trail.
