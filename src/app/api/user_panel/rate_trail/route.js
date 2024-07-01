@@ -2,22 +2,22 @@ import { connectToDatabase } from '../../middleware/mongo';
 import { NextResponse } from 'next/server';
 import { ObjectId } from 'mongodb';
 
-// PUT /api/specific_trail/rate
+// PUT /api/user_panel/rate_trail
 // Purpose:
 // Allow a user to add or update a rating for a trail.
 // Note: After the rating is submitted, it automatically updates the average rating for the trail.
 // Input Example:
 // {
-//     "requesterId": "66530ccdd001059ab08fb5af",
+//     "userId": "66530ccdd001059ab08fb5af",
 //     "trailId": "667917be7068d871a92d482d",
 //     "rating": 1
 // }
 export async function PUT(req) {
     try {
-        const { requesterId, trailId, rating } = await req.json();
+        const { userId, trailId, rating } = await req.json();
         const db = await connectToDatabase();
 
-        const response = await updateTrailById(db, requesterId, trailId, rating);
+        const response = await updateTrailById(db, userId, trailId, rating);
         return NextResponse.json(response);
     } catch (error) {
         return NextResponse.json({ success: false, message: error.message });
@@ -25,14 +25,14 @@ export async function PUT(req) {
 }
 
 // Helper function to update trail by trailId
-async function updateTrailById(db, requesterId, trailId, rating) {
+async function updateTrailById(db, userId, trailId, rating) {
     try {
         // Update the specific rating as before
         const updateResult = await db.collection('Trails').updateOne(
             { _id: new ObjectId(trailId) },
             { 
                 $set: { 
-                    [`ratings.${requesterId}`]: rating, 
+                    [`ratings.${userId}`]: rating, 
                 } 
             }
         );
