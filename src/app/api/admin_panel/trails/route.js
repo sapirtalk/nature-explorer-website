@@ -48,7 +48,7 @@ export async function POST(req) {
             description,
             image,
             ratings: {},
-            averageRating: null,
+            averageRating: 0,
             totalRating: 0,
             ratingCount: 0,
             isArchived: false,
