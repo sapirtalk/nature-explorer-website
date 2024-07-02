@@ -1,14 +1,14 @@
-// show the newest written articles first (descending order)
+// show the newest written comments first (descending order)
 
 
-import { connectToDatabase } from '../middleware/mongo';
+import { connectToDatabase } from '../../middleware/mongo';
 import { NextResponse } from 'next/server';
 
 
 // request body example:
 // {
 //     "SortReq": {
-//         "by": "writtenAt",
+//         "by": "updatedAt",
 //         "order": "dsc"
 //     }
 // }
@@ -27,10 +27,10 @@ export async function POST(req) {
         
     
 
-        const articles = await db.collection('Articles').find().sort(SortIndex).toArray();
+        const comments = await db.collection('Comments').find().sort(SortIndex).toArray();
 
 
-        return NextResponse.json({articles});
+        return NextResponse.json({comments});
     } catch (error) {
         return NextResponse.json({ success : false, message: error.message });
     }

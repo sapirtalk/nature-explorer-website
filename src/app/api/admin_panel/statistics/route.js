@@ -25,12 +25,13 @@ export async function POST(req) {
     const numOfEditors = await db.collection("Users").countDocuments( {role: "editor"} );
     const numOfTrails = await db.collection("Trails").countDocuments(archiveFilter);
     const numOfArticles = await db.collection("Articles").countDocuments(archiveFilter);
+    const numOfTours = await db.collection("Tours").countDocuments(archiveFilter);
     const latestLoginDate = await getLatestDate(db, "Users", "LastLogin");
     const latestRegisterDate = await getLatestDate(db, "Users", "RegisterDate");
     const dateRangeCounts = await getDateRangeCounts(db);    
     
     return NextResponse.json({ numOfAdmins, numOfEditors, numOfUsers, numOfUsersFromFB,
-        numOfTrails, numOfArticles, latestLoginDate, latestRegisterDate,
+        numOfTrails, numOfArticles, numOfTours, latestLoginDate, latestRegisterDate,
          ...dateRangeCounts});
 }
 

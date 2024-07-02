@@ -48,6 +48,9 @@ export async function POST(req) {
             description,
             image,
             ratings: {},
+            averageRating: null,
+            totalRating: 0,
+            ratingCount: 0,
             isArchived: false,
             createdAt: new Date(),
             updatedAt: new Date()
