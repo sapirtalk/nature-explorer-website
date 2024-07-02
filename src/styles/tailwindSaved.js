@@ -35,9 +35,9 @@ const footer = {
     // Greeting styles
 
     const greeting = {
-        greeting_container: 'flex flex-col items-center justify-center w-full h-[30%] bg-text bg-opacity-70 p-3 mb-3 mt-3 shadow-2xl bg-opacity-50',
-        greeting_title: 'text-primary text-xl',
-        greeting_text: 'text-s text-primary text-center pt-[2%] w-[80%] lg:w-[50%]'
+        greeting_container: 'flex flex-col lg:rounded-lg items-center justify-center w-full h-[30%] bg-text bg-opacity-70 p-3 mb-3 mt-3 shadow-2xl bg-opacity-50',
+        greeting_title: 'text-primary text-xl lg:text-3xl',
+        greeting_text: 'text-s text-primary text-center lg:text-2xl pt-[2%] w-[80%] lg:w-[50%]'
     }
 
 

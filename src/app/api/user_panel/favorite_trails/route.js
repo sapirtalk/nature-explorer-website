@@ -19,8 +19,15 @@ export async function POST(req) {
         if (!user) {
             return NextResponse.json({ success: false, message: "User not found" });
         }
-
-        const userFavoriteTrailsIds = user.favoriteTrails;
+        
+        var userFavoriteTrailsIds = user.favoriteTrails;
+        // check if there is a null value in the array
+        if (userFavoriteTrailsIds.includes(null)) {
+            // remove the null value
+            const filteredUserFavoriteTrailsIds = userFavoriteTrailsIds.filter(trailId => trailId !== null);
+            userFavoriteTrailsIds = filteredUserFavoriteTrailsIds;
+        }
+        console.log("inside POST favorite_trails", userFavoriteTrailsIds);
         const userFavoriteTrails = [];
 
         for (const trailId of userFavoriteTrailsIds) {
@@ -38,7 +45,7 @@ export async function POST(req) {
                     description: 1, 
                     image: 1, 
                     averageRating: 1, 
-                    isArchived: 1 
+                    isArchived: 1
                 } }
             );
             if (trail) {
@@ -66,6 +73,7 @@ export async function POST(req) {
 export async function PUT(req) {
     try {
         const { userId, trailId, action } = await req.json();
+        console.log("received userId: " + userId + ", trailId: " + trailId + ", action: " + action);
         const db = await connectToDatabase();
 
         const response = await updateUserById(db, userId, trailId, action);

@@ -1,11 +1,15 @@
+'use client'
 
 import Image from 'next/image'
 import Stars from './ratingStars/Stars';
+import UserLike from './UserLike';
+import { useEffect } from 'react';
+import {Link} from "@nextui-org/link";
 
 
 
-const SingleTrail = ({id ,image , name , desc , length , difficulty , duration , kids , pets , babyStroller , rating}) => {
 
+const SingleTrail = ({id ,image , name , desc , length , difficulty , duration , kids , pets , babyStroller , rating , user_id , liked}) => {
 
   const difficultyTranslate = (diff) => {
     switch (diff) {
@@ -19,6 +23,24 @@ const SingleTrail = ({id ,image , name , desc , length , difficulty , duration ,
         return 'לא ידוע';
     }
   }
+
+  const likedCallback = async (value) => {
+     const res = await fetch(`/api/user_panel/favorite_trails`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: user_id,
+          trailId: id,
+          action: value ? 'add' : 'remove',
+        }),
+      });
+
+      console.log(res.json());
+  };
+
+
 
 
   return (
@@ -59,7 +81,7 @@ const SingleTrail = ({id ,image , name , desc , length , difficulty , duration ,
 
     </div> */}
 
-    <div dir="rtl" className='hover:opacity-70 flex text-text h-[20vh] lg:h-[25vh] w-full min-w-[95vw] lg:min-w-[60vw] lg:w-[60vw] rounded-lg bg-white shadow-2xl flex-row mt-4 '>
+    <div dir="rtl" className='flex text-text h-[20vh] lg:h-[25vh] w-full min-w-[95vw] lg:min-w-[60vw] lg:w-[60vw] rounded-lg bg-white shadow-2xl flex-row mt-4 '>
       <div className='w-[30%]'>
         <Image 
           src={`/resources/images/trails/${image[0]}/${image[0]}.jpg`}
@@ -69,9 +91,14 @@ const SingleTrail = ({id ,image , name , desc , length , difficulty , duration ,
           className='w-full h-full rounded-r-lg' />
       </div>
       <div className='w-[70%] flex flex-col'>  
-      <div className='flex flex-col px-3 h-[28%] border-b-2'>
-        <Stars rating = {rating == 0 ? 3 : rating} readOnly={true} />
-        <h2 className='text-l lg:text-[24px]'>{name}</h2>
+      <div className='flex flex-col px-3 h-[30%] border-b-2 pb-2'>
+        <div className='flex flex-row-reverse pt-1 justify-between'>
+          {user_id ? <UserLike trail_id = {id} user_id = {user_id} liked = {liked} likedCallback = {likedCallback} /> : null}
+          <Stars rating = {rating == 0 ? 3 : rating} readOnly={true} />
+        </div>
+        <Link color="secondary" className='hover:text-purple-800 underline pb-1 lg:text-[24px] underline-offset-auto' showAnchorIcon href = {`/trails/${id}`}>
+          <h2>{name}</h2>
+        </Link>
       </div>
       <div className='flex flex-row justify-start h-[45%] px-3'>
         <div className='w-[60%] overflow-y-scroll'>
@@ -84,7 +111,7 @@ const SingleTrail = ({id ,image , name , desc , length , difficulty , duration ,
         </div>  
       </div>
       <div className='flex text-[12px] lg:text-[15px] flex-row text-center justify-between px-3 border-t-2 pt-1'>
-        <div className='w-[20%]'>
+        <div className='w-[30%]'>
           <p>לילדים: {kids ? 'כן' : 'לא'}</p>
         </div>
         <div className='w-[40%]'>

@@ -37,7 +37,7 @@ const Greeting = () => {
     return (
         <div dir='rtl' className={opened ? greeting.greeting_container : 'hidden'}>
             <div className='flex w-full'>
-                <button onClick={() => setOpened(!opened)} className='text-black text-2xl text-end'>X</button>
+                <button onClick={() => setOpened(!opened)} className='text-black hover:opacity-50 text-2xl lg:text-[26px] text-end'>X</button>
             </div>
             <div className='flex flex-col justify-center items-center w-full'>
             <h1 className={greeting.greeting_title}>{greetingText.title}</h1>
@@ -45,9 +45,9 @@ const Greeting = () => {
             <p className={greeting.greeting_text}>{greetingText.body2}</p>
             <p className={greeting.greeting_text}>{greetingText.body3}</p>
             </div>
-            <div className='flex justify-between pt-10  items-center w-[80%]'>
-                <Link href={'/register'} className='bg-accent text-text text-xl rounded-lg p-2'>להרשמה</Link>
-                <Link href={'/login'} className='bg-blue-500 text-white text-xl rounded-lg p-2'>התחברות</Link>
+            <div className='flex justify-between pt-10 lg:justify-center items-center w-[80%]'>
+                <Link href={'/register'} className='bg-blue-500 lg:ml-10 hover:opacity-50 text-white text-xl rounded-lg p-2'>להרשמה</Link>
+                <Link href={'/login'} className='bg-blue-500 text-white hover:opacity-50 lg:mr-10 text-xl rounded-lg p-2'>התחברות</Link>
             </div>    
         </div>        
     );
