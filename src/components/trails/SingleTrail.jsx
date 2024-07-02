@@ -94,9 +94,9 @@ const SingleTrail = ({id ,image , name , desc , length , difficulty , duration ,
       <div className='flex flex-col px-3 h-[30%] border-b-2 pb-2'>
         <div className='flex flex-row-reverse pt-1 justify-between'>
           {user_id ? <UserLike trail_id = {id} user_id = {user_id} liked = {liked} likedCallback = {likedCallback} /> : null}
-          <Stars rating = {rating == 0 ? 3 : rating} readOnly={true} />
+          {rating ? <Stars rating = {rating} readOnly={true} /> : <p className='text-[12px] lg:text-[15px] text-gray-400'>ללא דירוג</p>}
         </div>
-        <Link color="secondary" className='hover:text-purple-800 underline pb-1 lg:text-[24px] underline-offset-auto' showAnchorIcon href = {`/trails/${id}`}>
+        <Link color="secondary" className='hover:text-purple-300 underline pb-1 lg:text-[24px] underline-offset-auto' showAnchorIcon href = {`/trails/${id}`}>
           <h2>{name}</h2>
         </Link>
       </div>

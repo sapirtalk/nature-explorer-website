@@ -40,7 +40,7 @@ const SortTrails = ({ desktop ,updateSort , updateOpenSort , sort , openSort }) 
                 <Button size="sm" onClick={() => updateSort('duration')} className={`flex flex-row-reverse justify-center ${sort.by == 'duration' ? 'bg-slate-400' : 'bg-slate-500'} items-center text-white text-xl shadow-lg rounded-lg p-2 px-4`}>
                     <p className='pl-1 text-[12px]'>זמן</p>
                 </Button>
-                <Button size="sm" onClick={() => updateSort('Rating')} className={`flex flex-row-reverse justify-center ${sort.by == 'Rating' ? 'bg-slate-400' : 'bg-slate-500'} items-center text-white text-xl shadow-lg rounded-lg p-2 px-4`}>
+                <Button size="sm" onClick={() => updateSort('averageRating')} className={`flex flex-row-reverse justify-center ${sort.by == 'Rating' ? 'bg-slate-400' : 'bg-slate-500'} items-center text-white text-xl shadow-lg rounded-lg p-2 px-4`}>
                     <p className='pl-1 text-[12px]'>דירוג</p>
                 </Button>
                 </div>

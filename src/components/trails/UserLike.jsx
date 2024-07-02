@@ -25,8 +25,8 @@ const UserLike = ({trail_id , user_id , likedCallback , liked}) => {
 
 
     return (
-        <div>
-            {isliked ? <FaHeart onClick={() => toggleLike()} className='text-red-500' /> : <FaRegHeart onClick={() => toggleLike()} />}
+        <div className="cursor-pointer hover:opacity-50">
+            {isliked ? <FaHeart onClick={() => toggleLike()} className='text-red-500 lg:text-[24px]' /> : <FaRegHeart className="lg:text-[24px]" onClick={() => toggleLike()} />}
         </div>
     )
     

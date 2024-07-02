@@ -101,7 +101,7 @@ const TrailsCatalogue = () => {
     const trailsShow = () => {
         if (trails.length > 0) {
           return trails.map((trail) => (
-            <Link href={`/trails/${trail._id}`} key={trail._id}>
+            <div key={trail._id}>
               <SingleTrail 
                 id={trail._id} 
                 image={trail.image} 
@@ -113,11 +113,11 @@ const TrailsCatalogue = () => {
                 kids={trail.kidsFriendly} 
                 pets={trail.petsFriendly} 
                 babyStroller={trail.babyStrollerFriendly}
-                rating = {trail.Rating}
+                rating = {trail.averageRating}
                 liked = {favTrails.includes(trail._id)}
                 user_id = {user_id_state} 
               />
-            </Link>
+            </div>
           ));
         } else {
           return <h1>לא נמצאו מסלולים מתאימים</h1>;
@@ -140,7 +140,6 @@ const TrailsCatalogue = () => {
                 body: JSON.stringify({ filterReq: filter, SortReq: sort })
             });
             const data = await res.json();
-            console.log(data);
 
             return data.trails;
         };

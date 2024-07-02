@@ -7,12 +7,10 @@ import Link from 'next/link'
 import { Spinner } from "@nextui-org/react";
 
 
-const FavoriteTrails = () => {
+const FavoriteTrails = ({user_id}) => {
 
     const [trails, setTrails] = useState([]);
     const [loading, setLoading] = useState(true);
-
-    const user_id = JSON.parse(localStorage.getItem('user')).id;
     
     useEffect(() => {
         const fetchFavTrails = async () => {
@@ -43,7 +41,7 @@ const FavoriteTrails = () => {
                         kids={trail.kidsFriendly} 
                         pets={trail.petsFriendly} 
                         babyStroller={trail.babyStrollerFriendly}
-                        rating = {trail.averageRating || 3}
+                        rating = {trail.averageRating}
                         liked = {true}
                         user_id = {user_id}
                     />

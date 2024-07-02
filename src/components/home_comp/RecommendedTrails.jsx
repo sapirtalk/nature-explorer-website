@@ -72,7 +72,7 @@ const RecommendedTrails = () => {
                     kids={trail.kidsFriendly} 
                     pets={trail.petsFriendly} 
                     babyStroller={trail.babyStrollerFriendly}
-                    rating = {trail.Rating}
+                    rating = {trail.averageRating}
                     liked = {favTrails.includes(trail._id)}
                     user_id = {user_id_state}
                 />

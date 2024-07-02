@@ -36,7 +36,6 @@ export async function POST(req) {
 
     const trails = await db.collection('Trails').find(query).sort(SortIndex).toArray();
 
-
     return NextResponse.json({ trails });
 }
 

@@ -1,5 +1,3 @@
-
-
 'use client';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useState } from 'react';
@@ -7,12 +5,18 @@ import * as Yup from 'yup';
 import HelloLogin from './HelloLogin';
 import { toast } from 'react-toastify';
 
-const Login = () => {
+
+
+
+
+const Login = ({cookieCallback}) => {
 
     const [showPassword, setShowPassword] = useState(false);
     const [badLogin, setBadLogin] = useState(false);
     const [user, setUser] = useState(null);
 
+
+  
     
   const initialValues = {
     email: '',
@@ -47,9 +51,11 @@ const Login = () => {
         }
 
         localStorage.setItem('user', JSON.stringify(data.user));
+        cookieCallback('user', JSON.stringify(data.user), 'set');
         
         if (rememberMe) {
           localStorage.setItem('rememberMe', 'true');
+          cookieCallback('rememberMe', 'true', 'set');
         }
 
 

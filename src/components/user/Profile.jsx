@@ -8,23 +8,15 @@ import FavoriteTrails from "./FavoriteTrails"
 
 
 
-const Profile = () => {
-    
-    const [user , setUser] = useState({})
-
-
+const Profile = ({user}) => {
 
     useEffect(() => {
 
-        const curUser = localStorage.getItem('user')
-        if (curUser) {
-            setUser(JSON.parse(curUser))
-        }
-        else {
+        if (!user) {
             window.location.href = '/login'
         }
 
-    } , [user])
+    } , [])
 
 
 
@@ -44,7 +36,7 @@ const Profile = () => {
                 </span>
             </div>
             <div className="w-full h-full pt-4">
-                <FavoriteTrails />
+                <FavoriteTrails user_id={user.id} />
             </div>
         </div>
     )
