@@ -52,6 +52,7 @@ export async function POST(req) {
             totalRating: 0,
             ratingCount: 0,
             isArchived: false,
+            numComments: 0,
             createdAt: new Date(),
             updatedAt: new Date()
         };
