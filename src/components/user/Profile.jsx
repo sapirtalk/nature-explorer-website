@@ -24,7 +24,7 @@ const Profile = () => {
             window.location.href = '/login'
         }
 
-    } , [])
+    } , [user])
 
 
 
