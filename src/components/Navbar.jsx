@@ -31,7 +31,6 @@ const Navbar = ({cookieCallback}) => {
   const [curPath , setPath] = useState('/home');
   const [user, setUser] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [isSearchVisible, setIsSearchVisible] = useState(false);
 
 
   const handleNav = () => {
@@ -67,12 +66,6 @@ const Navbar = ({cookieCallback}) => {
 
 
   useEffect(() => {
-    const visiblePaths = ['/tours', '/articles', '/trail_catalogue'];
-    setIsSearchVisible(visiblePaths.includes(curPath));
-  }, [curPath]);
-
-
-  useEffect(() => {
     setUser(JSON.parse(localStorage.getItem('user')));
   }, []);
 
@@ -99,15 +92,6 @@ const Navbar = ({cookieCallback}) => {
     };
   }, [menuOpen]);
 
-  const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
-  };
-
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    // Implement search functionality here
-    console.log('Search query:', searchQuery);
-  };
 
   return (
     <nav className={`navbar-container ${navbar.container}`}>
@@ -154,25 +138,6 @@ const Navbar = ({cookieCallback}) => {
           </Tooltip>
           </div>   
         )}
-
-          {isSearchVisible && (
-          <div>
-            <span dir='rtl'>
-              <form onSubmit={handleSearchSubmit} className="relative">
-                <input
-                type="text"
-                value={searchQuery}
-                onChange={handleSearchChange}
-                placeholder="חפש"
-                className="border rounded px-3 py-2 pl-16"
-                />
-                <button type="submit" className="absolute left-3 mt-2">
-                  🔍
-                </button>
-              </form>
-            </span>
-          </div>
-          )}
 
 
         </div>
