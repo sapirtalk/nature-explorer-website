@@ -20,6 +20,8 @@ const TrailsCatalogue = () => {
     const [openSort, setOpenSort] = useState(false);
     const [openFilter, setOpenFilter] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [favTrails, setFavTrails] = useState([]);
+    const [user_id_state, setUser_id_state] = useState(null);
 
 
 
@@ -68,11 +70,38 @@ const TrailsCatalogue = () => {
         return false;
     }
 
+    useEffect(() => {
+
+        const user = JSON.parse(localStorage.getItem('user'));
+        const user_id = user ? user.id : null;
+
+        const getFavorites = async (user_id) => {
+            const res = await fetch('/api/user_panel/favorite_trails', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ userId : user_id })
+            });
+            const data = await res.json();
+            console.log(data);
+    
+            return data.favorite_trails;
+        };
+
+        getFavorites(user_id).then((trails) => {
+            // get only the _id of the trails
+            setFavTrails(trails.map((trail) => trail._id));
+            setUser_id_state(user_id);
+        })
+
+    }, []);
+
 
     const trailsShow = () => {
         if (trails.length > 0) {
           return trails.map((trail) => (
-            <Link href={`/trails/${trail._id}`} key={trail._id}>
+            <div key={trail._id}>
               <SingleTrail 
                 id={trail._id} 
                 image={trail.image} 
@@ -84,9 +113,11 @@ const TrailsCatalogue = () => {
                 kids={trail.kidsFriendly} 
                 pets={trail.petsFriendly} 
                 babyStroller={trail.babyStrollerFriendly}
-                rating = {trail.Rating} 
+                rating = {trail.averageRating}
+                liked = {favTrails.includes(trail._id)}
+                user_id = {user_id_state} 
               />
-            </Link>
+            </div>
           ));
         } else {
           return <h1>לא נמצאו מסלולים מתאימים</h1>;
@@ -109,7 +140,6 @@ const TrailsCatalogue = () => {
                 body: JSON.stringify({ filterReq: filter, SortReq: sort })
             });
             const data = await res.json();
-            console.log(data);
 
             return data.trails;
         };
@@ -121,7 +151,7 @@ const TrailsCatalogue = () => {
             console.log(err);
         });
     }
-    , [filter, sort]);
+    , [filter, sort , favTrails, user_id_state]);
         
 
 

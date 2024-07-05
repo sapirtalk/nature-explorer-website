@@ -6,6 +6,7 @@ import "../styles/global.css";
 import ToastProvider from "@/components/toast_container/ToastProvider";
 import BackButton from "@/components/BackButton";
 import Providers from "./providers";
+import { cookies } from 'next/headers'
 
 
 export const metadata = {
@@ -30,7 +31,7 @@ export default function RootLayout({ children }) {
       <body className={`${rubik.className} `}>
         <Providers>
         <ToastProvider>
-        <Navbar />
+        <Navbar cookieCallback={cookieCallback} />
         <main className="pt-[100px] lg:pt-[2%] lg:mx-20">
          <BackButton /> 
         {children}
@@ -44,3 +45,16 @@ export default function RootLayout({ children }) {
 }
 
 
+
+const cookieCallback = async (name , value , action) => {
+  'use server'
+  switch (action) {
+
+      case 'set':
+          cookies().set(name, value)
+          break;
+      case 'remove':
+          cookies().delete(name)
+          break;
+  }
+}

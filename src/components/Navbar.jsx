@@ -25,7 +25,8 @@ import { Tooltip } from '@nextui-org/react';
 
 
 
-const Navbar = () => {
+const Navbar = ({cookieCallback}) => {
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [curPath , setPath] = useState('/home');
   const [user, setUser] = useState(null);
@@ -40,15 +41,16 @@ const Navbar = () => {
     const confirmation = window.confirm('האם אתה בטוח שברצונך להתנתק?');
 
     if (confirmation) {
-
       const rememberMe = localStorage.getItem('rememberMe');
 
       if (rememberMe !== 'true') {
         localStorage.removeItem('user');
+        cookieCallback('user', null, 'remove');
       }
 
 
       localStorage.removeItem('rememberMe');
+      cookieCallback('rememberMe', null, 'remove');
       setUser(null);
       handleNav();
       toast.success('התנתקת בהצלחה');
