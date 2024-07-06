@@ -213,9 +213,13 @@ export async function PUT(req) {
         // Remove specified images from the current images and delete from Cloudinary
         let currentImages = trail.image || [];
         let deleteResults = [];
+        let invalidImages = [];
+
         if (removeImages && removeImages.length > 0) {
-            currentImages = currentImages.filter(image => !removeImages.includes(image));
-            deleteResults = await deleteImages(removeImages);
+            const imagesToDelete = removeImages.filter(image => currentImages.includes(image));
+            invalidImages = removeImages.filter(image => !currentImages.includes(image));
+            currentImages = currentImages.filter(image => !imagesToDelete.includes(image));
+            deleteResults = await deleteImages(imagesToDelete);
         }
 
         // Combine the existing images (after removal) with the new images
@@ -229,7 +233,11 @@ export async function PUT(req) {
 
         const response = await updateTrailById(db, trailId, updatedFieldsWithImages);
         response.uploadResults = uploadResults;
-        response.deleteResults = deleteResults; 
+        response.deleteResults = deleteResults;
+        if (invalidImages.length > 0) {
+            response.invalidImages = invalidImages;
+            response.message = "Some images were not part of this trail and were not deleted from Cloudinary.";
+        }
         return NextResponse.json(response);
     } catch (error) {
         return NextResponse.json({ success: false, message: error.message });
