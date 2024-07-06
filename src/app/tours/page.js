@@ -1,9 +1,9 @@
 import React from 'react'
 
-function news() {
+function tours() {
   return (
-    <div>news</div>
+    <div>tours</div>
   )
 }
 
-export default news
+export default tours

@@ -30,6 +30,8 @@ const Navbar = ({cookieCallback}) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [curPath , setPath] = useState('/home');
   const [user, setUser] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+
 
   const handleNav = () => {
     setMenuOpen(!menuOpen);
@@ -63,14 +65,9 @@ const Navbar = ({cookieCallback}) => {
   };
 
 
-
-
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem('user')));
   }, []);
-
-  
-
 
     
   // Close the menu when clicking outside of it
@@ -94,6 +91,7 @@ const Navbar = ({cookieCallback}) => {
       document.removeEventListener('click', handleClickOutside);
     };
   }, [menuOpen]);
+
 
   return (
     <nav className={`navbar-container ${navbar.container}`}>
@@ -131,16 +129,17 @@ const Navbar = ({cookieCallback}) => {
             <p className={navbar.desktop_p}>{user.firstName}</p>
             <CgProfile className='xl:text-[40px] lg:text-[30px]' />
           </Link>
-        </Tooltip>
-        <Tooltip placement='bottom' content={<div className='text-xl p-1'>התנתק</div>} shadow='none' showArrow>
-          <button onClick={handleLogout} className='mx-5 flex items-center flex-row hover:text-blue-500'>
-            <p className={navbar.desktop_p}>התנתק</p>
-            <BiLogOut className='xl:text-[40px] lg:text-[30px]' />
-          </button>  
-        </Tooltip>
-        </div>   
-          )}
-        
+          </Tooltip>
+          <Tooltip placement='bottom' content={<div className='text-xl p-1'>התנתק</div>} shadow='none' showArrow>
+            <button onClick={handleLogout} className='mx-5 flex items-center flex-row hover:text-blue-500'>
+              <p className={navbar.desktop_p}>התנתק</p>
+              <BiLogOut className='xl:text-[40px] lg:text-[30px]' />
+            </button>  
+          </Tooltip>
+          </div>   
+        )}
+
+
         </div>
         <div>
           <ul className={`${navbar.ul_desktop}`}>
@@ -150,22 +149,16 @@ const Navbar = ({cookieCallback}) => {
               <IoHome className='xl:text-[40px] lg:text-[30px]' />
             </Link>
             </Tooltip>
+            <Tooltip  placement='bottom' content={<div className='text-xl p-1'>מסלולים</div>} shadow='none' showArrow>
+            <Link href = '/trail_catalogue' className={curPath == '/trail_catalogue' ? navbar.desktop_link_curr : navbar.desktop_link} onClick={() => setPath('/trail_catalogue')}>
+              <p className={navbar.desktop_p}>מסלולים</p>
+              <FaMapSigns className='xl:text-[40px] lg:text-[30px]' />
+            </Link>
+            </Tooltip>
             <Tooltip placement='bottom' content={<div className='text-xl p-1'>סיורים</div>} shadow='none' showArrow>
             <Link className={curPath == '/tours' ? navbar.desktop_link_curr : navbar.desktop_link} onClick={() => setPath('/tours')} href='/tours'>
               <p className={navbar.desktop_p}>סיורים</p>
               <FaFlag className='xl:text-[40px] lg:text-[30px]' />
-            </Link>
-            </Tooltip>
-            <Tooltip placement='bottom' content={<div className='text-xl p-1'>אודות</div>} shadow='none' showArrow>
-            <Link href='/about' className={curPath == '/about' ? navbar.desktop_link_curr : navbar.desktop_link} onClick={() => setPath('/about')}>
-              <p className={navbar.desktop_p}>אודות</p>
-              <BsFillInfoCircleFill className='xl:text-[40px] lg:text-[30px]' />
-            </Link>
-            </Tooltip>
-            <Tooltip placement='bottom' content={<div className='text-xl p-1'>צור קשר</div>} shadow='none' showArrow>
-            <Link href='/contact' className={curPath == '/contact' ? navbar.desktop_link_curr : navbar.desktop_link} onClick={() => setPath('/contact')}>
-              <p className={navbar.desktop_p}>צור קשר</p>
-              <AiFillMessage className='xl:text-[40px] lg:text-[30px]' />
             </Link>
             </Tooltip>
             <Tooltip placement='bottom' content={<div className='text-xl p-1'>כתבות</div>} shadow='none' showArrow>
@@ -174,10 +167,16 @@ const Navbar = ({cookieCallback}) => {
               <IoNewspaperSharp className='xl:text-[40px] lg:text-[30px]' />
             </Link>
             </Tooltip>
-            <Tooltip  placement='bottom' content={<div className='text-xl p-1'>מסלולים</div>} shadow='none' showArrow>
-            <Link href = '/trail_catalogue' className={curPath == '/trail_catalogue' ? navbar.desktop_link_curr : navbar.desktop_link} onClick={() => setPath('/trail_catalogue')}>
-              <p className={navbar.desktop_p}>מסלולים</p>
-              <FaMapSigns className='xl:text-[40px] lg:text-[30px]' />
+            <Tooltip placement='bottom' content={<div className='text-xl p-1'>אודות</div>} shadow='none' showArrow>
+            <Link href='/about' className={curPath == '/about' ? navbar.desktop_link_curr : navbar.desktop_link} onClick={() => setPath('/about')}>
+              <p className={navbar.desktop_p}>קצת עלינו</p>
+              <BsFillInfoCircleFill className='xl:text-[40px] lg:text-[30px]' />
+            </Link>
+            </Tooltip>
+            <Tooltip placement='bottom' content={<div className='text-xl p-1'>צור קשר</div>} shadow='none' showArrow>
+            <Link href='/contact' className={curPath == '/contact' ? navbar.desktop_link_curr : navbar.desktop_link} onClick={() => setPath('/contact')}>
+              <p className={navbar.desktop_p}>צור קשר</p>
+              <AiFillMessage className='xl:text-[40px] lg:text-[30px]' />
             </Link>
             </Tooltip>
           </ul>
@@ -202,8 +201,8 @@ const Navbar = ({cookieCallback}) => {
                   <FaMapSigns size={25} />
                 </li>
               </Link>
-              <Link className={curPath == '/news' ? '  opacity-70 border-text' : ''} onClick={handleNav} href='/news'>
-                <li className={`${navbar.li_opened_menu}`}>עדכונים
+              <Link className={curPath == '/tours' ? '  opacity-70 border-text' : ''} onClick={handleNav} href='/tours'>
+                <li className={`${navbar.li_opened_menu}`}>סיורים
                   <FaCircleExclamation size={25} />
                 </li>
               </Link>
