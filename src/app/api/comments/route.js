@@ -10,7 +10,7 @@ import { ObjectId } from 'mongodb';
 // {
 //     "userId": "66530ccdd001059ab08fb5af",
 //     "title": "חוות דעת על מסלול הצבעים",
-//     "trailId": "66530ccdd001059ab08fb5aa",
+//     "trailId": "6684805b3936ccfdf31ddc26",
 //     "textMessage": "וואו, מסלול יפהפה"
 // }
 export async function POST(req) {
@@ -28,20 +28,22 @@ export async function POST(req) {
         };
         
         const result = await db.collection('Comments').insertOne(newComment);
-        return NextResponse.json({ success: true, CommentId: result.insertedId });
+        db.collection('Trails').updateOne({_id: new ObjectId(trailId)}, {$inc: {"numComments":1}})
+
+        return NextResponse.json({ success: true, CommentId: result.insertedId});
     } catch (error) {
         return NextResponse.json({ success: false, message: error.message });
     }
 }
 
 
-// POST/api/comments
+// DELETE/api/comments
 // Purpose:
 // Allow a user to delete his comment on a specific trail.
 // Input Example:
 // {
 //     "userId": "66530ccdd001059ab08fb5af",
-//     "commentId": "6683059cc59137738ba0847f"
+//     "commentId": "668487533936ccfdf31ddc2d"
 // }
 export async function DELETE(req) {
     try {
@@ -55,8 +57,9 @@ export async function DELETE(req) {
         if (user != commentingUser) {
             return NextResponse.json({success: false, message: 'You can not delete a comment that is not yours!'})
         }
-
+        const commentTrail = comment.trailId
         const result = await db.collection('Comments').deleteOne({ _id: new ObjectId(commentId) });
+        db.collection('Trails').updateOne({_id: new ObjectId(commentTrail)}, {$inc: {"numComments": -1}})
 
 
         if (result.deletedCount > 0) {

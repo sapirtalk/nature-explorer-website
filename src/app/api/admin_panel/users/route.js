@@ -80,7 +80,6 @@ export async function GET(req) {
 //   "userId": "667dcb312f4666fa50754115",
 //   "updatedFields": {
 //     "email": "updatedadmin@admin.com",
-//     "password_hash": "updatedAdm!nPassw0rd!",
 //     "isAdmin": true,
 //     "firstName": "גל",
 //     "lastName": "תמר",
