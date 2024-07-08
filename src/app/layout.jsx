@@ -7,6 +7,7 @@ import ToastProvider from "@/components/toast_container/ToastProvider";
 import BackButton from "@/components/BackButton";
 import Providers from "./providers";
 import { cookies } from 'next/headers'
+import TopBar from "@/components/TopBar";
 
 
 export const metadata = {
@@ -32,6 +33,7 @@ export default function RootLayout({ children }) {
         <Providers>
         <ToastProvider>
         <Navbar cookieCallback={cookieCallback} />
+        <TopBar />
         <main className="pt-[100px] lg:pt-[2%] lg:mx-20">
          <BackButton /> 
         {children}

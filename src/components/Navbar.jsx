@@ -102,42 +102,43 @@ const Navbar = ({cookieCallback}) => {
           <Image src={logo} alt='logo' width={80} height={80} />
         </Link>
         </div>
-        <div className='hidden lg:flex lg:items-center lg:flex-row '>
-          <Link href='/'>
-            <Image src={logo} alt='logo' width={120} height={120} />
-          </Link>
-        </div>
+        
         {user == null ?  (
-          <div className='hidden lg:ml-[10vw] lg:flex lg:items-center lg:flex-row '>
-          <Tooltip placement='bottom' content={<div className='text-xl p-1'>הרשמה</div>} shadow='none' showArrow>  
+          <div className='hidden lg:flex p-1 text-primary'>
+          <Tooltip placement='bottom' content={<div className='text-xl p-1 '>התחברות</div>} shadow='none' showArrow>
+            <div className='bg-tertiary p-1 rounded-lg mr-5'>
+            <Link href='/login' className={curPath == '/login' ? navbar.desktop_link_curr : navbar.desktop_link} onClick={() => setPath('/login')}>
+              <p className={navbar.desktop_p}>התחברות</p>
+              <BiLogIn className='xl:text-[40px] lg:text-[30px]'/>
+            </Link>
+            </div>
+          </Tooltip>
+          <Tooltip placement='bottom' content={<div className='text-xl p-1'>הרשמה</div>} shadow='none' showArrow>
+            <div className='bg-tertiary p-1 rounded-lg'>
             <Link href='/register' className={curPath == '/register' ? navbar.desktop_link_curr : navbar.desktop_link} onClick={() => setPath('/register')}>
               <p className={navbar.desktop_p}>הרשמה</p>
               <GiArchiveRegister className='xl:text-[40px] lg:text-[30px]'/>
             </Link>
-          </Tooltip>
-          <Tooltip placement='bottom' content={<div className='text-xl p-1'>התחברות</div>} shadow='none' showArrow>
-            <Link href='/login' className={curPath == '/login' ? navbar.desktop_link_curr : navbar.desktop_link} onClick={() => setPath('/login')}>
-              <p className={navbar.desktop_p}>התחברות</p>
-              <BiLogIn className='xl:text-[40px] lg:text-[30px]' />
-            </Link>
+            </div>
           </Tooltip>
         </div>
         ) : (
-          <div className='hidden lg:ml-[10vw] lg:flex lg:items-center lg:flex-row '>
-          <Tooltip placement='bottom' content={<div className='text-xl p-1'>הפרופיל שלי</div>} shadow='none' showArrow>
-          <Link href='/profile' className={curPath == '/profile' ? navbar.desktop_link_curr : navbar.desktop_link} onClick={() => setPath('/profile')}>
-            <p className={navbar.desktop_p}>{user.firstName}</p>
-            <CgProfile className='xl:text-[40px] lg:text-[30px]' />
-          </Link>
-          </Tooltip>
+          <div className='hidden lg:flex text-xl'>
           <Tooltip placement='bottom' content={<div className='text-xl p-1'>התנתק</div>} shadow='none' showArrow>
             <button onClick={handleLogout} className='mx-5 flex items-center flex-row hover:text-blue-500'>
               <p className={navbar.desktop_p}>התנתק</p>
               <BiLogOut className='xl:text-[40px] lg:text-[30px]' />
             </button>  
           </Tooltip>
-          </div>   
-        )}
+          <Tooltip placement='bottom' content={<div className='text-xl p-1'>הפרופיל שלי</div>} shadow='none' showArrow>
+          <Link href='/profile' className={curPath == '/profile' ? navbar.desktop_link_curr : navbar.desktop_link} onClick={() => setPath('/profile')}>
+            <p className={navbar.desktop_p}>אזור אישי</p>
+            <CgProfile className='xl:text-[40px] lg:text-[30px]' />
+          </Link>
+          </Tooltip>
+        </div>
+
+)}
 
 
         </div>
@@ -251,6 +252,11 @@ const Navbar = ({cookieCallback}) => {
               )}
             </ul>
           </div>
+        </div>
+        <div className='hidden lg:flex lg:items-center lg:flex-row '>
+          <Link href='/'>
+            <Image src={logo} alt='logo' width={120} height={120} />
+          </Link>
         </div>
       </div>
     </nav>

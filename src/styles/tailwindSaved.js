@@ -3,12 +3,12 @@
 // Navbar styles
 
 const navbar = {
-    container: 'fixed text-text w-full h-24 lg:bg-primary shadow-2xl lg:py-[3%] lg:shadow-none bg-tertiary z-50 lg:relative',
+    container: 'fixed text-text w-full h-24 shadow-2xl lg:py-[3%] lg:shadow-none bg-primary z-50 lg:relative',
     inner_div: 'flex justify-between items-center w-full h-full px-4 lg:px-[5%] lg:py-3',
     ul_desktop: 'space-x-8 hidden lg:flex lg:flex-row-reverse',
     li_desktop: 'text-xl text-text hover:text-accent',
     hamburger: 'lg:hidden',
-    menu_opened: 'fixed right-0 top-0 w-[50%] md:w-[30%] lg:hidden backdrop-blur h-screen bg-tertiary bg-opacity-70 p-5 ease-in duration-300',
+    menu_opened: 'fixed right-0 top-0 w-[50%] md:w-[30%] lg:hidden backdrop-blur h-screen bg-primary bg-opacity-70 p-5 ease-in duration-300',
     menu_closed: 'fixed right-[-100%] top-0 p-10 ease-in duration-300',
     inner_menu_close_btn: 'flex justify-start h-[10%]',
     ul_opened_menu: 'flex flex-col space-y-8',
@@ -35,9 +35,9 @@ const footer = {
     // Greeting styles
 
     const greeting = {
-        greeting_container: 'flex flex-col lg:rounded-lg items-center justify-center w-full h-[30%] bg-text bg-opacity-70 p-3 mb-3 mt-3 shadow-2xl bg-opacity-50',
+        greeting_container: 'flex flex-col lg:rounded-lg items-center justify-center w-full h-[30%] bg-tertiary p-3 mb-3 mt-3 shadow-2xl',
         greeting_title: 'text-primary text-xl lg:text-3xl',
-        greeting_text: 'text-s text-primary text-center lg:text-2xl pt-[2%] w-[80%] lg:w-[50%]'
+        greeting_text: 'text-primary text-center text-l lg:text-xl w-full h-full p-3',
     }
 
 
@@ -48,6 +48,11 @@ const footer = {
         latest_news: 'text-l text-text text-center w-full lg:w-[50%] h-full bg-white bg-opacity-70 p-3 shadow-2xl overflow-y-auto'
     }
 
+    const topBar = {
+        container: 'text-center h-300 bg-tertiary text-primary',
+        p: 'text-center'
+    }
 
 
-export { navbar, footer ,news , greeting}
+
+export { navbar, footer ,news , greeting , topBar }
