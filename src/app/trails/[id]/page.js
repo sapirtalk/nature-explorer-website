@@ -1,12 +1,14 @@
 // app/trails/[id]/page.js
 
-import { connectToDatabase , disconnectFromDatabase } from '@/app/api/middleware/mongo';
+import { connectToDatabase} from '@/app/api/middleware/mongo';
 import { ObjectId } from 'mongodb';
 import TrailDetails from '@/components/trails/TrailDetails';
 import ImageCarousel from '@/components/trails/trailPage/ImageCarousel';
 import UserLike from '@/components/trails/UserLike';
 import { cookies } from 'next/headers';
 import Stars from '@/components/trails/ratingStars/Stars';
+import CommentsSection from '@/components/trails/trailPage/CommentsSection';
+import AddComment from '@/components/trails/trailPage/AddComment';
 
 
 export const generateStaticParams = async () => {
@@ -35,6 +37,17 @@ const Trail = async ({ params }) => {
   const trail_id = trail ? trail._id.toString() : null;
   const liked = favorite_trails.includes(trail_id) ? true : false;
   const rating = trail ? trail.averageRating : null;
+  var refresh = false
+
+  const refreshCallback = async () => {
+    'use server'
+    refresh = !refresh
+  }
+
+  
+
+
+  
 
 
 
@@ -54,9 +67,9 @@ const Trail = async ({ params }) => {
   
 
   return (
-    <div className='lg:p-[50px] h-full mx-3'>
+    <div dir="rtl" className='lg:p-[50px] h-full mx-3'>
       <div className='lg:min-h-[40vh] h-full lg:p-10'>
-      <div className='flex justify- justify-between'> 
+      <div className='flex flex-row-reverse justify-between'> 
         {user_id ? <UserLike trail_id = {trail_id} user_id = {user_id} liked = {liked} fromTrailPage={true} /> : null}
         <Stars rating={rating} user_id ={user_id} trail_id={trail_id} readOnly={true} onTrailPage={true} />
       </div> 
@@ -66,9 +79,18 @@ const Trail = async ({ params }) => {
       <div className='border-t-2 flex flex-col pt-2'>
         <TrailDetails trail={trail} />
       </div>
-      <div className='flex justify-center items-center'>
-        <Stars rating={rating} user_id ={user_id} trail_id={trail_id} readOnly={false} onTrailPage={true} />
+      {user ?
+      <div className='border-t-2 flex flex-row pt-2'>
+        <AddComment trailId={trail_id} userId={user_id}/>
       </div>
+      : null
+      }
+      <div className='border-t-2 flex flex-col pt-2'>
+        <CommentsSection trail_id={trail_id} user_id={user_id}/>
+      </div>
+      {/* <div className='flex justify-center items-center'>
+        <Stars rating={rating} user_id ={user_id} trail_id={trail_id} readOnly={false} onTrailPage={true} />
+      </div> */}
       <div className='h-[30vh]'>
         <h1>פה תהיה מפה</h1>
       </div>
