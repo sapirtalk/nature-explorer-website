@@ -70,7 +70,9 @@ export async function POST(req) {
     // Upload images to Cloudinary and get their URLs if images are provided
     let imageUrls = [];
     if (image && image.length > 0) {
-      imageUrls = await uploadImages(image);
+      const uploadResults = await uploadImages(image);
+      // Filter out successful uploads to get the URLs
+      imageUrls = uploadResults.filter(result => result.result === 'ok').map(result => result.url);
     }
 
         const newTrail = {
