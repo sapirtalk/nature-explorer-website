@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import SingleArticle from "./SingleArticle";
+import { Spinner } from '@nextui-org/react';
 
 const Articles = () => {
   const [articles, setArticles] = useState([]);
@@ -45,7 +46,9 @@ const Articles = () => {
   }, []);
 
   if (loading) {
-    return <h1>Loading...</h1>;
+    return <div className="flex justify-start flex-col pt-5 h-[80vh] items-center lg:justify-center lg:items-center">
+              <Spinner  label="...טוען כתבות" color="secondary" labelColor="secondary" size="lg" />
+          </div>;
   }
 
   if (error) {

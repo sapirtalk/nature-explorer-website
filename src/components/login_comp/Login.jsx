@@ -42,7 +42,7 @@ const Login = ({cookieCallback}) => {
       body: JSON.stringify({ email: email, password: password}),
     })
       .then((res) => res.json())
-      .then((data) => {
+      .then(async (data) =>{
         
         if (data.error) {
           setBadLogin(true);
@@ -50,16 +50,16 @@ const Login = ({cookieCallback}) => {
           return;
         }
 
-        localStorage.setItem('user', JSON.stringify(data.user));
-        cookieCallback('user', JSON.stringify(data.user), 'set');
+        await cookieCallback('user', JSON.stringify(data.user), 'set');
+        console.log('reached here 1' , data.user);
         
         if (rememberMe) {
-          localStorage.setItem('rememberMe', 'true');
-          cookieCallback('rememberMe', 'true', 'set');
+          await cookieCallback('rememberMe', 'true', 'set');
         }
 
 
         setUser(data.user);
+        console.log('reached here 2' , data.user);
         toast.success('התחברת בהצלחה');
       })
       .catch((error) => {

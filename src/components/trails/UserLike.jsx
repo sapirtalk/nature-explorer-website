@@ -1,39 +1,41 @@
 'use client'
 
+import { FaRegHeart, FaHeart } from "react-icons/fa";
+import { useState, useEffect } from "react";
 
-import { FaRegHeart , FaHeart } from "react-icons/fa";
-import { useState , useEffect } from "react";
+const UserLike = ({ trail_id, user_id, liked, fromTrailPage }) => {
+  const [isliked, setIsLiked] = useState(liked);
 
+  useEffect(() => {
+    setIsLiked(liked);
+  }, [liked]);
 
+  const toggleLike = async () => {
+    setIsLiked(!isliked);
+    likedCallback(!isliked);
+  };
 
+  const likedCallback = async (value) => {
+    await fetch(`/api/user_panel/favorite_trails`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId: user_id,
+        trailId: trail_id,
+        action: value ? 'add' : 'remove',
+      }),
+    });
+  };
 
-const UserLike = ({trail_id , user_id , likedCallback , liked}) => {
+  return (
+    <div className="cursor-pointer hover:opacity-50">
+      {isliked 
+        ? <FaHeart onClick={toggleLike} className={`text-red-500 ${fromTrailPage ? 'lg:text-[40px] text-[40px]' : 'lg:text-[30px]'}`} /> 
+        : <FaRegHeart className={`${fromTrailPage ? 'lg:text-[40px] text-[40px]' : 'lg:text-[30px]'}`} onClick={toggleLike} />}
+    </div>
+  );
+};
 
-    const [isliked , setIsLiked] = useState(liked);
-
-
-
-    const toggleLike = async () => {
-        setIsLiked(!isliked);
-        likedCallback(!isliked);
-    }
-        
-
-
-        
-
-
-
-    return (
-        <div className="cursor-pointer hover:opacity-50">
-            {isliked ? <FaHeart onClick={() => toggleLike()} className='text-red-500 lg:text-[24px]' /> : <FaRegHeart className="lg:text-[24px]" onClick={() => toggleLike()} />}
-        </div>
-    )
-    
-}
-
-export default UserLike
-
-
-
-
+export default UserLike;
