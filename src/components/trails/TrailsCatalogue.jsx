@@ -12,7 +12,7 @@ import FilterTrails from './filter/FilterTrails';
 import { Spinner } from '@nextui-org/react';
 
 
-const TrailsCatalogue = () => {
+const TrailsCatalogue = ({cookieCallback}) => {
 
     const [filter, setFilter] = useState({});
     const [sort, setSort] = useState({ by: 'name', order: 'asc' });
@@ -85,6 +85,11 @@ const TrailsCatalogue = () => {
             });
             const data = await res.json();
             console.log(data);
+
+            // place the favorite in cookie
+            if (data.favorite_trails && !cookieCallback('user_favorite_trails', null, 'get')) {
+                cookieCallback('user_favorite_trails', JSON.stringify(data.favorite_trails), 'set');
+            }
     
             return data.favorite_trails;
         };

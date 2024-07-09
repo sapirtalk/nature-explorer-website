@@ -12,6 +12,8 @@ module.exports = {
     "./node_modules/@nextui-org/theme/dist/components/spacer.js",
     "./node_modules/@nextui-org/theme/dist/components/modal.js",
     "./node_modules/@nextui-org/theme/dist/components/spinner.js",
+    "./node_modules/@nextui-org/theme/dist/components/image.js",
+    "./node_modules/@nextui-org/theme/dist/components/modal.js",
   ],
   theme: {
     extend: {

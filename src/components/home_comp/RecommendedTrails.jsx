@@ -8,7 +8,7 @@ import { Spinner } from "@nextui-org/react";
 
 
 
-const RecommendedTrails = () => {
+const RecommendedTrails = ({cookieCallback}) => {
 
     const [trails, setTrails] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -19,10 +19,11 @@ const RecommendedTrails = () => {
 
     useEffect(() => {
 
-        const user = JSON.parse(localStorage.getItem('user'));
-        const user_id = user ? user.id : null;
+        const getFavorites = async () => {
 
-        const getFavorites = async (user_id) => {
+            const user = await cookieCallback('user' , null, 'get');
+            const user_id = user ? user.id : null;
+            setUser_id_state(user_id);
 
             if (!user_id) {
                 return [];
@@ -35,18 +36,16 @@ const RecommendedTrails = () => {
                 body: JSON.stringify({ userId : user_id })
             });
             const data = await res.json();
-            console.log(data);
     
             return data.favorite_trails;
         };
 
-        getFavorites(user_id).then((trails) => {
+        getFavorites().then((trails) => {
             // get only the _id of the trails
             setFavTrails(trails.map((trail) => trail._id));
-            setUser_id_state(user_id);
         })
 
-    }, []);
+    }, [cookieCallback]);
 
 
 
@@ -54,11 +53,10 @@ const RecommendedTrails = () => {
 
     useEffect(() => {
 
-        console.log("user_id_state in second useEffect:", user_id_state);
-
+       
         fetchData('/api/trails_recommended')
         .then((data) => {
-            console.log("favtrails in fetchData: ", favTrails)
+            
             setTrails(data.trails.map((trail) => (
                <div key={trail._id}>
                 <SingleTrail 
