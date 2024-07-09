@@ -16,15 +16,18 @@ export default TrailsCataloguePage;
 
 const cookieCallback = async (name , value , action) => {
     'use server'
+  
+    const isCookiesEnabled = cookies().has(name)
+  
     switch (action) {
   
         case 'set':
-            cookies().set(name, value)
+            cookies().set(name, value , {maxAge: 60 * 60 * 24 * 30})
             break;
         case 'remove':
             cookies().delete(name)
             break;
         case 'get':
-            return cookies().get(name)    
+            return isCookiesEnabled ? JSON.parse(cookies().get(name).value) : null  
     }
   }

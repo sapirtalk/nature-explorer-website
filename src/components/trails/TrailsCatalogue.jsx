@@ -72,10 +72,16 @@ const TrailsCatalogue = ({cookieCallback}) => {
 
     useEffect(() => {
 
-        const user = JSON.parse(localStorage.getItem('user'));
-        const user_id = user ? user.id : null;
+        
 
-        const getFavorites = async (user_id) => {
+        const getFavorites = async () => {
+
+            const user = await cookieCallback('user' , null, 'get');
+            const user_id = user ? user.id : null;
+            setUser_id_state(user_id);
+
+
+
             const res = await fetch('/api/user_panel/favorite_trails', {
                 method: 'POST',
                 headers: {
@@ -94,10 +100,9 @@ const TrailsCatalogue = ({cookieCallback}) => {
             return data.favorite_trails;
         };
 
-        getFavorites(user_id).then((trails) => {
+        getFavorites().then((trails) => {
             // get only the _id of the trails
             setFavTrails(trails.map((trail) => trail._id));
-            setUser_id_state(user_id);
         })
 
     }, []);
