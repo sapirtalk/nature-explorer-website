@@ -2,7 +2,7 @@ import React from 'react'
 
 function About() {
   return (
-    <div className='place-content-center text-center justify-center lg:text-[24px] lg:h-[80vh] item-center p-3 text-text'>
+    <div className=' text-center justify-center lg:text-[24px] lg:h-[80vh] item-center p-3 text-text'>
       <span dir='rtl'>
       <header className='text-2xl lg:text-[30px] font-bold'>עלינו</header>
       <br/>

@@ -3,7 +3,7 @@ import {Link} from "@nextui-org/link";
 
 function Contact() {
   return (
-    <div className='text-center lg:text-[24px] justify-start item-start lg:flex p-3 text-text lg:h-[80vh] lg:justify-center lg:items-center h-[55vh]'>
+    <div className='text-center lg:text-[24px] justify-start item-start lg:flex p-3 text-text lg:h-[80vh] lg:justify-center h-[55vh]'>
       <span dir='rtl'>
       <header className='text-2xl lg:text-[30px] font-bold'>צור קשר</header>
       <br/>

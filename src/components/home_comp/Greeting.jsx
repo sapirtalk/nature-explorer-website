@@ -1,8 +1,6 @@
 "use client";
 
-import Link from "next/link";
 import { greeting } from '@/styles/tailwindSaved';
-import { topBar } from "@/styles/tailwindSaved";
 
 const greetingText = {
     title: 'ברוכים הבאים לאתר בשבילי חיפה!',
@@ -10,12 +8,12 @@ const greetingText = {
     body2 : 'מוזמנים להירשם ולהיות חלק מהקהילה!'
 }
 
-const TopBar = () => {
+const Greetings = () => {
 
 
     return (
         <div dir='rtl'>
-                <div className={topBar.container}>
+                <div className={greeting.greeting_container}>
                     <h1 className={greeting.greeting_title}>{greetingText.title}</h1>
                     <p className={greeting.greeting_text}>{greetingText.body1}</p>
                     <p className={greeting.greeting_text}>{greetingText.body2}</p>
@@ -24,4 +22,4 @@ const TopBar = () => {
     );
 }
 
-export default TopBar;
+export default Greetings;

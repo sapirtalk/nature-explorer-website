@@ -8,3 +8,7 @@ body {
   background-color: #EFEFED;
   height: 'full';
 }
+
+.navbar-container {
+  position: relative;
+}
