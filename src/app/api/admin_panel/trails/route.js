@@ -124,6 +124,12 @@ export async function DELETE(req) {
             }
         } else return NextResponse.json({ success: false, message: "Requester user not found" });
 
+        const trail = await db.collection('Trails').findOne({ _id: new ObjectId(trailId) });
+        if (!trail) {
+          return NextResponse.json({ success: false, message: 'Trail not found' });
+        }
+  
+        deleteImages(trail.image)
 
         const result = await db.collection('Trails').deleteOne({ _id: new ObjectId(trailId) });
 

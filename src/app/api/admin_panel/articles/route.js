@@ -110,6 +110,13 @@ export async function DELETE(req) {
           }
       } else return NextResponse.json({ success: false, message: "Requester user not found" });
   
+      const article = await db.collection('Articles').findOne({ _id: new ObjectId(articleId) });
+      if (!article) {
+        return NextResponse.json({ success: false, message: 'Article not found' });
+      }
+
+      deleteImages(article.image)
+      
       const result = await db.collection('Articles').deleteOne({ _id: new ObjectId(articleId) });
   
       if (result.deletedCount > 0) {

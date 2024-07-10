@@ -111,6 +111,13 @@ export async function DELETE(req) {
           }
       } else return NextResponse.json({ success: false, message: "Requester user not found" });
   
+      const tour = await db.collection('Tours').findOne({ _id: new ObjectId(tourId) });
+      if (!tour) {
+        return NextResponse.json({ success: false, message: 'Tour not found' });
+      }
+
+      deleteImages(tour.image)
+
       const result = await db.collection('Tours').deleteOne({ _id: new ObjectId(tourId) });
   
       if (result.deletedCount > 0) {
