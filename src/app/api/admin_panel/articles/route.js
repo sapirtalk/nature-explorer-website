@@ -223,7 +223,7 @@ export async function PUT(req) {
       response.deleteResults = deleteResults;
       if (invalidImages.length > 0) {
           response.invalidImages = invalidImages;
-          response.message = "Some images were not part of this trail and were not deleted from Cloudinary.";
+          response.message = "Some images were not part of this article and were not deleted from Cloudinary.";
       }
         return NextResponse.json(response);
     } catch (error) {
