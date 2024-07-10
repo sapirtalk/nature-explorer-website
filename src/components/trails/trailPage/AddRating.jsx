@@ -32,13 +32,17 @@ export default function AddRating({ trailId, userId }) {
             const data = await res.json()
             console.log(data)
 
-            toast.success('הדירוג נוסף בהצלחה!');
+            if (data.code === 202) {
+                toast.info('דירגת כבר את המסלול בעבר, הדירוג הוחלף בהצלחה!');
+            }
+
+            data.code !== 202 && toast.success('הדירוג נוסף בהצלחה!');
             onOpenChange();
 
       // after 2 seconds reload the page
       setTimeout(() => {
         window.location.reload();
-      }, 2000);
+      }, 3000);
     }
     } catch (error) {
         console.log(error);

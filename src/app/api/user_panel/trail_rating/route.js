@@ -90,7 +90,7 @@ async function updateTrailById(db, userId, trailId, rating, action) {
             return { success: false, message: 'Invalid action' };
         }
 
-        return { success: true };
+        return { success: true , message: 'Rating updated successfully' , code: 202 };
     } catch (error) {
         return { success: false, message: error.message };
     }

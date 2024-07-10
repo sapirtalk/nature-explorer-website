@@ -40,22 +40,8 @@ const Trail = async ({ params }) => {
   const rating = trail ? trail.averageRating : null;
   var refresh = false
 
-  const refreshCallback = async () => {
-    'use server'
-    refresh = !refresh
-  }
 
   
-
-
-  
-
-
-
-
-
-
-
   if (!trail) {
     return (
       <div>
