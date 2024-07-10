@@ -1,37 +1,13 @@
 'use client'
 
 import SingleStar from './SingleStar'
+import { useState } from 'react'
 
 
 
-const Stars = ({rating , user_id , trail_id , readOnly , onTrailPage}) => {
+const Stars = ({rating , user_id , trail_id , readOnly , onTrailPage , userRating, setUserRating}) => {
 
-
-
-    const userInput = async (index) => {
-
-        const setUserRating = async (index) => {
-            
-
-            if (user_id) {
-
-                const res = await fetch('/api/user_panel/trail_rating', {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        userId: user_id,
-                        trailId: trail_id,
-                        rating: index,
-                        action: 'add'
-                    })
-                })
-                const data = await res.json()
-                console.log(data)
-
-            }
-        }
+    const userInput = (index) => {
         setUserRating(index)
     }
 
@@ -42,13 +18,19 @@ const Stars = ({rating , user_id , trail_id , readOnly , onTrailPage}) => {
 
     return (
 
-        !readOnly ? 
-        <div className='flex flex-row-reverse'>
-            <SingleStar onClick={() => userInput(1)} index={1} rating={rating} onTrailPage={onTrailPage} />
-            <SingleStar onClick={() => userInput(2)} index={2} rating={rating} onTrailPage={onTrailPage} />
-            <SingleStar onClick={() => userInput(3)} index={3} rating={rating} onTrailPage={onTrailPage} />
-            <SingleStar onClick={() => userInput(4)} index={4} rating={rating} onTrailPage={onTrailPage} />
-            <SingleStar onClick={() => userInput(5)} index={5} rating={rating} onTrailPage={onTrailPage} />
+        !readOnly ?
+        <div className='flex flex-col'>
+        <div className='flex flex-row-reverse my-2'>
+            <SingleStar onClick={() => userInput(1)} index={1} userRating={userRating} rating={rating} onTrailPage={onTrailPage} />
+            <SingleStar onClick={() => userInput(2)} index={2} userRating={userRating} rating={rating} onTrailPage={onTrailPage} />
+            <SingleStar onClick={() => userInput(3)} index={3} userRating={userRating} rating={rating} onTrailPage={onTrailPage} />
+            <SingleStar onClick={() => userInput(4)} index={4} userRating={userRating} rating={rating} onTrailPage={onTrailPage} />
+            <SingleStar onClick={() => userInput(5)} index={5} userRating={userRating} rating={rating} onTrailPage={onTrailPage} />
+        </div>
+        <div className='my-2'>
+            <h1>דירוג : {userRating}</h1>
+        </div>
+        <p className='text-red-500 cursor-pointer hover:underline' onClick={() => userInput(0)}>אפס שינויים</p>
         </div>
         :
         <div className='flex flex-row-reverse'>

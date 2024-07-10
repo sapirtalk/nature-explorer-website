@@ -2,9 +2,9 @@
 
 
 import {Image} from "@nextui-org/image";
-import { useState , useEffect } from "react";
+import { useState } from "react";
 import useEmblaCarousel from 'embla-carousel-react'
-import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
+import {Modal, ModalContent} from "@nextui-org/react";
 
 import { DotButton, useDotButton } from './EmblaCarouselDotButton'
 import {
@@ -69,10 +69,10 @@ const ImageCarousel = ({ images , options }) => {
 
       <div className="embla__controls">
         <div className="embla__buttons">
-          <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
           <NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
+          <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
         </div>
-        <div className="hidden justify-center items-center lg:flex lg:flex-row lg:justify-end">
+        <div className="hidden justify-center items-center lg:flex lg:flex-row-reverse lg:justify-between">
         <div className="embla__dots">
           {scrollSnaps.map((_, index) => (
             <DotButton

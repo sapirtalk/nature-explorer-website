@@ -3,6 +3,8 @@ import { NextResponse } from 'next/server';
 import { ObjectId } from 'mongodb';
 
 
+
+
 // POST/api/comments
 // Purpose:
 // Allow a user to add a comment on a specific trail.
@@ -15,8 +17,24 @@ import { ObjectId } from 'mongodb';
 // }
 export async function POST(req) {
     try {
-        const {userId, title, trailId, textMessage} = await req.json();
+        const {userId, title, trailId, textMessage , method} = await req.json();
         const db = await connectToDatabase();
+
+        if (method == "GET") {
+            const comments = await db.collection('Comments').find({trailId: trailId}).sort({createdAt: -1}).toArray();
+
+            // for each comment, get the user's name from user id
+            for (let i = 0; i < comments.length; i++) {
+                const user = await db.collection('Users').findOne({_id: new ObjectId(comments[i].userId)});
+                comments[i].userName = user.firstName + " " + user.lastName;
+            }
+
+
+            return NextResponse.json({success: true, comments: comments});
+        }
+
+
+
 
         const newComment = {
             userId,
@@ -34,6 +52,7 @@ export async function POST(req) {
     } catch (error) {
         return NextResponse.json({ success: false, message: error.message });
     }
+
 }
 
 
@@ -48,6 +67,9 @@ export async function POST(req) {
 export async function DELETE(req) {
     try {
         const {userId, commentId } = await req.json();
+
+        console.log('Form input', userId, commentId);
+
         const db = await connectToDatabase();
         // Users can't delete comments of other users.
         const requesterId = await db.collection('Users').findOne({_id: new ObjectId(userId)});

@@ -44,13 +44,13 @@ const Navbar = ({cookieCallback}) => {
 
     if (confirmation) {
       const rememberMe = await cookieCallback('rememberMe', null ,'get');
-      await cookieCallback('user', null, 'remove');
+      setUser(null);
+
+
       if (rememberMe !== 'true') {
-        setUser(null);
-        return
+        await cookieCallback('user', null, 'remove');
       }
 
-      setUser(null);
       handleNav();
       toast.success('התנתקת בהצלחה');
       // redirect to login after 2 seconds

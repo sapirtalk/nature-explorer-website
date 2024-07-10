@@ -1,4 +1,5 @@
 import TrailsCatalogue from '@/components/trails/TrailsCatalogue';
+import { cookies } from 'next/headers';
 
 
 const TrailsCataloguePage = () => {

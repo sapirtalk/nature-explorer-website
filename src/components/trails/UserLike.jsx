@@ -2,6 +2,7 @@
 
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 const UserLike = ({ trail_id, user_id, liked, fromTrailPage }) => {
   const [isliked, setIsLiked] = useState(liked);
@@ -13,6 +14,13 @@ const UserLike = ({ trail_id, user_id, liked, fromTrailPage }) => {
   const toggleLike = async () => {
     setIsLiked(!isliked);
     likedCallback(!isliked);
+
+    if (isliked) {
+      toast.info('מסלול הוסר ממועדפים');
+    } else {
+      toast.success('מסלול נוסף למועדפים');
+    }
+
   };
 
   const likedCallback = async (value) => {

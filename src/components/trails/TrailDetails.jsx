@@ -6,6 +6,19 @@ const TrailDetails = ({ trail }) => {
 
     const { name, description, distance, difficulty, duration, kids, pets, babyStroller, image } = trail;
 
+    const difficultyTranslate = (diff) => {
+      switch (diff) {
+        case 1:
+          return 'קל';
+        case 2:
+          return 'בינוני';
+        case 3:
+          return 'קשה';
+        default:
+          return 'לא ידוע';
+      }
+    }
+
 
   return (
     <div>
@@ -16,7 +29,7 @@ const TrailDetails = ({ trail }) => {
         </div>
         <div className='flex flex-row text-center justify-between border-t-2 px-3 pt-1 w-full'>
           <span>מרחק: <p className='font-bold' >{distance} קמ </p></span>
-          <span>קושי: <p className='font-bold' >{difficulty}</p></span>
+          <span>קושי: <p className='font-bold' >{difficultyTranslate(difficulty)}</p></span>
           <span>זמן: <p className='font-bold' >{duration} שעות</p></span>
         </div>  
       </div>
@@ -37,10 +50,10 @@ const TrailDetails = ({ trail }) => {
       <div className='w-full text-center'>
         <p className='p-2'>{description}</p>
       </div>
-      <div className='flex flex-col text-center justify-center border-b-2 px-3 pt-1 w-[70%]'>
+      <div className='flex flex-col text-center justify-center px-3 pt-1 w-[70%]'>
       <div className='flex flex-row text-center justify-between px-3 pt-1'>
         <span>מרחק: <p className='font-bold' >{distance} קמ </p></span>
-        <span>קושי: <p className='font-bold' >{difficulty}</p></span>
+        <span>קושי: <p className='font-bold' >{difficultyTranslate(difficulty)}</p></span>
         <span>זמן: <p className='font-bold' >{duration} שעות</p></span>
       </div>
       <div className='flex flex-row  text-center justify-between px-3 border-t-2 pt-1'>
