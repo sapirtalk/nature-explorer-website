@@ -4,25 +4,25 @@ import { FaStarHalfAlt } from "react-icons/fa";
 
 
 
-const SingleStar = ({index , rating , readOnly , onTrailPage , onClick}) => {
+const SingleStar = ({index , rating , readOnly , onTrailPage , onClick , userRating}) => {
 
 
 
 
     const calculateStar = () => {
         
-        if (index <= rating) {
-            return <FaStar className={onTrailPage ? 'lg:text-[40px] ': 'lg:text-[22px]'} color='green' />
+        if (index <= rating || userRating >= index) {
+            return <FaStar className={onTrailPage ? 'lg:text-[40px] text-[30px] ': 'lg:text-[22px]'} color='green' />
         
-        } else if (index - 0.5 <= rating) {
-            return <FaStarHalfAlt className={onTrailPage ? 'lg:text-[40px] ': 'lg:text-[22px]'} color="green" />
+        } else if (index - 0.5 <= rating || userRating >= index - 0.5) {
+            return <FaStarHalfAlt className={onTrailPage ? 'lg:text-[40px] text-[30px] ': 'lg:text-[22px]'} color="green" />
         }
 
         if (readOnly) {
             return
         }
 
-        return <FaRegStar className={onTrailPage ? 'lg:text-[40px] ': 'lg:text-[22px]'} color="green" />
+        return <FaRegStar className={onTrailPage ? 'lg:text-[40px] text-[30px] ': 'lg:text-[22px]'} color="green" />
     }
 
                 

@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from "react";
 import SingleComment from "./SingleComment";
-import { Spinner } from '@nextui-org/react';
+import { Divider, Spinner } from '@nextui-org/react';
 import { ScrollShadow } from "@nextui-org/react";
 
 
@@ -14,6 +14,35 @@ const CommentsSection = ({trail_id , user_id }) => {
 
     const [comments, setComments] = useState([])
     const [loading, setLoading] = useState(true)
+
+
+
+    const loadComments = () => {
+        
+        if (comments.length > 0) {
+            return (
+                <ScrollShadow hideScrollBar className="w-full h-[40vh] py-5">
+                    {comments.map(comment => (
+                        <div key={comment._id} className="w-full flex px-2 flex-col justify-center items-center">
+                            <SingleComment comment={comment} user_id={user_id} />
+                            <br />
+                        </div>
+                    ))}
+                </ScrollShadow>
+            )
+
+        }
+        else {
+            return (
+                <div className="w-full h-[40vh] flex justify-center items-center">
+                    <p className="text-text text-xl">אין תגובות על מסלול זה</p>
+                </div>
+            )
+
+        }
+
+    }
+
 
     useEffect(() => {
 
@@ -49,15 +78,8 @@ const CommentsSection = ({trail_id , user_id }) => {
             <br />
             {loading ? <div className="flex justify-start flex-col pt-5 h-[80vh] items-center">
                 <Spinner label="...טוען תגובות" color="secondary" labelColor="secondary" size="lg" />
-                </div> : 
-                <ScrollShadow hideScrollBar className="w-full h-[40vh] py-5">
-                    {comments.map(comment => (
-                        <div key={comment._id} className="w-full flex px-2 flex-col justify-center items-center">
-                            <SingleComment comment={comment} user_id={user_id} />
-                            <br />
-                        </div>
-                    ))}
-                </ScrollShadow>
+                </div> :
+                loadComments() 
             }
         </div>
     );

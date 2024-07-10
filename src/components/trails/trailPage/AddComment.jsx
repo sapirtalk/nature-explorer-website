@@ -69,7 +69,7 @@ export default function AddComment({ trailId, userId }) {
 
   return (
     <>
-      <Button onPress={onOpen} color="secondary">הוסף תגובה
+      <Button className="w-full mx-2 lg:text-xl" onPress={onOpen} color="secondary">הוסף תגובה
         <MdOutlineAddComment className="text-xl" />
       </Button>
       <Modal
