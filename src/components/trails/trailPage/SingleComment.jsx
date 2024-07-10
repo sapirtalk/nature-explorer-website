@@ -39,7 +39,7 @@ const SingleComment = ({comment , user_id}) => {
 
     return (
 
-        <Card className="max-w-[400px] w-full">
+        <Card className="max-w-[700px] w-full">
             <CardHeader>
                 <div className="flex flex-col w-full">
                     <header className="text-text font-bold">{title}</header>

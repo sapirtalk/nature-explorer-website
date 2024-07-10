@@ -73,7 +73,7 @@ const Trail = async ({ params }) => {
       </div>
       : null
       }
-      <div className='border-t-2 flex flex-col pt-[50px]'>
+      <div className='border-t-2 flex flex-col w-full pt-[50px]'>
         <CommentsSection trail_id={trail_id} user_id={user_id}/>
       </div>
     </div>

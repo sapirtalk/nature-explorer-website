@@ -21,7 +21,7 @@ const CommentsSection = ({trail_id , user_id }) => {
         
         if (comments.length > 0) {
             return (
-                <ScrollShadow hideScrollBar className="w-full h-[40vh] py-5">
+                <ScrollShadow hideScrollBar size={40} className="w-full border-y-2 border-black h-[50vh] py-5">
                     {comments.map(comment => (
                         <div key={comment._id} className="w-full flex px-2 flex-col justify-center items-center">
                             <SingleComment comment={comment} user_id={user_id} />
@@ -64,10 +64,10 @@ const CommentsSection = ({trail_id , user_id }) => {
             setComments(data.comments)
         })
 
-        setLoading(false)
-
-        
-
+        // wait 2 seconds before loading
+        setTimeout(() => {
+            setLoading(false)
+        }, 3000)
     }, [])
 
 

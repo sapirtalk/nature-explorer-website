@@ -4,18 +4,7 @@ const {nextui} = require("@nextui-org/theme");
 module.exports = {
   content: [
     './src/**/*.{js,jsx,ts,tsx}',
-    "./node_modules/@nextui-org/theme/dist/components/button.js",
-    "./node_modules/@nextui-org/theme/dist/components/slider.js",
-    "./node_modules/@nextui-org/theme/dist/components/switch.js",
-    "./node_modules/@nextui-org/theme/dist/components/checkbox.js",
-    "./node_modules/@nextui-org/theme/dist/components/tooltip.js",
-    "./node_modules/@nextui-org/theme/dist/components/spacer.js",
-    "./node_modules/@nextui-org/theme/dist/components/modal.js",
-    "./node_modules/@nextui-org/theme/dist/components/spinner.js",
-    "./node_modules/@nextui-org/theme/dist/components/image.js",
-    "./node_modules/@nextui-org/theme/dist/components/modal.js",
-    "./node_modules/@nextui-org/theme/dist/components/card.js",
-    "./node_modules/@nextui-org/theme/dist/components/scrollShadow.ts",
+     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}"
   ],
   theme: {
     extend: {
