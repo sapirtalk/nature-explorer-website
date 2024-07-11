@@ -1,9 +1,14 @@
-import React from 'react'
+import React from 'react';
+import Tours from '../../components/Tours';
 
-function tours() {
+const ToursPage = () => {
   return (
-    <div>tours</div>
-  )
-}
+    <div>
+      <header className='text-center text-text text-2xl lg:text-[30px] font-bold border-text p-4 border-b-[10px]'>סיורים</header>
+      <br/>
+      <Tours />
+    </div>
+  );
+};
 
-export default tours
+export default ToursPage;

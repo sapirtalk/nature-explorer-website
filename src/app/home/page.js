@@ -14,6 +14,7 @@ const Home = () => {
 
   return (
     <div>
+      <br />
         <Greeting />
         <div className='w-full h-[30vh]'>
           <LatestNews />
