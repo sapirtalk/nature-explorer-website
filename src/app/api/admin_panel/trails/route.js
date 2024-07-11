@@ -70,7 +70,9 @@ export async function POST(req) {
     // Upload images to Cloudinary and get their URLs if images are provided
     let imageUrls = [];
     if (image && image.length > 0) {
-      imageUrls = await uploadImages(image);
+      const uploadResults = await uploadImages(image);
+      // Filter out successful uploads to get the URLs
+      imageUrls = uploadResults.filter(result => result.result === 'ok').map(result => result.url);
     }
 
         const newTrail = {
@@ -122,6 +124,12 @@ export async function DELETE(req) {
             }
         } else return NextResponse.json({ success: false, message: "Requester user not found" });
 
+        const trail = await db.collection('Trails').findOne({ _id: new ObjectId(trailId) });
+        if (!trail) {
+          return NextResponse.json({ success: false, message: 'Trail not found' });
+        }
+  
+        deleteImages(trail.image)
 
         const result = await db.collection('Trails').deleteOne({ _id: new ObjectId(trailId) });
 
