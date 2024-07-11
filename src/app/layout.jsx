@@ -3,6 +3,7 @@ import { Rubik } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import "../styles/global.css";
+import "../styles/embla.css";
 import ToastProvider from "@/components/toast_container/ToastProvider";
 import BackButton from "@/components/BackButton";
 import Providers from "./providers";
@@ -50,13 +51,18 @@ export default function RootLayout({ children }) {
 
 const cookieCallback = async (name , value , action) => {
   'use server'
+
+  const isCookiesEnabled = cookies().has(name)
+
   switch (action) {
 
       case 'set':
-          cookies().set(name, value)
+          cookies().set(name, value , {maxAge: 60 * 60 * 24 * 30})
           break;
       case 'remove':
           cookies().delete(name)
           break;
+      case 'get':
+          return isCookiesEnabled ? JSON.parse(cookies().get(name).value) : null  
   }
 }

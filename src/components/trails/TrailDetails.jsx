@@ -6,34 +6,71 @@ const TrailDetails = ({ trail }) => {
 
     const { name, description, distance, difficulty, duration, kids, pets, babyStroller, image } = trail;
 
+    const difficultyTranslate = (diff) => {
+      switch (diff) {
+        case 1:
+          return 'קל';
+        case 2:
+          return 'בינוני';
+        case 3:
+          return 'קשה';
+        default:
+          return 'לא ידוע';
+      }
+    }
+
 
   return (
-    <div dir="rtl" className='flex text-text h-full flex-col p-3'>
-      <div className='flex justify-center p-3 h-[20%]'>
-        <h2 className='text-3xl text-center'>{name}</h2>
-      </div>
-      <div className='flex flex-col justify-center h-full'>
-        <div className='w-full'>
+    <div className='w-full'>
+    <div dir="rtl" className='flex lg:hidden text-text lg:text-[30px] text-[18px] h-full flex-col p-3'>
+      <div className='flex flex-col lg:flex-row justify-center h-full'>
+        <div className='w-full text-center'>
           <p className='p-2'>{description}</p>
         </div>
         <div className='flex flex-row text-center justify-between border-t-2 px-3 pt-1 w-full'>
-          <p>מרחק: <p className='font-bold' >{distance} קמ </p></p>
-          <p>קושי: <p className='font-bold' >{difficulty}</p></p>
-          <p>זמן: <p className='font-bold' >{duration} שעות</p></p>
+          <span>מרחק: <p className='font-bold' >{distance} קמ </p></span>
+          <span>קושי: <p className='font-bold' >{difficultyTranslate(difficulty)}</p></span>
+          <span>זמן: <p className='font-bold' >{duration} שעות</p></span>
         </div>  
       </div>
       <div className='flex flex-row  text-center justify-between px-3 border-t-2 pt-1'>
         <div className=''>
-          <p>לילדים: <p className='font-bold' >{kids ? 'כן' : 'לא'}</p></p>
+          <span>לילדים: <p className='font-bold' >{kids ? 'כן' : 'לא'}</p></span>
         </div>
         <div className='flex justify-center'>
-          <p>לחיות מחמד: <p className='font-bold'>{pets ? 'כן' : 'לא'}</p> </p>
+          <span>לחיות מחמד: <p className='font-bold'>{pets ? 'כן' : 'לא'}</p> </span>
         </div>
         <div className=''>
-          <p>לעגלות: <p className='font-bold' >{babyStroller ? 'כן' : 'לא'}</p></p>
+          <span>לעגלות: <p className='font-bold' >{babyStroller ? 'כן' : 'לא'}</p></span>
         </div>
       </div>  
     </div>
+    <div dir="rtl" className='hidden lg:flex text-text lg:text-[24px] w-full h-full flex-col p-3'>
+    <div className='flex flex-col items-center justify-center'>
+      <div className='w-full text-center'>
+        <p className='p-2'>{description}</p>
+      </div>
+      <div className='flex flex-col text-center  justify-center px-3 pt-1 w-full'>
+      <div className='flex flex-row text-center w-full justify-between px-3 pt-1'>
+        <span>מרחק: <p className='font-bold' >{distance} קמ </p></span>
+        <span>קושי: <p className='font-bold' >{difficultyTranslate(difficulty)}</p></span>
+        <span>זמן: <p className='font-bold' >{duration} שעות</p></span>
+      </div>
+      <div className='flex flex-row  w-full text-center justify-between px-3 border-t-2 pt-1'>
+      <div className=''>
+        <span>לילדים: <p className='font-bold' >{kids ? 'כן' : 'לא'}</p></span>
+      </div>
+      <div className='flex justify-center'>
+        <span>לחיות מחמד: <p className='font-bold'>{pets ? 'כן' : 'לא'}</p> </span>
+      </div>
+      <div className=''>
+        <span>לעגלות: <p className='font-bold' >{babyStroller ? 'כן' : 'לא'}</p></span>
+      </div>
+      </div>
+    </div>   
+    </div> 
+  </div>
+  </div>
   );
 };
 

@@ -12,7 +12,7 @@ import FilterTrails from './filter/FilterTrails';
 import { Spinner } from '@nextui-org/react';
 
 
-const TrailsCatalogue = () => {
+const TrailsCatalogue = ({cookieCallback}) => {
 
     const [filter, setFilter] = useState({});
     const [sort, setSort] = useState({ by: 'name', order: 'asc' });
@@ -72,10 +72,16 @@ const TrailsCatalogue = () => {
 
     useEffect(() => {
 
-        const user = JSON.parse(localStorage.getItem('user'));
-        const user_id = user ? user.id : null;
+        
 
-        const getFavorites = async (user_id) => {
+        const getFavorites = async () => {
+
+            const user = await cookieCallback('user' , null, 'get');
+            const user_id = user ? user.id : null;
+            setUser_id_state(user_id);
+
+
+
             const res = await fetch('/api/user_panel/favorite_trails', {
                 method: 'POST',
                 headers: {
@@ -85,14 +91,18 @@ const TrailsCatalogue = () => {
             });
             const data = await res.json();
             console.log(data);
+
+            // place the favorite in cookie
+            if (data.favorite_trails && !cookieCallback('user_favorite_trails', null, 'get')) {
+                cookieCallback('user_favorite_trails', JSON.stringify(data.favorite_trails), 'set');
+            }
     
             return data.favorite_trails;
         };
 
-        getFavorites(user_id).then((trails) => {
+        getFavorites().then((trails) => {
             // get only the _id of the trails
             setFavTrails(trails.map((trail) => trail._id));
-            setUser_id_state(user_id);
         })
 
     }, []);

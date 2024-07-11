@@ -38,22 +38,19 @@ const Navbar = ({cookieCallback}) => {
   };
 
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
 
     const confirmation = window.confirm('האם אתה בטוח שברצונך להתנתק?');
 
     if (confirmation) {
-      const rememberMe = localStorage.getItem('rememberMe');
+      const rememberMe = await cookieCallback('rememberMe', null ,'get');
+      setUser(null);
+
 
       if (rememberMe !== 'true') {
-        localStorage.removeItem('user');
-        cookieCallback('user', null, 'remove');
+        await cookieCallback('user', null, 'remove');
       }
 
-
-      localStorage.removeItem('rememberMe');
-      cookieCallback('rememberMe', null, 'remove');
-      setUser(null);
       handleNav();
       toast.success('התנתקת בהצלחה');
       // redirect to login after 2 seconds
@@ -66,13 +63,17 @@ const Navbar = ({cookieCallback}) => {
 
 
   useEffect(() => {
-    setUser(JSON.parse(localStorage.getItem('user')));
-  }, []);
+    const fetchCookie = async () => {
+      const cookie = await cookieCallback('user', null, 'get');
+      setUser(cookie);
+    };
+
+    fetchCookie();
+  }, [cookieCallback]);
 
     
   // Close the menu when clicking outside of it
   useEffect(() => {
-
     setPath(window.location.pathname);
     
     const handleClickOutside = (e) => {

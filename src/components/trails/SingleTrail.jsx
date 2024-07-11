@@ -11,6 +11,7 @@ import {Link} from "@nextui-org/link";
 
 const SingleTrail = ({id ,image , name , desc , length , difficulty , duration , kids , pets , babyStroller , rating , user_id , liked}) => {
 
+
   const difficultyTranslate = (diff) => {
     switch (diff) {
       case 1:
@@ -84,7 +85,7 @@ const SingleTrail = ({id ,image , name , desc , length , difficulty , duration ,
     <div dir="rtl" className='flex text-text h-[20vh] lg:h-[25vh] w-full min-w-[95vw] lg:min-w-[60vw] lg:w-[60vw] rounded-lg bg-white shadow-2xl flex-row mt-4 '>
       <div className='w-[30%]'>
         <Image 
-          src={`/resources/images/trails/${image[0]}/${image[0]}.jpg`}
+          src={image[0]}
           alt={name}
           width={500}
           height={500} 
