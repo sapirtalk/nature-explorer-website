@@ -32,6 +32,8 @@ module.exports = {
         'text': '#264027', // Text color
         'accent': '#B4D330', // Accent color
         'blocked': '#F2F2F2', // Blocked color
+        'blue': '#3C82F6', // Blue color
+        'red': '#F63C3C', // Red color
       },
     },
   },
