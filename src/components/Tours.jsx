@@ -59,8 +59,8 @@ const Tours = () => {
   return (
     <div className="grid grid-cols-1 gap-10 lg:grid-cols-4">
       {tours.map((tour) => (
-        
         <SingleTour
+          key = {tour._id}
           tour_id={tour._id}
           title={tour.title}
           description={tour.description}
