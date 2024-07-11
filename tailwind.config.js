@@ -34,6 +34,9 @@ module.exports = {
         'blocked': '#F2F2F2', // Blocked color
         'blue': '#3C82F6', // Blue color
         'red': '#F63C3C', // Red color
+        'blue-500': '#3C82F6', // Blue color
+        'red-500': '#F63C3C', // Red color
+
       },
     },
   },
