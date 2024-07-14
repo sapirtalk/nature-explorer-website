@@ -70,7 +70,7 @@ const UserSettings = ({ userEmail, userId, cookieCallback, firstName, lastName }
                     old_password: values.old_password,
                     updatedFields: {
                         email: values.email,
-                        password_hash: values.password,
+                        password_hash: values.password === '' ? null : values.password,
                         firstName: values.firstName,
                         lastName: values.lastName,
                     }

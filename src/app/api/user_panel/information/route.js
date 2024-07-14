@@ -63,7 +63,7 @@ export async function PUT(req) {
         // Filter the fields to only include allowed ones
         const filteredUpdates = {};
         for (const key in updatedFields) {
-            if (allowedFields.includes(key)) {
+            if (allowedFields.includes(key) && updatedFields[key]) {
                 filteredUpdates[key] = updatedFields[key];
             }
         }
