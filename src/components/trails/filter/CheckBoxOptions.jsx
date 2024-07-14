@@ -110,7 +110,7 @@ const difficultyTranslate = (diff) => {
     case 'medium':
       return 2;
     case 'hard':
-      return 4;
+      return 3;
     default:
       return 0;
   }

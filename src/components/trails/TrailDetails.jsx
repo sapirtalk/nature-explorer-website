@@ -1,5 +1,7 @@
 import Image from 'next/image';
-
+import { GiPathDistance } from "react-icons/gi";
+import { FaWeightHanging } from "react-icons/fa6";
+import { MdAccessTimeFilled } from "react-icons/md";
 
 
 const TrailDetails = ({ trail }) => {
@@ -28,9 +30,18 @@ const TrailDetails = ({ trail }) => {
           <p className='p-2'>{description}</p>
         </div>
         <div className='flex flex-row text-center justify-between border-t-2 px-3 pt-1 w-full'>
-          <span>מרחק: <p className='font-bold' >{distance} קמ </p></span>
-          <span>קושי: <p className='font-bold' >{difficultyTranslate(difficulty)}</p></span>
-          <span>זמן: <p className='font-bold' >{duration} שעות</p></span>
+          <div className='flex justify-center flex-col'>
+            <span className='flex flex-row-reverse'>מרחק: <GiPathDistance className='ml-1' size={25} /></span>
+            <p className='font-bold' >{distance} קמ</p>
+          </div>
+          <div className='flex justify-center flex-col'>
+            <span className='flex flex-row-reverse'>קושי: <FaWeightHanging className='ml-1' size={25} /></span>
+            <p className='font-bold' >{difficultyTranslate(difficulty)}</p>
+          </div>
+          <div className='flex justify-center flex-col'>
+            <span className='flex flex-row-reverse'>משך: <MdAccessTimeFilled className='ml-1' size={25} /></span>
+            <p className='font-bold' >{duration} שעות</p>
+          </div>
         </div>  
       </div>
       <div className='flex flex-row  text-center justify-between px-3 border-t-2 pt-1'>
@@ -52,9 +63,18 @@ const TrailDetails = ({ trail }) => {
       </div>
       <div className='flex flex-col text-center  justify-center px-3 pt-1 w-full'>
       <div className='flex flex-row text-center w-full justify-between px-3 pt-1'>
-        <span>מרחק: <p className='font-bold' >{distance} קמ </p></span>
-        <span>קושי: <p className='font-bold' >{difficultyTranslate(difficulty)}</p></span>
-        <span>זמן: <p className='font-bold' >{duration} שעות</p></span>
+        <div className='flex flex-col'> 
+          <span className='flex flex-row-reverse justify-between'>מרחק: <GiPathDistance color='black' className='px-1' size={30} /> </span> 
+          <p className='font-bold' >{distance} קמ </p>
+        </div>
+        <div className='flex flex-col'>
+        <span className='flex flex-row-reverse justify-between'>קושי: <FaWeightHanging color='black' className='px-1' size={30} /> </span> 
+        <p className='font-bold' >{difficultyTranslate(difficulty)}</p>
+        </div>
+        <div className='flex flex-col'>
+        <span className='flex flex-row-reverse justify-center'>זמן: <MdAccessTimeFilled color='black' className='px-1' size={30} /> </span> 
+        <p className='font-bold' >{duration} שעות</p>
+        </div>
       </div>
       <div className='flex flex-row  w-full text-center justify-between px-3 border-t-2 pt-1'>
       <div className=''>

@@ -13,23 +13,7 @@ import CheckBoxOptions from "./CheckBoxOptions";
 const FilterTrails = ({desktop ,updateFilter , updateOpenFilter , filter , openFilter }) => {
 
 
-    // // close the sort menu when clicking outside of it
-    // useEffect(() => {
-    //     const handleClickOutside = (e) => {
-    //         if (!e.target.closest('.filter-trails' && openFilter)) {
-    //             updateOpenFilter(false);
-    //         }
-    //     };
-
-    //     document.addEventListener('click', handleClickOutside);
-
-    //     return () => {
-    //         document.removeEventListener('click', handleClickOutside);
-    //     };
-    // }, [updateOpenFilter , filter]);
-
-
-
+    
 
     return (
         <div className='lg:w-full'>
