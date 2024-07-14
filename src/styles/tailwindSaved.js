@@ -41,14 +41,6 @@ const footer = {
     }
 
 
-   // Latest news styles
-    const news = {
-        latest_container: 'flex flex-col items-center justify-center w-full h-full p-3 bt-2 border-text border-t-[10px] border-b-[10px] ',
-        latest_title: 'mb-[3vw] text-text text-2xl',
-        latest_news: 'text-l text-text text-center w-full lg:w-[50%] h-full bg-white bg-opacity-70 p-3 shadow-2xl overflow-y-auto'
-    }
 
 
-
-
-export { navbar, footer ,news , greeting}
+export { navbar, footer, greeting}

@@ -5,12 +5,13 @@ import React, { useState, useEffect } from "react";
 import { Card, CardHeader, CardBody, CardFooter, Divider } from "@nextui-org/react";
 import { IoMdClose } from "react-icons/io";
 
-const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, registeredUsersCount, isArchived, image, createdAt, updatedAt }) => {
+const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, registeredUsersCount, image }) => {
     const [user, setUser] = useState(null);
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [numberOfPeople, setNumberOfPeople] = useState('');
     const [isRegistered, setIsRegistered] = useState(false);
     const [registeredUsersCount1, setRegisteredUsersCount] = useState(registeredUsersCount);
+    const [isProcessing, setIsProcessing] = useState(false);
 
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
@@ -38,11 +39,13 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
         event.preventDefault();
         if (!user || !numberOfPeople) return;
 
+        setIsProcessing(true);
+
         const payload = {
             userId: user.id,
             tourId: tour_id,
             action: "add",
-            numberOfPeople: parseInt(numberOfPeople)
+            numberOfPeople: numberOfPeople
         };
 
         try {
@@ -56,21 +59,24 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
 
             const result = await response.json();
             if (result.success) {
-                alert('Registration successful');
-                setIsRegistered(true);  // Update state immediately after successful registration
-                setRegisteredUsersCount(prevCount => prevCount + 1);  // Increment registered users count
+                setIsRegistered(true);
+                setRegisteredUsersCount(prevCount => parseInt(prevCount) + parseInt(numberOfPeople)); 
             } else {
                 alert(result.message);
             }
         } catch (error) {
             console.error('Error:', error);
             alert('An error occurred during registration.');
+        } finally {
+            setIsProcessing(false);
+            handleCloseForm();
         }
-        handleCloseForm();
     };
 
     const handleCancel = async () => {
         if (!user) return;
+
+        setIsProcessing(true);
 
         const payload = {
             userId: user.id,
@@ -90,20 +96,22 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
             const result = await response.json();
             if (result.success) {
                 alert('Registration canceled');
-                setIsRegistered(false);  // Update state immediately after successful cancellation
-                setRegisteredUsersCount(prevCount => prevCount - 1);  // Decrement registered users count
+                setIsRegistered(false);
+                setRegisteredUsersCount(prevCount => prevCount - result.existingPeopleCount);  // Decrement registered users count
             } else {
                 alert(result.message);
             }
         } catch (error) {
             console.error('Error:', error);
             alert('An error occurred during cancellation.');
+        } finally {
+            setIsProcessing(false);
         }
     };
 
     return (
         <div dir="rtl">
-            <Card className="lg:w-[21vw] lg:h-[25vh] flex flex-col">
+            <Card className="lg:w-[21vw] lg:h-[25vh] flex flex-col ">
                 <div className="flex flex-col flex-[2]">
                     <CardHeader className="flex-1">
                         <div className='w-[30%] ml-3'>
@@ -120,16 +128,22 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
                                 תאריך הסיור: &nbsp;
                                 {new Date(tourTime).toLocaleDateString()} 
                             </p>
+                            <p className="text-xs text-default-500">
+                                שעת הסיור: &nbsp;
+                                {new Date(tourTime).toLocaleTimeString()}
+                            </p>
+                            <p className="text-xs text-default-500">
+                                מספר משתתפים: {registeredUsersCount1}
+                            </p>
                         </div>
                     </CardHeader>
                     <Divider />
                 </div>
 
                 <CardBody className="flex-[6]">
-                    <p>{description}</p>
-                    <p className="text-xs text-default-500">
-                        מספר משתתפים: {registeredUsersCount1}
-                    </p>
+                    <div className="max-h-20 overflow-y-auto">
+                        <p className='text-center'>{description}</p>
+                    </div>
                 </CardBody>
                 <Divider />
                 <CardFooter className="flex-[2] justify-center">
@@ -140,7 +154,7 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
                     ) : (
                         <div>
                             {!isFormOpen && !isRegistered && (
-                                <button className='bg-blue p-2 rounded-lg text-primary' onClick={handleOpenForm}>הרשמה לסיור</button>
+                                <button disabled={isProcessing} className='bg-blue p-2 rounded-lg text-primary' onClick={handleOpenForm}>הרשמה לסיור</button>
                             )}
                             {isFormOpen && !isRegistered && (
                                 <div>
@@ -157,13 +171,13 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
                                             }}}
                                             className="flex-grow"
                                         />
-                                        <button type="submit" className='bg-blue p-2 rounded-lg text-primary mr-5'>הרשמה</button>
+                                        <button disabled={isProcessing} type="submit" className='bg-blue p-2 rounded-lg text-primary mr-5'>הרשמה</button>
                                         <IoMdClose onClick={handleCloseForm} className='text-4xl text-text cursor-pointer mr-5' />
                                     </form>
                                 </div>
                             )}
                             {isRegistered && (
-                                <button className='bg-red p-2 rounded-lg text-primary' onClick={handleCancel}>ביטול הרשמה</button>
+                                <button disabled={isProcessing} className='bg-red p-2 rounded-lg text-primary' onClick={handleCancel}>ביטול הרשמה</button>
                             )}
                         </div>
                     )}

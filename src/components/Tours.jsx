@@ -56,23 +56,28 @@ const Tours = () => {
     return <h1>No tours found</h1>;
   }
 
+  const sortedTours = tours.sort((a, b) => new Date(b.tourTime) - new Date(a.tourTime));
+
+
   return (
-    <div className="grid grid-cols-1 gap-10 lg:grid-cols-4">
-      {tours.map((tour) => (
-        <SingleTour
-          key = {tour._id}
-          tour_id={tour._id}
-          title={tour.title}
-          description={tour.description}
-          tourTime={tour.tourTime}
-          registeredUsers={tour.registeredUsers}
-          registeredUsersCount={tour.registeredUsersCount}
-          isArchived={tour.isArchived}
-          image={tour.image}
-          createdAt={tour.createdAt}
-          updatedAt={tour.updatedAt}
-        />
-      ))}
+    <div className="flex justify-center">
+      <div className="grid grid-cols-1 gap-10 lg:grid-cols-4 xl:grid-cols-3 w-full max-w-7xl">
+        {sortedTours.map((tour) => (
+          <SingleTour
+            key={tour._id}
+            tour_id={tour._id}
+            title={tour.title}
+            description={tour.description}
+            tourTime={tour.tourTime}
+            registeredUsers={tour.registeredUsers}
+            registeredUsersCount={tour.registeredUsersCount}
+            isArchived={tour.isArchived}
+            image={tour.image}
+            createdAt={tour.createdAt}
+            updatedAt={tour.updatedAt}
+          />
+        ))}
+      </div>
     </div>
   );
 };
