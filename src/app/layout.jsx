@@ -35,7 +35,7 @@ export default function RootLayout({ children }) {
         <ToastProvider>
         <Navbar cookieCallback={cookieCallback} />
         <TopBar />
-        <main className="lg:mx-20">
+        <main className="lg:mx-20 lg:p-5">
          <BackButton /> 
         {children}
         </main>

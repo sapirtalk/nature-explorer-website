@@ -105,9 +105,9 @@ const Navbar = ({cookieCallback}) => {
         </div>
         
         {user == null ?  (
-          <div className='hidden lg:flex p-1 text-primary'>
+          <div className='hidden lg:flex p-1 text-text'>
           <Tooltip placement='bottom' content={<div className='text-xl p-1 '>התחברות</div>} shadow='none' showArrow>
-            <div className='bg-tertiary p-1 rounded-lg mr-5'>
+            <div className='p-1 mr-5'>
             <Link href='/login' className={curPath == '/login' ? navbar.desktop_link_curr : navbar.desktop_link} onClick={() => setPath('/login')}>
               <p className={navbar.desktop_p}>התחברות</p>
               &nbsp;
@@ -116,7 +116,7 @@ const Navbar = ({cookieCallback}) => {
             </div>
           </Tooltip>
           <Tooltip placement='bottom' content={<div className='text-xl p-1'>הרשמה</div>} shadow='none' showArrow>
-            <div className='bg-tertiary p-1 rounded-lg'>
+            <div className='p-1'>
             <Link href='/register' className={curPath == '/register' ? navbar.desktop_link_curr : navbar.desktop_link} onClick={() => setPath('/register')}>
               <p className={navbar.desktop_p}>הרשמה</p>
               &nbsp;
@@ -197,12 +197,12 @@ const Navbar = ({cookieCallback}) => {
           </div>
           <div className={menuOpen ? navbar.menu_opened : navbar.menu_closed} dir='rtl'>
             <div>
-            <p className={`${navbar.inner_menu_close_btn}`} dir='ltr'>
+            <span className={`${navbar.inner_menu_close_btn}`} dir='ltr'>
               <IoMdClose onClick={handleNav} className='text-4xl text-text' />
             <p className={`${navbar.user_intro} mt-1`} dir='ltr'>
-              {user == null ? <p>,שלום אורח</p> : <p>,שלום {user.firstName}</p>}
+              {user == null ? "שלום אורח," : `,שלום ${user.firstName}`}
               </p>
-            </p>
+            </span>
             </div>
             <hr className='w-full border-[2px] border-text' />
             <br />
@@ -223,7 +223,7 @@ const Navbar = ({cookieCallback}) => {
               </Link>
               <Link className={curPath == '/tours' ? '  opacity-70 border-text' : ''} onClick={handleNav} href='/tours'>
                 <li className={`${navbar.li_opened_menu}`}>
-                  <FaCircleExclamation size={25} />
+                  <FaFlag size={25} />
                   &nbsp;
                   סיורים
                 </li>
