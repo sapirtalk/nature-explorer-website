@@ -13,28 +13,27 @@ const Home = () => {
 
   return (
     <div>
-      <br />
-        <Greeting />
-        <div className='w-full h-[30vh] '>
-        <div className='border-8 border-tertiary'></div>
-          <LatestTours />
-        </div>
-        <div className="flex justify-center lg:mt-8" dir='rtl'>
-        <Link
+      <Greeting />
+      <div className="my-10">
+      <div className='border-8 border-tertiary'></div>
+        <LatestTours />
+        <div className="flex justify-center">
+          <Link
             showAnchorIcon
-            className="text-primary-500 text-2xl lg:mt-0 mt-20"
+            className="text-primary-500 text-2xl"
             href='/tours'>
             לכל הסיורים
           </Link>
         </div>
         <div className='border-8 border-tertiary mt-4'></div>
-        <div className='w-full h-full p-3 mt-5'>
-          <RecommendedTrails cookieCallback={cookieCallback} />
-        </div>
-        <div className="flex justify-center" dir='rtl'>
+      </div>
+      <div className='w-full h-full p-3'>
+      <RecommendedTrails cookieCallback={cookieCallback} />
+      </div>
+      <div className="flex justify-center" dir='rtl'>
         <Link
             showAnchorIcon
-            className="text-primary-500 text-2xl lg:mt-0 lg:mb-8 mt-3"
+            className="text-primary-500 text-2xl lg:mt-0 lg:mb-8"
             href='/trail_catalogue'>
             לכל המסלולים
           </Link>

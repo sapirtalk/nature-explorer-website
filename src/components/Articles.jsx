@@ -60,7 +60,7 @@ const Articles = () => {
   }
 
   return (
-    <div className="grid grid-cols-1 gap-10 lg:grid-cols-4">
+    <div className="grid grid-cols-1 gap-10 lg:grid-cols-4 p-5">
       {articles.map((article) => (
         <SingleArticle
         key={article._id}

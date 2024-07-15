@@ -91,7 +91,7 @@ const LatestTours = () => {
   ));
 
   return (
-    <div className="flex justify-center mt-2">
+    <div className="flex justify-center p-5">
       <div className="w-full max-w-7xl">
         <h1 className="mb-2 text-2xl text-center">סיורים קרובים</h1>
         <div className="hidden lg:grid lg:grid-cols-3 lg:gap-10" dir='rtl'>
