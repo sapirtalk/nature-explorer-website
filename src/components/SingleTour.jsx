@@ -4,6 +4,7 @@ import Image from 'next/image'
 import React, { useState, useEffect } from "react";
 import { Card, CardHeader, CardBody, CardFooter, Divider } from "@nextui-org/react";
 import { IoMdClose } from "react-icons/io";
+import logo from '../../public/resources/images/logo/logo.png';
 
 const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, registeredUsersCount, image }) => {
     const [user, setUser] = useState(null);
@@ -14,10 +15,15 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
     const [isProcessing, setIsProcessing] = useState(false);
 
     useEffect(() => {
-        const storedUser = localStorage.getItem('user');
+        const storedUser = document.cookie.split('; ').find(row => row.startsWith('user='));
         if (storedUser) {
-            const parsedUser = JSON.parse(storedUser);
-            setUser(parsedUser);
+            try {
+                const decodedUser = decodeURIComponent(storedUser.split('=')[1]);
+                const parsedUser = JSON.parse(decodedUser);
+                setUser(parsedUser);
+            } catch (error) {
+                console.error('Failed to parse user cookie', error);
+            }
         }
     }, []);
 
@@ -97,7 +103,7 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
             if (result.success) {
                 alert('Registration canceled');
                 setIsRegistered(false);
-                setRegisteredUsersCount(prevCount => prevCount - result.existingPeopleCount);  // Decrement registered users count
+                setRegisteredUsersCount(prevCount => prevCount - result.existingPeopleCount);
             } else {
                 alert(result.message);
             }
@@ -111,16 +117,21 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
 
     return (
         <div dir="rtl">
-            <Card className="lg:w-[21vw] lg:h-[25vh] flex flex-col ">
+            <Card className="lg:w-[21vw] lg:h-[26vh] flex flex-col ">
                 <div className="flex flex-col flex-[2]">
                     <CardHeader className="flex-1">
                         <div className='w-[30%] ml-3'>
-                            <Image 
-                            src={image[0]}
-                            alt={name}
-                            width={500}
-                            height={500} 
-                            className='w-full h-full rounded-r-lg' />
+                            {image.length === 0 ? (
+                                <div>
+                                    <Image src={logo} alt='logo' width={80} height={80} />
+                                </div>
+                            ) : (
+                                <Image 
+                                    src={image[0]}
+                                    width={500}
+                                    height={500} 
+                                    className='w-full h-full rounded-r-lg' />
+                            )}
                         </div>
                         <div className="flex flex-col w-full">
                             <header className="text-text font-bold">{title}</header>
@@ -130,7 +141,7 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
                             </p>
                             <p className="text-xs text-default-500">
                                 שעת הסיור: &nbsp;
-                                {new Date(tourTime).toLocaleTimeString()}
+                                {new Date(tourTime).toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' })}
                             </p>
                             <p className="text-xs text-default-500">
                                 מספר משתתפים: {registeredUsersCount1}
@@ -146,7 +157,7 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
                     </div>
                 </CardBody>
                 <Divider />
-                <CardFooter className="flex-[2] justify-center">
+                <CardFooter className="p-5 flex-[2] justify-center">
                     {user == null ? (
                         <div>
                             ההתחבר/הרשם לאתר כדי להירשם לסיור

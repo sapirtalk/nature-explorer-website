@@ -56,11 +56,13 @@ const Tours = () => {
     return <h1>No tours found</h1>;
   }
 
-  const sortedTours = tours.sort((a, b) => new Date(b.tourTime) - new Date(a.tourTime));
+  const today = new Date();
+
+  const sortedTours = tours.filter(tour => new Date(tour.tourTime) > today).sort((a, b) => new Date(a.tourTime) - new Date(b.tourTime));
 
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center" dir='rtl'>
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-4 xl:grid-cols-3 w-full max-w-7xl">
         {sortedTours.map((tour) => (
           <SingleTour
