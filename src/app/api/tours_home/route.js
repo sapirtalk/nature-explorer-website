@@ -6,6 +6,6 @@ import { NextResponse } from 'next/server';
 
 export async function GET(){
     const db = await connectToDatabase();
-    const news = await db.collection('AdminNews').find({}).toArray();
-    return NextResponse.json({ news });
+    const tours = await db.collection('Tours').find({}).toArray();
+    return NextResponse.json({ tours });
 }
