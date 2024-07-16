@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Map with Route</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+    <style>
+        #map {
+            height: 500px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>The Butterfly Trail</h1>
+    <div id="map"></div>
+    <script>
+    // Initialize the map and set its view to the specified coordinates and zoom level
+    var map = L.map('map').setView([32.741, 35.02], 13);
+
+    // Add OpenStreetMap tiles to the map
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Define coordinates for Buckingham Palace and Leicester Square
+    var startPoint = [32.745726, 35.025432];
+    var endPoint = [32.744093, 35.023029];
+
+    // Add markers with popups showing coordinates
+    var markerBP = L.marker(startPoint).addTo(map);
+    markerBP.bindPopup("Your trail starts here!").openPopup();
+
+    var markerLS = L.marker(endPoint).addTo(map);
+    markerLS.bindPopup("endPoint: " + endPoint[0] + ", " + endPoint[1]);
+
+    // Add a routing control to the map
+    L.Routing.control({
+        waypoints: [
+            L.latLng(startPoint),
+            L.latLng(endPoint)
+        ],
+        routeWhileDragging: true
+    }).addTo(map);
+    </script>
+</body>
+</html>
