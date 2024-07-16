@@ -81,10 +81,10 @@ const UserSettings = ({ userEmail, userId, cookieCallback, firstName, lastName }
             if (data.error) {
                 setMessage(data.error);
                 toast.error(data.error);    
-            } 
-            else if (data.message === 'Incorrect password') {
-                setMessage('הססמא הנוכחית אינה נכונה');
-                toast.error('הססמא הנוכחית אינה נכונה');
+            }
+            else if (data.success === false) {
+                setMessage(data.message);
+                toast.error(data.message);
             }
             else {
                 setMessage('המשתמש עודכן בהצלחה');

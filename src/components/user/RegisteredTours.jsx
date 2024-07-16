@@ -54,7 +54,7 @@ const RegisteredTours = ({userId}) => {
             <ScrollShadow isEnabled={false}  orientation="vertical" className="h-[50vh] flex flex-col items-center">{tours.length > 0 ? tours : <p>לא נמצאו סיורים שנרשמת אליהם</p>}</ScrollShadow>
             </div>
             <div className="hidden lg:flex">
-            <ScrollShadow isEnabled={false} orientation="horizontal" className="flex flex-row justify-center items-center my-3 w-[80vw]">{tours.length > 0 ? tours : <p>לא נמצאו סיורים שנרשמת אליהם</p>}</ScrollShadow>
+                <ScrollShadow isEnabled={false} orientation="horizontal" className="flex flex-row justify-center w-[70vw] items-center pr-[20vw] my-3">{tours.length > 0 ? tours : <p>לא נמצאו סיורים שנרשמת אליהם</p>}</ScrollShadow>
             </div>
         </div>
         }

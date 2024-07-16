@@ -23,7 +23,7 @@ export async function POST(req) {
     // update last login date
     await db.collection('Users').updateOne({email: email}, { $set: { LastLogin: new Date() } });
 
-    const userDetails = { email: user[0].email, firstName: user[0].firstName, lastName: user[0].lastName , id: user[0]._id , isAdmin: user[0].isAdmin};
+    const userDetails = { email: user[0].email, firstName: user[0].firstName, lastName: user[0].lastName , id: user[0]._id , role: user[0].role };
 
     return NextResponse.json({ user: userDetails});
 }
