@@ -45,11 +45,12 @@ async function uploadImages(images) {
 //     "image": [
 //     "<image 1: base64 encoded format>",
 //     "<image 2: base64 encoded format>"
-//      ]
+//      ],
+//     "whatsappGroupUrl": "https://chat.whatsapp.com/invite/1234567890"
 // }
 export async function POST(req) {
     try {
-      const { requesterId, title, description, tourTime, image } = await req.json();
+      const { requesterId, title, description, tourTime, image, whatsappGroupUrl } = await req.json();
       const db = await connectToDatabase();
   
       // Check if requester is authorized
@@ -77,6 +78,7 @@ export async function POST(req) {
         registeredUsersCount: 0,
         isArchived: false,
         image: imageUrls,
+        whatsappGroupUrl,
         createdAt: new Date(),
         updatedAt: new Date()
       };

@@ -1,5 +1,6 @@
 import { connectToDatabase } from '../../middleware/mongo';
 import { NextResponse } from 'next/server';
+import { ObjectId } from 'mongodb';
 
 // POST /api/admin_panel/statistics
 // Purpose:
@@ -9,30 +10,42 @@ import { NextResponse } from 'next/server';
 // "includeArchived": false
 // }
 export async function POST(req) {
-    const { includeArchived } = await req.json();
-
-    const db = await connectToDatabase();
-
-    var archiveFilter = {}
-
-    if (!includeArchived){
-        archiveFilter = { isArchived: false }
-    }
-
-    const numOfUsers = await db.collection("Users").countDocuments();
-    const numOfUsersFromFB = await db.collection("Users").countDocuments( {fromFacebook: true} );
-    const numOfAdmins = await db.collection("Users").countDocuments( {role: "admin"} );
-    const numOfEditors = await db.collection("Users").countDocuments( {role: "editor"} );
-    const numOfTrails = await db.collection("Trails").countDocuments(archiveFilter);
-    const numOfArticles = await db.collection("Articles").countDocuments(archiveFilter);
-    const numOfTours = await db.collection("Tours").countDocuments(archiveFilter);
-    const latestLoginDate = await getLatestDate(db, "Users", "LastLogin");
-    const latestRegisterDate = await getLatestDate(db, "Users", "RegisterDate");
-    const dateRangeCounts = await getDateRangeCounts(db);    
+    try {
+        const { requesterId, includeArchived } = await req.json();
+        const db = await connectToDatabase();
     
-    return NextResponse.json({ numOfAdmins, numOfEditors, numOfUsers, numOfUsersFromFB,
-        numOfTrails, numOfArticles, numOfTours, latestLoginDate, latestRegisterDate,
+        // Check if requester is authorized
+        const requester = await db.collection('Users').findOne({_id: new ObjectId(requesterId)})
+        if (requester) {
+            if (requester.role !== "admin" && requester.role !== "editor") { 
+                return NextResponse.json({ success: false, message: "Not authorized!" });
+            }
+        } else return NextResponse.json({ success: false, message: "Requester user not found" });
+
+        var archiveFilter = {}
+
+        if (!includeArchived){
+            archiveFilter = { isArchived: false }
+        }
+
+        const numOfUsers = await db.collection("Users").countDocuments();
+        const numOfUsersFromFB = await db.collection("Users").countDocuments( {fromFacebook: true} );
+        const numOfAdmins = await db.collection("Users").countDocuments( {role: "admin"} );
+        const numOfEditors = await db.collection("Users").countDocuments( {role: "editor"} );
+        const numOfTrails = await db.collection("Trails").countDocuments(archiveFilter);
+        const numOfComments = await db.collection("Comments").countDocuments();
+        const numOfArticles = await db.collection("Articles").countDocuments(archiveFilter);
+        const numOfTours = await db.collection("Tours").countDocuments(archiveFilter);
+        const latestLoginDate = await getLatestDate(db, "Users", "LastLogin");
+        const latestRegisterDate = await getLatestDate(db, "Users", "RegisterDate");
+        const dateRangeCounts = await getDateRangeCounts(db);    
+        
+        return NextResponse.json({ success: true, numOfAdmins, numOfEditors, numOfUsers, numOfUsersFromFB,
+        numOfTrails, numOfComments, numOfArticles, numOfTours, latestLoginDate, latestRegisterDate,
          ...dateRangeCounts});
+    } catch (error) {
+          return NextResponse.json({ success: false, message: 'Failed to get data' });
+        }
 }
 
 
@@ -76,6 +89,7 @@ async function getDateRangeCounts(db) {
     for (const range of dateRanges) {
         counts[`${range.label}RegisterCount`] = await getUsersCountByDateRange(db, 'Users', 'RegisterDate', range.start.toISOString(), range.end.toISOString());
         counts[`${range.label}LoginCount`] = await getUsersCountByDateRange(db, 'Users', 'LastLogin', range.start.toISOString(), range.end.toISOString());
+        counts[`${range.label}CommentsCount`] = await getUsersCountByDateRange(db, 'Comments', 'createdAt', range.start.toISOString(), range.end.toISOString());
     }
 
     return counts;
