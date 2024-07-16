@@ -15,6 +15,25 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
     const [registeredUsersCount1, setRegisteredUsersCount] = useState(registeredUsersCount);
     const [isProcessing, setIsProcessing] = useState(false);
 
+
+    const compareTourTime = () => {
+        const currentTime = new Date();
+        const tourTimeDate = new Date(tourTime);
+
+        if (tourTimeDate >= currentTime) {
+            return (<p className="text-xs text-default-500">
+                תאריך הסיור: &nbsp;
+                {new Date(tourTime).toLocaleDateString()} 
+            </p>)
+        } else {
+            return (<p className="text-xs text-default-888">הסיור הסתיים</p>)
+        }
+
+
+
+    }
+
+
     useEffect(() => {
         const storedUser = document.cookie.split('; ').find(row => row.startsWith('user='));
         if (storedUser) {
@@ -137,10 +156,7 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
                         </div>
                         <div className="flex flex-col w-full">
                             <header className="text-text font-bold">{title}</header>
-                            <p className="text-xs text-default-500">
-                                תאריך הסיור: &nbsp;
-                                {new Date(tourTime).toLocaleDateString()} 
-                            </p>
+                            {compareTourTime()}
                             <p className="text-xs text-default-500">
                                 שעת הסיור: &nbsp;
                                 {new Date(tourTime).toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' })}
