@@ -1,4 +1,5 @@
 import Login from "@/components/login_comp/Login"
+import { Image } from "@nextui-org/react"
 import { cookies } from 'next/headers'
 
 
@@ -26,7 +27,8 @@ const LoginPage = () => {
     return (
         <div className="h-[80vh] lg:flex lg:flex-row lg:w-[100%]">
 
-            <div className="hidden lg:flex w-[50%] h-full">
+            <div className="hidden lg:flex lg:justify-center lg:items-center w-[50%] h-full">
+                <Image src="\resources\images\trails\butterfly\butterfly.jpg" alt="login" width={1000} height={1000} />
             </div>
             <div className="lg:w-[50%] h-full">
                 <Login cookieCallback={cookieCallback} />

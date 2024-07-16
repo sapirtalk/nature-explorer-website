@@ -42,8 +42,20 @@ export async function POST(req) {
 // }
 export async function PUT(req) {
     try {
-        const { userId, updatedFields } = await req.json();
+        const { userId, old_password , updatedFields } = await req.json();
         const db = await connectToDatabase();
+
+
+
+        // Check if the user's password is correct
+        const user_check = await db.collection('Users').findOne({ _id: new ObjectId(userId) });
+        if (!user_check) {
+            return NextResponse.json({ success: false, message: 'User not found' });
+        }
+        if (user_check.password_hash !== old_password) {
+            return NextResponse.json({ success: false, message: 'Incorrect password' });
+
+        }
 
         // Define allowed fields for update
         const allowedFields = ['firstName', 'lastName', 'email', 'password_hash', 'fromFacebook'];
@@ -51,7 +63,7 @@ export async function PUT(req) {
         // Filter the fields to only include allowed ones
         const filteredUpdates = {};
         for (const key in updatedFields) {
-            if (allowedFields.includes(key)) {
+            if (allowedFields.includes(key) && updatedFields[key]) {
                 filteredUpdates[key] = updatedFields[key];
             }
         }
@@ -74,10 +86,36 @@ export async function PUT(req) {
         );
 
         if (result.matchedCount > 0) {
-            return NextResponse.json({ success: true, message: 'User details updated successfully.' });
+            // get the updated user
+            const user = await db.collection('Users').findOne({ _id: new ObjectId(userId) });
+            return NextResponse.json({ success: true, message: 'User details updated successfully.' , updatedUser: user });
+        } else {
+            return NextResponse.json({ success: false, message: 'User not found.' , updatedUser: null });
+        }
+    } catch (error) {
+        return NextResponse.json({ success: false, message: error.message });
+    }
+}
+
+
+
+// DELETE /api/user_panel/information
+// Purpose:
+// Allow users to delete their account
+// Input Example:
+// {
+//     "userId": "667dcd842f4666fa50754116"
+// }
+export async function DELETE(req) {
+    try {
+        const { userId , password_hash } = await req.json();
+        const db = await connectToDatabase();
+        const result = await db.collection('Users').deleteOne({ _id: new ObjectId(userId) , password_hash: password_hash });
+        if (result.deletedCount > 0) {
+            return NextResponse.json({ success: true, message: 'User deleted successfully.' });
         } else {
             return NextResponse.json({ success: false, message: 'User not found.' });
-        }
+        }    
     } catch (error) {
         return NextResponse.json({ success: false, message: error.message });
     }

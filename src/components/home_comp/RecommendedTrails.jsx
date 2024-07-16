@@ -87,7 +87,7 @@ const RecommendedTrails = ({cookieCallback}) => {
     
     return (
         <div className='flex flex-col justify-center items-center flex-wrap'>
-            <h1 className='text-2xl'>מסלולים מומלצים</h1>
+            <h1 className='text-2xl mb-7'>מסלולים מומלצים</h1>
             {loading ? <div className="flex justify-start flex-col pt-5 h-[80vh] items-center">
                 <Spinner label="...טוען מסלולים" color="secondary" labelColor="secondary" size="lg" />
                 </div> : 

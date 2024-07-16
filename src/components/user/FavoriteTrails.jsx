@@ -1,13 +1,14 @@
 'use client'
 
 import SingleTrail from "../trails/SingleTrail"
-import { fetchData } from "@/utils"
 import { useEffect, useState } from "react"
-import Link from 'next/link'
 import { Spinner } from "@nextui-org/react";
 
 
+
 const FavoriteTrails = ({user_id}) => {
+
+    
 
     const [trails, setTrails] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -22,14 +23,12 @@ const FavoriteTrails = ({user_id}) => {
                 body: JSON.stringify({ userId : user_id })
             });
             const data = await res.json();
-            console.log(data);
-
             return data.favorite_trails;
         };
 
         fetchFavTrails().then((data) => {
             setTrails(data.map((trail) => (
-                    <div key={trail._id}>
+                    <div className="w-full" key={trail._id}>
                     <SingleTrail 
                         id={trail._id}
                         image={trail.image} 
@@ -61,7 +60,7 @@ const FavoriteTrails = ({user_id}) => {
             {loading ? <div className="flex justify-start flex-col pt-5 h-[80vh] items-center">
                 <Spinner label="...טוען מסלולים" color="secondary" labelColor="secondary" size="lg" />
                 </div> : 
-            <div className="lg:flex lg:flex-col lg:mb-10 lg:items-center lg:justify-center">{trails}</div>}
+            <div className="lg:flex py-2 lg:flex-col lg:mb-10 lg:items-center lg:justify-center">{trails.length > 0 ? trails : <p>אין מסלולים מועדפים</p>}</div>}
         </div>
     )
     

@@ -5,7 +5,6 @@ import {Image} from "@nextui-org/image";
 import { useState } from "react";
 import useEmblaCarousel from 'embla-carousel-react'
 import {Modal, ModalContent} from "@nextui-org/react";
-
 import { DotButton, useDotButton } from './EmblaCarouselDotButton'
 import {
   PrevButton,
@@ -18,7 +17,10 @@ const ImageCarousel = ({ images , options }) => {
 
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false });
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false,
+    slidesToScroll: 1,
+    containScroll: false
+  });
   const [currentImage, setCurrentImage] = useState(0);
 
 
@@ -69,8 +71,8 @@ const ImageCarousel = ({ images , options }) => {
 
       <div className="embla__controls">
         <div className="embla__buttons">
-          <NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
           <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
+          <NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
         </div>
         <div className="hidden justify-center items-center lg:flex lg:flex-row-reverse lg:justify-between">
         <div className="embla__dots">

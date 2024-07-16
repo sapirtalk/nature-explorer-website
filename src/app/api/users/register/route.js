@@ -20,7 +20,9 @@ export async function POST(req) {
         lastName: lastName,
         fromFacebook: fromFacebook,
         LastLogin: new Date(),
-        RegisterDate: new Date()
+        RegisterDate: new Date(),
+        registeredTours: [],
+        favoriteTrails: []
     };
 
     try{
