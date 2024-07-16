@@ -65,6 +65,7 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
 
             const result = await response.json();
             if (result.success) {
+                alert('Registration successful');
                 setIsRegistered(true);
                 setRegisteredUsersCount(prevCount => parseInt(prevCount) + parseInt(numberOfPeople)); 
             } else {
@@ -165,7 +166,7 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
                     ) : (
                         <div>
                             {!isFormOpen && !isRegistered && (
-                                <button disabled={isProcessing} className='bg-blue p-2 rounded-lg text-primary' onClick={handleOpenForm}>הרשמה לסיור</button>
+                                <button disabled={isProcessing} className='bg-blue-500 p-2 rounded-lg text-primary' onClick={handleOpenForm}>הרשמה לסיור</button>
                             )}
                             {isFormOpen && !isRegistered && (
                                 <div>
@@ -182,13 +183,13 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
                                             }}}
                                             className="flex-grow"
                                         />
-                                        <button disabled={isProcessing} type="submit" className='bg-blue p-2 rounded-lg text-primary mr-5'>הרשמה</button>
+                                        <button disabled={isProcessing} type="submit" className='bg-blue-500 p-2 rounded-lg text-primary mr-5'>הרשמה</button>
                                         <IoMdClose onClick={handleCloseForm} className='text-4xl text-text cursor-pointer mr-5' />
                                     </form>
                                 </div>
                             )}
                             {isRegistered && (
-                                <button disabled={isProcessing} className='bg-red p-2 rounded-lg text-primary' onClick={handleCancel}>ביטול הרשמה</button>
+                                <button disabled={isProcessing} className='bg-red-500 p-2 rounded-lg text-primary' onClick={handleCancel}>ביטול הרשמה</button>
                             )}
                         </div>
                     )}
