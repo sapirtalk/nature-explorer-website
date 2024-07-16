@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import FavoriteTrails from "./FavoriteTrails";
 import UserSettings from "./UserSettings";
+import RegisteredTours from "./RegisteredTours";
 
 const Profile = ({ user, cookieCallback }) => {
 
@@ -41,6 +42,9 @@ const Profile = ({ user, cookieCallback }) => {
                     <p className="text-center font-bold pl-2">שם מלא:</p>
                     <p className="text-center">{user.firstName} {user.lastName}</p>
                 </span>
+            </div>
+            <div className="w-full h-full pt-4 border-b-2 border-black">
+                <RegisteredTours userId={user._id ? user._id : user.id} />
             </div>
             <div className="w-full h-full pt-4">
                 <FavoriteTrails user_id={user._id ? user._id : user.id} cookieCallback={cookieCallback} />

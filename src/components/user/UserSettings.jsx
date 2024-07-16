@@ -120,7 +120,9 @@ const UserSettings = ({ userEmail, userId, cookieCallback, firstName, lastName }
                 await cookieCallback('user', null, 'remove');
                 await cookieCallback('rememberMe', null, 'remove');
                 toast.info('המשתמש נמחק בהצלחה');
-                window.location.replace('/login');
+                setTimeout(() => {
+                    window.location.replace('/login');  
+                }, 3000);
             } else {
                 toast.error('נסה שנית, סיסמא שגויה');
             }

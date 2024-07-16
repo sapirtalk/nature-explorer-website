@@ -24,8 +24,8 @@ export async function POST(req) {
         var userRegisteredTours = []
         for (const tourId of userRegisteredToursIds) {
             const tour = await db.collection('Tours').findOne(
-                { _id: new ObjectId(tourId) },
-                { projection: { title: 1, description: 1, registeredUsersCount: 1, isArchived: 1 } }  // Specify fields to include
+                { _id: new ObjectId(tourId) }
+                // { projection: { title: 1, description: 1, registeredUsersCount: 1, isArchived: 1 } }  // Specify fields to include
             );
             userRegisteredTours.push(tour);
         }

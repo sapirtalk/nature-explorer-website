@@ -118,7 +118,7 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
 
     return (
         <div dir="rtl">
-            <Card className="lg:w-[21vw] lg:h-[26vh] flex flex-col ">
+            <Card className="lg:w-[21vw] lg:h-[26vh] w-[90vw] flex flex-col mx-2 ">
                 <div className="flex flex-col flex-[2]">
                     <CardHeader className="flex-1">
                         <div className='w-[30%] ml-3'>
