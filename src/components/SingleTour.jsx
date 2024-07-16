@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 import { Card, CardHeader, CardBody, CardFooter, Divider } from "@nextui-org/react";
 import { IoMdClose } from "react-icons/io";
 import logo from '../../public/resources/images/logo/logo.png';
+import { toast } from 'react-toastify';
 
 const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, registeredUsersCount, image }) => {
     const [user, setUser] = useState(null);
@@ -65,7 +66,7 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
 
             const result = await response.json();
             if (result.success) {
-                alert('Registration successful');
+                toast.success('נרשמת בהצלחה לסיור');
                 setIsRegistered(true);
                 setRegisteredUsersCount(prevCount => parseInt(prevCount) + parseInt(numberOfPeople)); 
             } else {
@@ -73,7 +74,7 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
             }
         } catch (error) {
             console.error('Error:', error);
-            alert('An error occurred during registration.');
+            toast.error('שגיאה בהרשמה לסיור, נסה שנית מאוחר יותר');
         } finally {
             setIsProcessing(false);
             handleCloseForm();
@@ -102,7 +103,7 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
 
             const result = await response.json();
             if (result.success) {
-                alert('Registration canceled');
+                toast.info('ביטלת את הרשמתך לסיור');
                 setIsRegistered(false);
                 setRegisteredUsersCount(prevCount => prevCount - result.existingPeopleCount);
             } else {
@@ -110,7 +111,7 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
             }
         } catch (error) {
             console.error('Error:', error);
-            alert('An error occurred during cancellation.');
+            toast.error('שגיאה בביטול הרשמתך לסיור, נסה שנית מאוחר יותר');
         } finally {
             setIsProcessing(false);
         }
@@ -166,7 +167,7 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
                     ) : (
                         <div>
                             {!isFormOpen && !isRegistered && (
-                                <button disabled={isProcessing} className='bg-blue-500 p-2 rounded-lg text-primary' onClick={handleOpenForm}>הרשמה לסיור</button>
+                                <button disabled={isProcessing} className='bg-blue-500 p-2 rounded-lg text-primary hover:opacity-50' onClick={handleOpenForm}>הרשמה לסיור</button>
                             )}
                             {isFormOpen && !isRegistered && (
                                 <div>
@@ -183,13 +184,13 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
                                             }}}
                                             className="flex-grow"
                                         />
-                                        <button disabled={isProcessing} type="submit" className='bg-blue-500 p-2 rounded-lg text-primary mr-5'>הרשמה</button>
+                                        <button disabled={isProcessing} type="submit" className='bg-blue-500 hover:opacity-50 p-2 rounded-lg text-primary mr-5'>הרשמה</button>
                                         <IoMdClose onClick={handleCloseForm} className='text-4xl text-text cursor-pointer mr-5' />
                                     </form>
                                 </div>
                             )}
                             {isRegistered && (
-                                <button disabled={isProcessing} className='bg-red-500 p-2 rounded-lg text-primary' onClick={handleCancel}>ביטול הרשמה</button>
+                                <button disabled={isProcessing} className='bg-red-500 p-2 rounded-lg hover:opacity-50 text-primary' onClick={handleCancel}>ביטול הרשמה</button>
                             )}
                         </div>
                     )}
