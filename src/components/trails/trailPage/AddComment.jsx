@@ -4,25 +4,30 @@ import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDi
 import { Textarea } from "@nextui-org/input";
 import { MdOutlineAddComment } from 'react-icons/md';
 import { toast } from "react-toastify";
+import { Spinner } from "@nextui-org/react";
 
 export default function AddComment({ trailId, userId }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [title, setTitle] = useState("");
   const [textMessage, setComment] = useState("");
   const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const validateForm = () => {
     let formErrors = {};
     if (!title) formErrors.title = "כותרת נדרשת";
     if (!textMessage) formErrors.comment = "תגובה נדרשת";
     setErrors(formErrors);
+
     return Object.keys(formErrors).length === 0;
+
   };
 
   const handleSubmit = async () => {
-    if (!validateForm()) return;
 
+    console.log('now in handle submit')
 
+    
     // Construct the data to be sent
     const commentData = {
       title,
@@ -55,6 +60,7 @@ export default function AddComment({ trailId, userId }) {
       setComment("");
       setErrors({});
       onOpenChange();
+      setIsSubmitting(false);
 
       // after 2 seconds reload the page
       setTimeout(() => {
@@ -113,15 +119,25 @@ export default function AddComment({ trailId, userId }) {
                     value={textMessage}
                     onChange={(e) => setComment(e.target.value)}
                   />
-                  {errors.textMessage && <span className="text-red-500 text-sm">{errors.textMessage}</span>}
+                  {errors.comment && <span className="text-red-500 text-sm">{errors.comment}</span>}
                 </div>
               </ModalBody>
               <ModalFooter>
                 <Button className="bg-red-500 text-md" color="primary" variant="flat" onPress={onClose}>
                   ביטול
                 </Button>
-                <Button className="bg-blue-500 text-md" color="primary" onPress={handleSubmit}>
-                  הוסף תגובה
+                <Button disabled={isSubmitting} className="bg-blue-500 text-md" color="primary" 
+                  onPress={() => {
+                    setIsSubmitting(true);
+                    if (validateForm()) {
+                      onOpenChange();
+                      handleSubmit();
+                    }
+                    else {
+                      setIsSubmitting(false);
+                    }
+                    }}>
+                  {isSubmitting ? <Spinner size="xs" /> : 'הוסף תגובה'}
                 </Button>
               </ModalFooter>
             </div>

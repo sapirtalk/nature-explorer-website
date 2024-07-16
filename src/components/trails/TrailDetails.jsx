@@ -6,7 +6,7 @@ import { MdAccessTimeFilled } from "react-icons/md";
 
 const TrailDetails = ({ trail }) => {
 
-    const { name, description, distance, difficulty, duration, kids, pets, babyStroller, image } = trail;
+    const { name, description, distance, difficulty, duration, kidsFriendly, petsFriendly, babyStrollerFriendly, image } = trail;
 
     const difficultyTranslate = (diff) => {
       switch (diff) {
@@ -46,13 +46,13 @@ const TrailDetails = ({ trail }) => {
       </div>
       <div className='flex flex-row  text-center justify-between px-3 border-t-2 pt-1'>
         <div className=''>
-          <span>לילדים: <p className='font-bold' >{kids ? 'כן' : 'לא'}</p></span>
+          <span>לילדים: <p className='font-bold' >{kidsFriendly ? 'כן' : 'לא'}</p></span>
         </div>
         <div className='flex justify-center'>
-          <span>לחיות מחמד: <p className='font-bold'>{pets ? 'כן' : 'לא'}</p> </span>
+          <span>לחיות מחמד: <p className='font-bold'>{petsFriendly ? 'כן' : 'לא'}</p> </span>
         </div>
         <div className=''>
-          <span>לעגלות: <p className='font-bold' >{babyStroller ? 'כן' : 'לא'}</p></span>
+          <span>לעגלות: <p className='font-bold' >{babyStrollerFriendly ? 'כן' : 'לא'}</p></span>
         </div>
       </div>  
     </div>
@@ -78,13 +78,13 @@ const TrailDetails = ({ trail }) => {
       </div>
       <div className='flex flex-row  w-full text-center justify-between px-3 border-t-2 pt-1'>
       <div className=''>
-        <span>לילדים: <p className='font-bold' >{kids ? 'כן' : 'לא'}</p></span>
+        <span>לילדים: <p className='font-bold' >{kidsFriendly ? 'כן' : 'לא'}</p></span>
       </div>
       <div className='flex justify-center'>
-        <span>לחיות מחמד: <p className='font-bold'>{pets ? 'כן' : 'לא'}</p> </span>
+        <span>לחיות מחמד: <p className='font-bold'>{petsFriendly ? 'כן' : 'לא'}</p> </span>
       </div>
       <div className=''>
-        <span>לעגלות: <p className='font-bold' >{babyStroller ? 'כן' : 'לא'}</p></span>
+        <span>לעגלות: <p className='font-bold' >{babyStrollerFriendly ? 'כן' : 'לא'}</p></span>
       </div>
       </div>
     </div>   

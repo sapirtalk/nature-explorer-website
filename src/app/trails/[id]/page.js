@@ -26,7 +26,8 @@ const loader = async ({ params }) => {
   const db = await connectToDatabase();
   const id = ObjectId.createFromHexString(params.id);
   const trail = await db.collection('Trails').findOne({ _id: id });
-  const user = cookies().get('user') ? JSON.parse(cookies().get('user').value) : null;
+  const user_cookie = cookies().get('user') ? cookies().get('user').value : null;
+  const user = user_cookie ? JSON.parse(user_cookie) : null;
   const favorite_trails = user ? await db.collection('Users').findOne({ _id: new ObjectId(user.id) }).then((user) => user.favoriteTrails) : [];
   return {trail , user , favorite_trails};
 };
@@ -40,8 +41,6 @@ const Trail = async ({ params }) => {
   const rating = trail ? trail.averageRating : null;
   var refresh = false
 
-
-  
   if (!trail) {
     return (
       <div>
@@ -50,16 +49,19 @@ const Trail = async ({ params }) => {
     );
   }
 
-  const OPTIONS = { slidesToScroll: 'auto' }
+  const OPTIONS = { slidesToScroll: 1 ,
+    containScroll: 'trimSnaps',
+    slidesToShow: 1
+  }
   
 
   return (
-    <div dir="rtl" className='lg:p-[50px] justify-center items-center flex flex-col h-full mx-3'>
+    <div className='lg:p-[50px] justify-center items-center flex flex-col h-full mx-3'>
       <div className='lg:min-h-[40vh] w-full h-full lg:p-10'>
-      <div className='flex flex-row-reverse justify-between'> 
+      <div dir='rtl' className='flex flex-row-reverse justify-between'> 
         {user_id ? <UserLike trail_id = {trail_id} user_id = {user_id} liked = {liked} fromTrailPage={true} /> : null}
         <Stars rating={rating} user_id ={user_id} trail_id={trail_id} readOnly={true} onTrailPage={true} />
-      </div> 
+      </div>
         <h1 className='text-3xl lg:text-[35px] my-6 font-bold text-center'>{trail.name}</h1>
         <ImageCarousel images={trail.image} options={OPTIONS} />
       </div>
