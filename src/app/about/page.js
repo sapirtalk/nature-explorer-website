@@ -46,7 +46,7 @@ function About() {
                 <Image src={logo} width={80} height={80} />
                 <div>
                   <header className="text-lg">ענבל חן ברגב</header>
-                  <p className="text-sm text-indigo-600">מורה, עו"ד, מנהלת קב' ׳בשבילי חיפה׳ בפייסבוק, כותבת בהתנדבות טור בנושאי טבע במגזין ׳חי פה׳ ומנהלת האתר</p>
+                  <p className="text-sm text-indigo-600">מורה, עו"ד, מנהלת קב' &quotבשבילי חיפה&quot בפייסבוק, כותבת בהתנדבות טור בנושאי טבע במגזין &quotחי פה&quot ומנהלת האתר</p>
                 </div>
               </div>
             </li>
@@ -73,7 +73,7 @@ function About() {
                 <Image src={israelPeer} width={80} height={80} />
                 <div>
                   <header className="text-lg">ישראל פאר</header>
-                  <p className="text-sm text-indigo-600">מנהל את מיזם ׳תכנית לאומית לניטור פרפרים׳ ומוביל סיורי הרצאה והיכרות עם פרפרי הכרמל</p>
+                  <p className="text-sm text-indigo-600">מנהל את מיזם &quotתכנית לאומית לניטור פרפרים&quot ומוביל סיורי הרצאה והיכרות עם פרפרי הכרמל</p>
                 </div>
               </div>
             </li>
@@ -82,7 +82,7 @@ function About() {
                 <Image src={logo} width={80} height={80} />
                 <div>
                   <header className="text-lg">אבי אלבאום</header>
-                  <p className="text-sm text-indigo-600">חבר הועד המנהל של ׳עמותת ירוק בלב׳ ומלווה סיורים בגבעת העיזים שברמת בגין</p>
+                  <p className="text-sm text-indigo-600">חבר הועד המנהל של &quotעמותת ירוק בלב&quot ומלווה סיורים בגבעת העיזים שברמת בגין</p>
                 </div>
               </div>
             </li>
