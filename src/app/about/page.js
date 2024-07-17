@@ -46,7 +46,7 @@ function About() {
                 <Image src={logo} width={80} height={80} />
                 <div>
                   <header className="text-lg">ענבל חן ברגב</header>
-                  <p className="text-sm text-indigo-600">מורה, עו"ד, מנהלת קבוצת הפייסבוק &quot;בשבילי חיפה&quot; , כותבת בהתנדבות טור בנושאי טבע במגזין &quot;חי פה&quot; ומנהלת האתר</p>
+                  <p className="text-sm text-indigo-600">מורה, עו&quot;ד, מנהלת קבוצת הפייסבוק &quot;בשבילי חיפה&quot; , כותבת בהתנדבות טור בנושאי טבע במגזין &quot;חי פה&quot; ומנהלת האתר</p>
                 </div>
               </div>
             </li>
@@ -100,7 +100,7 @@ function About() {
                 <Image src={logo} width={80} height={80} />
                 <div>
                   <header className="text-lg">אסף בן לוי</header>
-                  <p className="text-sm text-indigo-600">יו"ר עמותת ירוק בלב ויועץ משפטי בחברה להגנת הטבע, מוביל סיור בגבעת העיזים שברמת בגין</p>
+                  <p className="text-sm text-indigo-600">יו&quot;ר עמותת ירוק בלב ויועץ משפטי בחברה להגנת הטבע, מוביל סיור בגבעת העיזים שברמת בגין</p>
                 </div>
               </div>
             </li>
