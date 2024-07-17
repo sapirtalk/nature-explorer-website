@@ -22,23 +22,28 @@ const AdminPanel = () => {
         cookies().set('admin_user', JSON.stringify(admin))
     };
 
+    const logout = async () => {
+        'use server'
+        cookies().delete('admin_user')
+    };
+
 
   const view = async () => {
 
 
     if (cookies().has('admin_user')) {
-      const admin = JSON.parse(cookies().get('admin_user').value)
+      const admin = cookies().get('admin_user').value ? JSON.parse(cookies().get('admin_user').value) : emptyAdmin
       return (
         <div className="flex flex-col w-[100%] h-[100vh] justify-center items-center">
             <div className="flex flex-row-reverse w-full h-[90%]">
-                <div className="w-[20%] h-full p-3">       
-                    <AdminNav viewNav={getView} />
+                <div className="w-[15%] h-full p-3 pb-0">       
+                    <AdminNav viewNav={getView} logoutCallback={logout} admin={admin} />
                 </div> 
-                <div className="w-[80%] h-full p-3">
+                <div className="w-[85%] h-full p-3">
                     {selectComponent()}
                 </div>
             </div>
-            <div className="w-full h-[10%]">
+            <div className="w-full border-t-2 border-secondary h-[10%]">
                 <AdminFooter />
             </div>  
         </div>
@@ -72,7 +77,7 @@ const selectComponent = async () => {
     'use server'
 
     const viewNavCurrent = cookies().get('viewNav')
-    const admin = JSON.parse(cookies().get('admin_user').value)
+    const admin = cookies().get('admin_user').value ? JSON.parse(cookies().get('admin_user').value) : emptyAdmin
     const viewNav = viewNavCurrent ? viewNavCurrent.value : 'dashboard'
 
 
@@ -97,4 +102,11 @@ const selectComponent = async () => {
         default:
             return <AdminDashboard admin={admin} />
     }
+}
+
+
+const emptyAdmin = {
+    firstName: '',
+    lastName: '',
+    email: '',
 }
