@@ -7,10 +7,10 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 const TrafficGraph = ({ user_traffic }) => {
     
     return (
-        <div style={{ width: '100%', height: '100%' }}>
+        <div className='flex flex-col justify-center items-center' style={{ width: '100%', height: '100%' }}>
             <header className='text-center text-[24px] font-bold border-text p-4'>תנועות משתמשים</header>
             <br />
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height="80%">
                 <BarChart
                     data={user_traffic}
                 >
@@ -23,8 +23,8 @@ const TrafficGraph = ({ user_traffic }) => {
                         />
                     <Tooltip cursor={{ fill: '#E5E5E3' }} />
                     <Legend />
-                    <Bar dataKey="התחברויות" fill="#8884d8" barSize={30} />
-                    <Bar dataKey="הרשמות" fill="#82ca9d" barSize={30} />
+                    <Bar dataKey="התחברויות" fill="#8884d8" barSize={20} />
+                    <Bar dataKey="הרשמות" fill="#82ca9d" barSize={20} />
                 </BarChart>
             </ResponsiveContainer>
         </div>

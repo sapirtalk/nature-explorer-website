@@ -6,11 +6,11 @@ import TrafficGraph from "./TrafficGraph"
 
 const Graphs = ({Statistics}) => {
     return (
-        <div className="w-full pb-5 h-[90%] flex flex-row">
-            <div className="w-1/2" >
+        <div className="w-full pb-5 h-[100%] flex flex-row">
+            <div className="w-[45%]" >
                 <TrafficGraph user_traffic={Statistics.user_traffic}/>
             </div>
-            <div className="w-1/2 flex flex-col justify-center items-center">
+            <div className="w-[55%] flex flex-col justify-center items-center">
                 <div className="flex w-full flex-col justify-center items-center h-[45%] pb-4">
                     <DiffPie count_by_trail_diff={Statistics.count_by_trail_diff}/>
                 </div>
