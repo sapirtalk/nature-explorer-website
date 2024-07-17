@@ -1,14 +1,20 @@
+import Graphs from "./dashboardComp/Graphs"
+import StaticCounts from "./dashboardComp/StaticCounts"
 
 
 
 
 
 
-const AdminDashboard = ({admin}) => {
+const AdminDashboard = ({admin , Statistics}) => {
     return (
-        <div>
-            <h1>{admin.firstName}</h1>
-            <p>Admin dashboard</p>
+        <div className="w-full h-full">
+            <div className="h-[20%]">
+            <StaticCounts Statistics={Statistics} />
+            </div>
+            <div className="h-[80%]">
+            <Graphs Statistics={Statistics}/>
+            </div>
         </div>
     )
 }

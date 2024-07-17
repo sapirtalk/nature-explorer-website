@@ -12,25 +12,20 @@ import AdminAbout from "@/components/admin/AdminAbout";
 import AdminContact from "@/components/admin/AdminContact";
 import AdminComments from "@/components/admin/AdminComments";
 import AdminUsers from "@/components/admin/AdminUsers";
+import { connectToDatabase } from "../api/middleware/mongo";
 
 
-const AdminPanel = () => {
+const AdminPanel = async () => {
+
+
+
+    const websiteData = await getWebsiteData();
 
     
-    const login = async (admin) => {
-       'use server'
-        cookies().set('admin_user', JSON.stringify(admin))
-    };
 
-    const logout = async () => {
-        'use server'
-        cookies().delete('admin_user')
-    };
 
 
   const view = async () => {
-
-
     if (cookies().has('admin_user')) {
       const admin = cookies().get('admin_user').value ? JSON.parse(cookies().get('admin_user').value) : emptyAdmin
       return (
@@ -40,7 +35,7 @@ const AdminPanel = () => {
                     <AdminNav viewNav={getView} logoutCallback={logout} admin={admin} />
                 </div> 
                 <div className="w-[85%] h-full p-3">
-                    {selectComponent()}
+                    {selectComponent(websiteData)}
                 </div>
             </div>
             <div className="w-full border-t-2 border-secondary h-[10%]">
@@ -65,6 +60,50 @@ const AdminPanel = () => {
 export default AdminPanel;
 
 
+// retrive all data from database
+const getWebsiteData = async () => {
+    const db = await connectToDatabase();
+    const database = db
+
+    // Get a list of all collections
+    const collections = await database.listCollections().toArray();
+
+    // Create an object to hold the data
+    const websiteData = {};
+    const Statistics = {};
+
+    // Iterate over each collection and fetch its documents
+    for (const collection of collections) {
+        const collectionName = collection.name;
+        const documents = await database.collection(collectionName).find().toArray();
+        websiteData[collectionName] = documents;
+    }
+
+    Statistics.numOfUsers = websiteData.Users.length
+    Statistics.numOfTrails = websiteData.Trails.length
+    Statistics.numOfArticles = websiteData.Articles.length
+    Statistics.numOfTours = websiteData.Tours.length
+    Statistics.user_traffic = await getUserTraffic(database)
+    Statistics.count_by_trail_diff = await getDataCountByTrailDiff(database)
+    // Statistics.trail_rating_vs_comments = await getTrailRatingVsComments(database)
+    Statistics.user_engagement = await getUserEngagement(database)
+
+
+    websiteData.Statistics = Statistics
+
+    
+
+
+
+
+    return websiteData;
+};
+
+
+
+
+
+
 
 const getView = async (view) => {
     'use server'
@@ -73,7 +112,7 @@ const getView = async (view) => {
 
 
 
-const selectComponent = async () => {
+const selectComponent = async (websiteData) => {
     'use server'
 
     const viewNavCurrent = cookies().get('viewNav')
@@ -84,7 +123,7 @@ const selectComponent = async () => {
 
     switch (viewNav) {
         case 'dashboard':
-            return <AdminDashboard admin={admin} />
+            return <AdminDashboard admin={admin} Statistics={websiteData.Statistics} />
         case 'trails':
             return <AdminTrails admin={admin} />
         case 'tours':
@@ -105,8 +144,167 @@ const selectComponent = async () => {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+const login = async (admin) => {
+    'use server'
+     cookies().set('admin_user', JSON.stringify(admin))
+ };
+
+ const logout = async () => {
+     'use server'
+     cookies().delete('admin_user')
+ };
+
+
+
 const emptyAdmin = {
     firstName: '',
     lastName: '',
     email: '',
 }
+
+
+
+
+const getUserTraffic = async (db) => {
+
+    const users = await db.collection('Users').find().toArray();
+
+    // get the traffic of the last 7 days
+    const last7Days = new Date();
+    last7Days.setDate(last7Days.getDate() - 7);
+
+    // for each day , get the number of logins and number of registers
+
+    const traffic = [];
+
+    for (let i = 0; i < 7; i++) {
+        const day = new Date();
+        day.setDate(day.getDate() - i);
+        const dayFormatted = day.toLocaleDateString('en-GB'); // Formats date as dd/mm/yyyy
+        const dayTraffic = {
+            התחברויות: 0,
+            הרשמות: 0,
+            name: dayFormatted
+        };
+    
+        for (const user of users) {
+            if (user.LastLogin && user.LastLogin.toISOString().slice(0, 10) === day.toISOString().slice(0, 10)) {
+                dayTraffic.התחברויות++;
+            }
+    
+            if (user.RegisterDate && user.RegisterDate.toISOString().slice(0, 10) === day.toISOString().slice(0, 10)) {
+                dayTraffic.הרשמות++;
+            }
+        }
+    
+        traffic.push(dayTraffic);
+    }
+    
+
+    return traffic;
+
+}
+
+
+
+const getDataCountByTrailDiff  = async (db) => {
+
+    const trails = await db.collection('Trails').find().toArray();
+
+    const countByTrailDiff = [];
+
+    let easy = 0;
+    let medium = 0;
+    let hard = 0;
+
+    for (const trail of trails) {
+        if (trail.difficulty === 1) {
+            easy++;
+        } else if (trail.difficulty === 2) {
+            medium++;
+        } else if (trail.difficulty === 3) {
+            hard++;
+        }
+    }
+
+    countByTrailDiff.push({ difficulty: 'קל', count: easy });
+    countByTrailDiff.push({ difficulty: 'בינוני', count: medium });
+    countByTrailDiff.push({ difficulty: 'קשה', count: hard });
+
+    return countByTrailDiff;
+
+    
+};
+
+
+
+
+const getTrailRatingVsComments = async (db) => {
+    const trails = await db.collection('Trails').find().toArray();
+
+    const ratingVsComments = [];
+
+    for (const trail of trails) {
+        ratingVsComments.push({ rating: trail.averageRating, comments: trail.numComments });
+    }
+
+    return ratingVsComments;
+}
+
+
+
+
+
+const getUserEngagement = async (db) => {
+    const users = await db.collection('Users').find().toArray();
+    const trails = await db.collection('Trails').find().toArray();
+    const tours = await db.collection('Tours').find().toArray();
+    const commentNum = await db.collection('Comments').countDocuments();
+
+    let favMarkedCount = 0;
+    let ratingPlacedCount = 0;
+    let tourRegistedCount = 0;
+
+
+    for (const tour of tours) {
+        tourRegistedCount += Object.keys(tour.registeredUsers).length;
+    }
+
+
+    for (const user of users) {
+        favMarkedCount += user.favoriteTrails.length;
+    }
+
+    for (const trail of trails) {
+        ratingPlacedCount += trail.ratingCount;
+    }
+
+    return [
+        {
+        name: 'סימון מסלול מועדף',
+        count: favMarkedCount
+        },
+        {
+        name: 'דירוגים',
+        count: ratingPlacedCount
+        },
+        {
+        name: 'תגובות',
+        count: commentNum
+        },
+        {
+        name: 'נרשמו לסיורים',
+        count: tourRegistedCount
+        }
+    ];
+    }
