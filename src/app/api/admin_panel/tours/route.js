@@ -46,7 +46,9 @@ async function uploadImages(images) {
 //     "<image 1: base64 encoded format>",
 //     "<image 2: base64 encoded format>"
 //      ],
-//     "whatsappGroupUrl": "https://chat.whatsapp.com/invite/1234567890"
+//     "whatsappGroupUrl": "https://chat.whatsapp.com/invite/1234567890",
+//     "maxNumOfPeople": 80,
+//     "maxNumOfPeoplePerUser": 5
 // }
 export async function POST(req) {
     try {
