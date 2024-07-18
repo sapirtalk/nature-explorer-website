@@ -21,7 +21,7 @@ export async function POST(req) {
         fromFacebook: fromFacebook,
         LastLogin: new Date(),
         RegisterDate: new Date(),
-        registeredTours: [],
+        registeredTours: {},
         favoriteTrails: []
     };
 
