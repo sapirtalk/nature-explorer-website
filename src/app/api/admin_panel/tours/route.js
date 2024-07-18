@@ -50,7 +50,7 @@ async function uploadImages(images) {
 // }
 export async function POST(req) {
     try {
-      const { requesterId, title, description, tourTime, image, whatsappGroupUrl } = await req.json();
+      const { requesterId, title, description, tourTime, image, whatsappGroupUrl, maxNumOfPeople, maxNumOfPeoplePerUser } = await req.json();
       const db = await connectToDatabase();
   
       // Check if requester is authorized
@@ -79,6 +79,8 @@ export async function POST(req) {
         isArchived: false,
         image: imageUrls,
         whatsappGroupUrl,
+        maxNumOfPeople,
+        maxNumOfPeoplePerUser,
         createdAt: new Date(),
         updatedAt: new Date()
       };
@@ -191,6 +193,22 @@ export async function PUT(req) {
       if (updatedFields.registeredUsers) {
           return NextResponse.json({ success: false, message: 'Cannot modify the registered users list' }); 
       }
+
+      if (updatedFields.maxNumOfPeople) {
+        if (updatedFields.maxNumOfPeople < tour.registeredUsersCount) {
+          return NextResponse.json({ success: false, message: 'Cannot set Max Number of People that is lower than the current registered Users Count.' });
+        }
+
+        if (updatedFields.maxNumOfPeople < 1) {
+          return NextResponse.json({ success: false, message: 'Cannot set Max Number of People to be less than 1.' });
+        }
+    }
+
+      if (updatedFields.maxNumOfPeoplePerUser) {
+        if (updatedFields.maxNumOfPeoplePerUser < 1) {
+          return NextResponse.json({ success: false, message: 'Cannot set Max Number of People Per User to be less than 1.' });
+      }
+    }
 
       if (updatedFields.tourTime) {
         updatedFields.tourTime = new Date(updatedFields.tourTime);
