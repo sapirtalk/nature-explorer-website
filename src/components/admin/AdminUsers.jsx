@@ -1,10 +1,13 @@
+import UsersTable from "./usersComp/UsersTable";
 
 
 
-const AdminUsers = () => {
+const AdminUsers = ({UsersData}) => {
+
+    
     return (
         <div>
-        <h1>Admin Users</h1>
+         <UsersTable users={UsersData}/>
         </div>
     );
     }

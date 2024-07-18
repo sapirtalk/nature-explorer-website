@@ -102,7 +102,7 @@ function About() {
           {teamMembers.map((member, index) => (
             <li key={index}>
               <div className="flex items-center gap-x-6">
-                <Image src={member.image} width={80} height={80} alt={member.name} />
+                <Image className="w-20 h-20 rounded-full" src={member.image} width={80} height={80} alt={member.name} />
                 <div>
                   <header className="text-lg">{member.name}</header>
                   <p className="text-sm text-indigo-600">{member.description}</p>

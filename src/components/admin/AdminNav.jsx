@@ -44,7 +44,7 @@ const AdminNav = ({viewNav , admin , logoutCallback}) => {
                 <Button
                     key={index}
                     size="lg"
-                    className={`text-[24px] w-full justify-start items-center mb-5 font-bold ${activeNav === key ? 'bg-secondary text-white' : 'bg-transparent text-text'} hover:bg-secondary hover:opacity-50`}
+                    className={`text-lg w-full justify-start items-center mb-5 font-bold ${activeNav === key ? 'bg-secondary text-white' : 'bg-transparent text-text'} hover:bg-secondary hover:opacity-50`}
                     onClick={() => setActiveNav(key)}
                 >
                     {navItems[key].icon}

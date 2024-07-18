@@ -31,7 +31,7 @@ const AdminPanel = async () => {
       return (
         <div className="flex flex-col w-[100%] h-[100vh] justify-center items-center">
             <div className="flex flex-row-reverse w-full h-[90%]">
-                <div className="w-[15%] h-full p-3 pb-0">       
+                <div className="w-[15%] h-full p-3 pl-0 pb-0">       
                     <AdminNav viewNav={getView} logoutCallback={logout} admin={admin} />
                 </div> 
                 <div className="w-[85%] h-full p-3">
@@ -112,7 +112,7 @@ const getView = async (view) => {
 
 
 
-const selectComponent = async (websiteData) => {
+const selectComponent = async (websiteData , isCurNav) => {
     'use server'
 
     const viewNavCurrent = cookies().get('viewNav')
@@ -137,7 +137,7 @@ const selectComponent = async (websiteData) => {
         case 'comments':
             return <AdminComments admin={admin} />
         case 'users':
-            return <AdminUsers admin={admin} />
+            return <AdminUsers admin={admin} UsersData={JSON.parse(JSON.stringify(websiteData.Users))} />
         default:
             return <AdminDashboard admin={admin} />
     }
@@ -237,9 +237,9 @@ const getDataCountByTrailDiff  = async (db) => {
         }
     }
 
-    countByTrailDiff.push({ difficulty: 'קל', count: easy });
-    countByTrailDiff.push({ difficulty: 'בינוני', count: medium });
-    countByTrailDiff.push({ difficulty: 'קשה', count: hard });
+    countByTrailDiff.push({ difficulty: 'קל', count: easy , fill: '#32CD32'});
+    countByTrailDiff.push({ difficulty: 'בינוני', count: medium, fill: '#87CEFA' });
+    countByTrailDiff.push({ difficulty: 'קשה', count: hard , fill: '#FF6F61' });
 
     return countByTrailDiff;
 
@@ -291,20 +291,24 @@ const getUserEngagement = async (db) => {
 
     return [
         {
-        name: 'סימון מסלול מועדף',
-        count: favMarkedCount
+          name: 'סימון מסלול מועדף',
+          count: favMarkedCount,
+          fill: '#90EE90' // Light green
         },
         {
-        name: 'דירוגים',
-        count: ratingPlacedCount
+          name: 'דירוגים',
+          count: ratingPlacedCount,
+          fill: '#FFD700' // Light golden yellow
         },
         {
-        name: 'תגובות',
-        count: commentNum
+          name: 'תגובות',
+          count: commentNum,
+          fill: '#FFB6C1' // Light pink
         },
         {
-        name: 'נרשמו לסיורים',
-        count: tourRegistedCount
+          name: 'נרשמו לסיורים',
+          count: tourRegistedCount,
+          fill: '#ADD8E6' // Light blue
         }
-    ];
+      ];
     }
