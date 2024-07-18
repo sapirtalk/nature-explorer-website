@@ -15,7 +15,7 @@ export async function POST(req) {
     const newUser = {
         email: email,
         password_hash: password,
-        isAdmin: false,
+        role: 'user',
         firstName: firstName,
         lastName: lastName,
         fromFacebook: fromFacebook,

@@ -19,17 +19,22 @@
     "@nextui-org/theme": "^2.2.6",
     "axios": "^1.7.2",
     "cloudinary": "^2.2.0",
+<<<<<<< HEAD
     "dotenv": "^16.4.5",
+=======
+    "date-fns": "^3.6.0",
+>>>>>>> a8c380ddc27c38abb330a4e097d2d1526a5a329f
     "embla-carousel-react": "^8.1.6",
     "formik": "^2.4.6",
     "framer-motion": "^11.2.12",
     "mongodb": "^6.5.0",
     "next": "14.2.2",
     "next-cookies": "^2.0.3",
-    "react": "^18",
+    "react": "^18.3.1",
     "react-dom": "^18",
     "react-icons": "^5.1.0",
     "react-toastify": "^10.0.5",
+    "recharts": "^2.12.7",
     "yup": "^1.4.0"
   },
   "devDependencies": {

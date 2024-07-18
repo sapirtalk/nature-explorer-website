@@ -16,7 +16,6 @@ export async function POST(req) {
 
         const user = await db.collection('Users').findOne(
             { _id: new ObjectId(userId) },
-            { projection: { firstName: 1, lastName: 1, email: 1, role: 1, fromFacebook: 1} }
         );
 
         if (user) {
@@ -50,10 +49,10 @@ export async function PUT(req) {
         // Check if the user's password is correct
         const user_check = await db.collection('Users').findOne({ _id: new ObjectId(userId) });
         if (!user_check) {
-            return NextResponse.json({ success: false, message: 'User not found' });
+            return NextResponse.json({ success: false, message: 'משתמש לא נמצא' });
         }
         if (user_check.password_hash !== old_password) {
-            return NextResponse.json({ success: false, message: 'Incorrect password' });
+            return NextResponse.json({ success: false, message: 'ססמא לא נכונה' });
 
         }
 
@@ -69,14 +68,14 @@ export async function PUT(req) {
         }
 
         if (Object.keys(filteredUpdates).length === 0) {
-            return NextResponse.json({ success: false, message: 'No valid fields to update.' });
+            return NextResponse.json({ success: false, message: 'אין שדות חדשים לעדכן' });
         }
 
         // If updating email, check if the new email already exists
         if (updatedFields.email) {
             const existingUser = await db.collection("Users").findOne({ email: updatedFields.email });
             if (existingUser && existingUser._id.toString() !== userId) {
-                return NextResponse.json({ success: false, message: 'Email already in use' });
+                return NextResponse.json({ success: false, message: 'האימייל כבר בשימוש' });
             }
         }
 
@@ -88,9 +87,10 @@ export async function PUT(req) {
         if (result.matchedCount > 0) {
             // get the updated user
             const user = await db.collection('Users').findOne({ _id: new ObjectId(userId) });
+            console.log('Updated user after change in profile:', user);
             return NextResponse.json({ success: true, message: 'User details updated successfully.' , updatedUser: user });
         } else {
-            return NextResponse.json({ success: false, message: 'User not found.' , updatedUser: null });
+            return NextResponse.json({ success: false, message: 'משתמש לא נמצא' , updatedUser: null });
         }
     } catch (error) {
         return NextResponse.json({ success: false, message: error.message });
