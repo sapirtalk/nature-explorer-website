@@ -22,6 +22,7 @@ import {VerticalDotsIcon} from "./table/VerticalDotsIcon";
 import {SearchIcon} from "./table/SearchIcon";
 import {ChevronDownIcon} from "./table/ChevronDownIcon";
 import {columns, roleOptions , roleTranslater , dateFormatter , connectName} from "./table/TableUtils";
+import AddUserModal from "./actions/AddUserModal";
 
 const roleColorMap = {
   admin: "danger",
@@ -32,6 +33,9 @@ const roleColorMap = {
 const INITIAL_VISIBLE_COLUMNS = ["name", "role","email", "LastLogin", "RegisterDate", "actions"];
 
 export default function UsersTable({users}) {
+
+  
+  const [addUsersModalOpen , setAddUsersModalOpen] = useState(false)
   const [filterValue, setFilterValue] = useState("");
   const [selectedKeys, setSelectedKeys] = useState(new Set([]));
   const [visibleColumns, setVisibleColumns] = useState(new Set(INITIAL_VISIBLE_COLUMNS));
@@ -133,13 +137,13 @@ const compareHebrew = (a, b) => {
     switch (columnKey) {
       case "name":
         return (
-          <div className="text-bold w-fit text-small">
+          <div className="text-md w-fit">
             <p>{user.firstName} {user.lastName}</p>
           </div>
         );
       case "role":
         return (
-            <div className="">
+            <div className="text-md">
             <Chip color={roleColorMap[user.role]} size="md" className="text-black" variant="flat">
                 {roleTranslater(user.role)}
             </Chip>
@@ -147,19 +151,19 @@ const compareHebrew = (a, b) => {
         );
       case "email":
         return (
-          <div className="text-small">
+          <div className="text-md">
             <p>{user.email}</p>
           </div>
         );
       case "LastLogin":
         return (
-          <div className="text-small">
+          <div className="text-md">
             <p>{dateFormatter(user.LastLogin)}</p>
           </div>
         );
       case "RegisterDate":
         return (
-          <div className="text-small">
+          <div className="text-md">
             <p>{dateFormatter(user.RegisterDate)}</p>
           </div>
         );
@@ -274,9 +278,7 @@ const compareHebrew = (a, b) => {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button color="success" endContent={<PlusIcon />}>
-              הוסף משתמש
-            </Button>
+            <AddUserModal />
           </div>
         </div>
         <div className="flex justify-between items-center">
@@ -355,7 +357,7 @@ const compareHebrew = (a, b) => {
       <TableHeader className="" columns={headerColumns}>
         {(column) => (
           <TableColumn
-            className="text-white text-medium bg-secondary w-fit"
+            className="text-white text-medium bg-tertiary w-fit"
             hideHeader={column.uid === "actions"}
             key={column.uid}
             align={column.uid === "actions" ? "center" : "center"}

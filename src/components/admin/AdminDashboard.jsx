@@ -7,6 +7,13 @@ import StaticCounts from "./dashboardComp/StaticCounts"
 
 
 const AdminDashboard = ({admin , Statistics}) => {
+
+
+    if (!admin || !Statistics) {
+        return null
+    }
+
+
     return (
         <div className="w-full h-full">
             <div className="h-[15%]">

@@ -42,7 +42,7 @@ export default StaticCounts
 
 const cardGenerator = (title , count) => {
     return (
-        <Card className="hover:shadow-xl">
+        <Card className="hover:shadow-xl bg-[#f9f9f8]">
             <CardHeader className="flex gap-3 text-center justify-center">
                 <h2 className="text-lg font-bold">{title}</h2>
             </CardHeader>

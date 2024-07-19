@@ -10,11 +10,32 @@ import { FaComments, FaFlag, FaMapSigns } from "react-icons/fa"
 import { AiFillMessage } from "react-icons/ai"
 import { FaUsersGear } from "react-icons/fa6"
 
-const AdminNav = ({viewNav , admin , logoutCallback}) => {
-
-    const [activeNav, setActiveNav] = useState('dashboard')
+const AdminNav = ({viewNav , admin , logoutCallback , curNav}) => {
 
 
+    const [activeNav, setActiveNav] =  useState('dashboard')
+
+
+    useEffect(() => {
+        const changeNav = async () => {
+
+            const current = await curNav
+
+            if (current.value) {
+                setActiveNav(current.value)
+                console.log("current nav is: ", current.value)
+            }
+        }
+
+        changeNav()
+    }, [curNav])
+
+
+
+    const handleClick = async (nav) => {
+        setActiveNav(nav)
+        await viewNav(nav)
+    }
 
 
     const handleLogout = async () => {
@@ -37,15 +58,15 @@ const AdminNav = ({viewNav , admin , logoutCallback}) => {
     }, [activeNav])
 
     return (
-        <div dir="rtl" className="flex flex-col h-full p-3 items-end border-secondary border-l-2">
-            <header className="text-[18px] pb-5 mb-5 border-b-2 border-secondary flex justify-center w-full items-center">שלום {admin.firstName}, </header>
-            <div className="flex flex-col w-full border-b-2 border-secondary">
+        <div dir="rtl" className="flex flex-col h-full p-3 items-end border-tertiary border-l-2">
+            <header className="text-[18px] pb-5 mb-5 border-b-2 border-tertiary flex justify-center w-full items-center">שלום {admin.firstName}, </header>
+            <div className="flex flex-col w-full border-b-2 border-tertiary">
             {Object.keys(navItems).map((key, index) => (
                 <Button
                     key={index}
                     size="lg"
-                    className={`text-lg w-full justify-start items-center mb-5 font-bold ${activeNav === key ? 'bg-secondary text-white' : 'bg-transparent text-text'} hover:bg-secondary hover:opacity-50`}
-                    onClick={() => setActiveNav(key)}
+                    className={`text-lg w-full justify-start items-center mb-5 font-bold ${activeNav === key ? 'bg-tertiary text-white' : 'bg-transparent text-text'} hover:text-blue-500 hover:opacity-50`}
+                    onClick={ () => handleClick(key)}
                 >
                     {navItems[key].icon}
                     {translateNav(key)}

@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 
 // register user
 export async function POST(req) {
-    const { email, password , firstName , lastName , fromFacebook} = await req.json();
+    const { email, password , firstName , lastName , fromFacebook , role} = await req.json();
     const db = await connectToDatabase();
     const user = await db.collection('Users').find({email: email}).toArray();
 
@@ -15,7 +15,7 @@ export async function POST(req) {
     const newUser = {
         email: email,
         password_hash: password,
-        role: 'user',
+        role: role ? role : 'user',
         firstName: firstName,
         lastName: lastName,
         fromFacebook: fromFacebook,
