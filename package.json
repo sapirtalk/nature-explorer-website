@@ -17,13 +17,8 @@
     "@nextui-org/slider": "^2.2.12",
     "@nextui-org/system": "^2.2.2",
     "@nextui-org/theme": "^2.2.6",
-    "axios": "^1.7.2",
     "cloudinary": "^2.2.0",
-<<<<<<< HEAD
-    "dotenv": "^16.4.5",
-=======
     "date-fns": "^3.6.0",
->>>>>>> a8c380ddc27c38abb330a4e097d2d1526a5a329f
     "embla-carousel-react": "^8.1.6",
     "formik": "^2.4.6",
     "framer-motion": "^11.2.12",
