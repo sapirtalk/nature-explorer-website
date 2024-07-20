@@ -21,7 +21,7 @@ const TrafficGraph = ({ user_traffic }) => {
                         allowDecimals={false}
                         domain={[0, 'dataMax']}
                         />
-                    <Tooltip cursor={{ fill: '#E5E5E3' }} />
+                    <Tooltip cursor={{ fill: '#efefed' }} />
                     <Legend />
                     <Bar dataKey="התחברויות" fill="#8884d8" barSize={20} />
                     <Bar dataKey="הרשמות" fill="#82ca9d" barSize={20} />

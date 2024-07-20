@@ -12,7 +12,7 @@ const UserEngagmentPie = ({ user_engagement }) => {
     
     return (
         <div style={{ width: '100%', height: '100%' }}>
-            <header className='text-center h-[10%] text-[24px] font-bold border-text '>אינטרקציות משתמשים</header>
+            <header className='text-center h-[8%] text-[24px] font-bold border-text '>אינטרקציות משתמשים</header>
             <ResponsiveContainer width="100%" height="90%">
                 <PieChart width={400} height={400}>
                     <Pie

@@ -32,7 +32,7 @@ const AdminPanel = async () => {
         <div className="flex flex-col w-[100%] h-[100vh] justify-center items-center">
             <div className="flex flex-row-reverse w-full h-[90%]">
                 <div className="w-[15%] h-full p-3 pl-0 pb-0">       
-                    <AdminNav viewNav={getView} logoutCallback={logout} admin={admin} />
+                    <AdminNav viewNav={setView} curNav={cookies().get('viewNav')} logoutCallback={logout} admin={admin} />
                 </div> 
                 <div className="w-[85%] h-full p-3">
                     {selectComponent(websiteData)}
@@ -100,22 +100,18 @@ const getWebsiteData = async () => {
 };
 
 
-
-
-
-
-
-const getView = async (view) => {
+const setView = async (view) => {
     'use server'
     cookies().set('viewNav', view)
 }
 
 
 
-const selectComponent = async (websiteData , isCurNav) => {
+const selectComponent = async (websiteData) => {
     'use server'
 
     const viewNavCurrent = cookies().get('viewNav')
+    console.log('viewNavCurrent', viewNavCurrent)
     const admin = cookies().get('admin_user').value ? JSON.parse(cookies().get('admin_user').value) : emptyAdmin
     const viewNav = viewNavCurrent ? viewNavCurrent.value : 'dashboard'
 
@@ -126,11 +122,11 @@ const selectComponent = async (websiteData , isCurNav) => {
             return <AdminDashboard admin={admin} Statistics={websiteData.Statistics} />
         case 'trails':
             return <AdminTrails admin={admin} />
-        case 'tours':
+        case 'tours':      
             return <AdminTours admin={admin} />
-        case 'articles':
+        case 'articles':       
             return <AdminArticles admin={admin} />
-        case 'about':
+        case 'about': 
             return <AdminAbout admin={admin} />
         case 'contact':
             return <AdminContact admin={admin} />
@@ -142,14 +138,6 @@ const selectComponent = async (websiteData , isCurNav) => {
             return <AdminDashboard admin={admin} />
     }
 }
-
-
-
-
-
-
-
-
 
 
 
@@ -174,7 +162,11 @@ const emptyAdmin = {
 
 
 
-
+// this async function gets the user login and register count for the last 7 days
+// input : db - the database instance
+// output : an array of objects containing the login and register count for each day for the past 7 days
+// example output : [{name: "01/01/2022", "התחברויות": 0, "הרשמות": 0}, {name: "01/02/2022", "התחברויות": 0, "הרשמות": 0}]
+// note: data needs to be as an array of objects to be used in graphs/charts.
 const getUserTraffic = async (db) => {
 
     const users = await db.collection('Users').find().toArray();
