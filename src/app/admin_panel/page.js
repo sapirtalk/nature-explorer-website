@@ -16,14 +16,8 @@ import { connectToDatabase } from "../api/middleware/mongo";
 
 
 const AdminPanel = async () => {
-
-
-
-    const websiteData = await getWebsiteData();
-
     
-
-
+    const websiteData = await getWebsiteData();
 
   const view = async () => {
     if (cookies().has('admin_user')) {
@@ -34,7 +28,7 @@ const AdminPanel = async () => {
                 <div className="w-[15%] h-full p-3 pb-0">       
                     <AdminNav viewNav={getView} logoutCallback={logout} admin={admin} />
                 </div> 
-                <div className="w-[85%] h-full p-3">
+                <div className="w-[85%] h-full p-3 overflow-y-auto">
                     {selectComponent(websiteData)}
                 </div>
             </div>
@@ -139,7 +133,7 @@ const selectComponent = async (websiteData) => {
         case 'users':
             return <AdminUsers admin={admin} />
         default:
-            return <AdminDashboard admin={admin} />
+            return <AdminDashboard admin={admin} Statistics={websiteData.Statistics}/>
     }
 }
 

@@ -6,12 +6,14 @@ import logo from '../../../public/resources/images/logo/logo.png'
 // import odedUlman from '../../../public/resources/images/people/odedUlman.jpeg'
 import israelPeer from '../../../public/resources/images/people/israelPeer.jpeg'
 // import aviAlbaum from '../../../public/resources/images/people/aviAlbaum.jpeg'
-// import audreyLanger from '../../../public/resources/images/people/audreyLanger.jpeg'
+import audreyLanger from '../../../public/resources/images/people/audreyLanger.jpeg'
 // import asafBenLevi from '../../../public/resources/images/people/asafBenLevi.jpeg'
-// import ehudSvirsky from '../../../public/resources/images/people/ehudSvirsky.jpeg'
+import ehudSvirsky from '../../../public/resources/images/people/ehudSvirski.jpeg'
 // import taliMoav from '../../../public/resources/images/people/taliMoav.jpeg'
-// import michalKogan from '../../../public/resources/images/people/michalKogan.jpeg'
+import michalKogan from '../../../public/resources/images/people/michalKogan.jpeg'
 import orlySasson from '../../../public/resources/images/people/orlySasson.jpeg'
+import pniniaMadan from '../../../public/resources/images/people/pniniaMadan.jpeg'
+import tomerShalev from '../../../public/resources/images/people/tomerShalev.jpeg'
 
 
 const teamMembers = [
@@ -42,7 +44,7 @@ const teamMembers = [
   },
   {
     name: 'אודרי לנגר',
-    image: logo,
+    image: audreyLanger,
     description: 'מדריכת טיולים ומלמדת אקולוגיה וחינוך סביבתי בבתי ספר בחיפה, מובילה סיורים בכל שבילי חיפה',
   },
   {
@@ -52,7 +54,7 @@ const teamMembers = [
   },
   {
     name: 'אהוד סבירסקי',
-    image: logo,
+    image: ehudSvirsky,
     description: 'מורה למדעים וביולוגיה ומוביל סיורים בכל שבילי הכרמל',
   },
   {
@@ -62,13 +64,23 @@ const teamMembers = [
   },
   {
     name: 'מיכל קוגן',
-    image: logo,
+    image: michalKogan,
     description: 'סטודנטית לגינון טיפולי ואקותרפיה ואדריכלית פנים, פעילה בגינה הקהילתית של רמת אלון ומובילה סיורים בואדי בן דור וואדי שנאק',
   },
   {
     name: 'אורלי ששון',
     image: orlySasson,
+    description: 'אדריכלית נוף ומתכננת ערים / מאמנת כושר ומורה ליוגה, פעילה חברתית שנים רבות בעיר חיפה, בעיקר בתחום גינות קהילתיות וטבע עירוני, מובילה סיורים במגוון אתרים בטבע העירוני של חיפה',
+  },
+  {
+    name: 'פנינה מדן',
+    image: pniniaMadan,
     description: 'מדריכת טיולים ומובילת סיורים בכל שבילי חיפה',
+  },
+  {
+    name: 'תומר שלו',
+    image: tomerShalev,
+    description: 'מוביל סיורים בכל שבילי הכרמל',
   },
 ];
 
@@ -77,7 +89,7 @@ function About() {
     <div className="lg:flex text-center justify-center lg:text-[24px] lg:h-full item-center p-3 text-text lg:w-[100%] mb-5" dir="rtl">
       <div className="lg:w-[50%]">
         <span dir="rtl">
-          <header className="text-2xl lg:text-[30px] font-bold">עלינו</header>
+          <header className="text-2xl lg:text-[30px] font-bold">קצת עלינו</header>
           <br />
           <p>ברוכים הבאים לאתר &quot;בשבילי חיפה&quot;!</p>
           <br />
