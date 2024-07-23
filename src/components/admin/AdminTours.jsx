@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import AdminSingleTour from "./AdminSingleTour";
 import { Spinner } from '@nextui-org/react';
+import { toast } from 'react-toastify';
 
 
 const AdminTours = ({ admin }) => {
@@ -62,7 +63,7 @@ const AdminTours = ({ admin }) => {
   if (!Array.isArray(tours) || tours.length === 0) {
     return <h1>No tours found</h1>;
   }
-
+  
   const handleSubmit = async () => {
     try {
       setIsFormOpen(false);
@@ -84,13 +85,13 @@ const AdminTours = ({ admin }) => {
       const data = await res.json();
   
       if (data.success) {
-        alert('Tour created successfully');
+        toast.success('הסיור נוצר בהצלחה');
         fetchTours();
       } else {
-        alert('Failed to create tour');
+        toast.error('יצירת הסיור נכשלה');
       }
     } catch (err) {
-      alert('Failed to create tour');
+      toast.error('יצירת הסיור נכשלה');
     } finally {
       setTitle('');
       setDescription('');
