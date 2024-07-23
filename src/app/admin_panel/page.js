@@ -28,7 +28,7 @@ const AdminPanel = async () => {
                 <div className="w-[15%] h-full p-3 pb-0">       
                     <AdminNav viewNav={getView} logoutCallback={logout} admin={admin} />
                 </div> 
-                <div className="w-[85%] h-full p-3 overflow-y-auto">
+                <div className="w-[85%] h-full p-3">
                     {selectComponent(websiteData)}
                 </div>
             </div>
