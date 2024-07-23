@@ -70,13 +70,23 @@ async function updateTourById(db, userId, tourId, action, numberOfPeople) {
             return { success: false, message: 'User not found.' };
         }
 
+        // Check `maxNumOfPeoplePerUser`
+        if (numberOfPeople > tour.maxNumOfPeoplePerUser) {
+            return { success: false, message: `You cannot register more than ${tour.maxNumOfPeoplePerUser} people for this tour.` };
+        }
+
+        const existingPeopleCount = tour.registeredUsers[userId] || 0;
+        const totalRegisteredCount = tour.registeredUsersCount || 0;
         let registeredUsersUpdate = {};
         let registeredUsersCountUpdate = 0;
         let registeredToursUpdate = {};
 
-        const existingPeopleCount = tour.registeredUsers[userId] || 0;
-
         if (action === "add") {
+            // Check `maxNumOfPeople`
+            if (totalRegisteredCount + numberOfPeople - existingPeopleCount > tour.maxNumOfPeople) {
+                return { success: false, message: `Cannot register. Total number of people exceeds the maximum limit of ${tour.maxNumOfPeople} for this tour.` };
+            }
+
             registeredUsersCountUpdate = numberOfPeople - existingPeopleCount;
             registeredUsersUpdate = { $set: { [`registeredUsers.${userId}`]: numberOfPeople }, $inc: { registeredUsersCount: registeredUsersCountUpdate } };
             registeredToursUpdate = { $set: { [`registeredTours.${tourId}`]: numberOfPeople } };
@@ -96,7 +106,7 @@ async function updateTourById(db, userId, tourId, action, numberOfPeople) {
         );
 
         if (result_1.matchedCount > 0 && result_2.matchedCount > 0) {
-            return { success: true, message: 'Registered Users list and Registered Tours list updated successfully.', existingPeopleCount: existingPeopleCount };
+            return { success: true, message: 'Registered Users list and Registered Tours list updated successfully.' };
         } else if (result_1.matchedCount === 0 && result_2.matchedCount === 0) {
             return { success: false, message: 'Tour not found. User not found.' };
         } else if (result_1.matchedCount === 0) {

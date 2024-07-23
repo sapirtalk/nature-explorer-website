@@ -45,11 +45,14 @@ async function uploadImages(images) {
 //     "image": [
 //     "<image 1: base64 encoded format>",
 //     "<image 2: base64 encoded format>"
-//      ]
+//      ],
+//     "whatsappGroupUrl": "https://chat.whatsapp.com/invite/1234567890",
+//     "maxNumOfPeople": 80,
+//     "maxNumOfPeoplePerUser": 5
 // }
 export async function POST(req) {
     try {
-      const { requesterId, title, description, tourTime, image } = await req.json();
+      const { requesterId, title, description, tourTime, image, whatsappGroupUrl, maxNumOfPeople, maxNumOfPeoplePerUser } = await req.json();
       const db = await connectToDatabase();
   
       // Check if requester is authorized
@@ -77,6 +80,9 @@ export async function POST(req) {
         registeredUsersCount: 0,
         isArchived: false,
         image: imageUrls,
+        whatsappGroupUrl,
+        maxNumOfPeople,
+        maxNumOfPeoplePerUser,
         createdAt: new Date(),
         updatedAt: new Date()
       };
@@ -189,6 +195,22 @@ export async function PUT(req) {
       if (updatedFields.registeredUsers) {
           return NextResponse.json({ success: false, message: 'Cannot modify the registered users list' }); 
       }
+
+      if (updatedFields.maxNumOfPeople) {
+        if (updatedFields.maxNumOfPeople < tour.registeredUsersCount) {
+          return NextResponse.json({ success: false, message: 'Cannot set Max Number of People that is lower than the current registered Users Count.' });
+        }
+
+        if (updatedFields.maxNumOfPeople < 1) {
+          return NextResponse.json({ success: false, message: 'Cannot set Max Number of People to be less than 1.' });
+        }
+    }
+
+      if (updatedFields.maxNumOfPeoplePerUser) {
+        if (updatedFields.maxNumOfPeoplePerUser < 1) {
+          return NextResponse.json({ success: false, message: 'Cannot set Max Number of People Per User to be less than 1.' });
+      }
+    }
 
       if (updatedFields.tourTime) {
         updatedFields.tourTime = updatedFields.tourTime;

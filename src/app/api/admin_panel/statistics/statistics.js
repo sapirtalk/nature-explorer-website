@@ -1,39 +1,45 @@
-import { connectToDatabase } from '../../middleware/mongo';
-import { NextResponse } from 'next/server';
-
-// POST /api/admin_panel/statistics
-// Purpose:
-// Present some statistics for the admins and editors
-// Input Example:
-// {
-// "includeArchived": false
-// }
-export async function POST(req) {
-    const { includeArchived } = await req.json();
-
-    const db = await connectToDatabase();
-
-    var archiveFilter = {}
-
-    if (!includeArchived){
-        archiveFilter = { isArchived: false }
-    }
-
+/*
+ * Retrieves various statistics from the database.
+ * 
+ * This function collects several statistics related to users, trails, comments, articles, and tours,
+ * as well as the latest login and registration dates. Additionally, it calculates counts of user 
+ * registrations, logins, and comments within specified date ranges (last day, last week, last month).
+ * 
+ * @param {MongoClient.db} db - The MongoDB database connection object.
+ * @returns {Object} An object containing various statistics.
+ * @example
+ * const stats = await getStatistics(db);
+ * console.log(stats.numOfUsers); // Outputs the total number of users
+ */
+const getStatistics = async (db) => {
     const numOfUsers = await db.collection("Users").countDocuments();
-    const numOfUsersFromFB = await db.collection("Users").countDocuments( {fromFacebook: true} );
-    const numOfAdmins = await db.collection("Users").countDocuments( {role: "admin"} );
-    const numOfEditors = await db.collection("Users").countDocuments( {role: "editor"} );
-    const numOfTrails = await db.collection("Trails").countDocuments(archiveFilter);
-    const numOfArticles = await db.collection("Articles").countDocuments(archiveFilter);
-    const numOfTours = await db.collection("Tours").countDocuments(archiveFilter);
+    const numOfUsersFromFB = await db.collection("Users").countDocuments({ fromFacebook: true });
+    const numOfAdmins = await db.collection("Users").countDocuments({ role: "admin" });
+    const numOfEditors = await db.collection("Users").countDocuments({ role: "editor" });
+    const numOfTrails = await db.collection("Trails").countDocuments({ isArchived: false });
+    const numOfComments = await db.collection("Comments").countDocuments();
+    const numOfArticles = await db.collection("Articles").countDocuments({ isArchived: false });
+    const numOfTours = await db.collection("Tours").countDocuments({ isArchived: false });
     const latestLoginDate = await getLatestDate(db, "Users", "LastLogin");
     const latestRegisterDate = await getLatestDate(db, "Users", "RegisterDate");
-    const dateRangeCounts = await getDateRangeCounts(db);    
-    
-    return NextResponse.json({ numOfAdmins, numOfEditors, numOfUsers, numOfUsersFromFB,
-        numOfTrails, numOfArticles, numOfTours, latestLoginDate, latestRegisterDate,
-         ...dateRangeCounts});
-}
+    const dateRangeCounts = await getDateRangeCounts(db);
+
+    const statistics = {
+        numOfUsers: numOfUsers,
+        numOfUsersFromFB: numOfUsersFromFB,
+        numOfAdmins: numOfAdmins,
+        numOfEditors: numOfEditors,
+        numOfTrails: numOfTrails,
+        numOfComments: numOfComments,
+        numOfArticles: numOfArticles,
+        numOfTours: numOfTours,
+        latestLoginDate: latestLoginDate,
+        latestRegisterDate: latestRegisterDate,
+        ...dateRangeCounts
+    };
+
+    return statistics;
+};
 
 
 // Purpose: Retrieve the latest date for a given field
@@ -76,6 +82,7 @@ async function getDateRangeCounts(db) {
     for (const range of dateRanges) {
         counts[`${range.label}RegisterCount`] = await getUsersCountByDateRange(db, 'Users', 'RegisterDate', range.start.toISOString(), range.end.toISOString());
         counts[`${range.label}LoginCount`] = await getUsersCountByDateRange(db, 'Users', 'LastLogin', range.start.toISOString(), range.end.toISOString());
+        counts[`${range.label}CommentsCount`] = await getUsersCountByDateRange(db, 'Comments', 'createdAt', range.start.toISOString(), range.end.toISOString());
     }
 
     return counts;
