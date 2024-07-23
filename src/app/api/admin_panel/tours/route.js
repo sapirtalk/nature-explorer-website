@@ -191,7 +191,7 @@ export async function PUT(req) {
       }
 
       if (updatedFields.tourTime) {
-        updatedFields.tourTime = new Date(updatedFields.tourTime);
+        updatedFields.tourTime = updatedFields.tourTime;
       }
 
       // Don't let modify 'image' field directly

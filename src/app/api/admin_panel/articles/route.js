@@ -41,6 +41,7 @@ async function uploadImages(images) {
 //     "requesterId": "667dcd842f4666fa50754116",
 //     "source": "ynet",
 //     "title": "title",
+//     "text": "text",
 //     "url": "https://ynet.co.il/article",
 //     "writtenAt": "2020-01-01",
 //     "image": [
@@ -50,7 +51,7 @@ async function uploadImages(images) {
 // }
 export async function POST(req) {
     try {
-      const { requesterId, source, title, url, writtenAt, image } = await req.json();
+      const { requesterId, source, title, text, url, writtenAt, image } = await req.json();
       const db = await connectToDatabase();
   
       // Check if requester is authorized
@@ -72,6 +73,7 @@ export async function POST(req) {
       const article = {
         source,
         title,
+        text,
         url,
         writtenAt: new Date(writtenAt),
         isArchived: false,

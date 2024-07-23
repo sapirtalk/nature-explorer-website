@@ -16,24 +16,6 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
     const [isProcessing, setIsProcessing] = useState(false);
 
 
-    const compareTourTime = () => {
-        const currentTime = new Date();
-        const tourTimeDate = new Date(tourTime);
-
-        if (tourTimeDate >= currentTime) {
-            return (<p className="text-xs text-default-500">
-                תאריך הסיור: &nbsp;
-                {new Date(tourTime).toLocaleDateString()} 
-            </p>)
-        } else {
-            return (<p className="text-xs text-default-888">הסיור הסתיים</p>)
-        }
-
-
-
-    }
-
-
     useEffect(() => {
         const storedUser = document.cookie.split('; ').find(row => row.startsWith('user='));
         if (storedUser) {
@@ -71,7 +53,7 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
             userId: user.id,
             tourId: tour_id,
             action: "add",
-            numberOfPeople: numberOfPeople
+            numberOfPeople: parseInt(numberOfPeople)
         };
 
         try {
@@ -156,10 +138,10 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
                         </div>
                         <div className="flex flex-col w-full">
                             <header className="text-text font-bold">{title}</header>
-                            {compareTourTime()}
+                                {tourTime.slice(8,10)}.{tourTime.slice(5,7)}.{tourTime.slice(0, 4)}
                             <p className="text-xs text-default-500">
                                 שעת הסיור: &nbsp;
-                                {new Date(tourTime).toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' })}
+                                {tourTime.slice(11, 16)}
                             </p>
                             <p className="text-xs text-default-500">
                                 מספר משתתפים: {registeredUsersCount1}

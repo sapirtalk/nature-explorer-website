@@ -16,14 +16,8 @@ import { connectToDatabase } from "../api/middleware/mongo";
 
 
 const AdminPanel = async () => {
-
-
-
-    const websiteData = await getWebsiteData();
-
     
-
-
+    const websiteData = await getWebsiteData();
 
   const view = async () => {
     if (cookies().has('admin_user')) {
@@ -135,7 +129,7 @@ const selectComponent = async (websiteData) => {
         case 'users':
             return <AdminUsers admin={admin} UsersData={JSON.parse(JSON.stringify(websiteData.Users))} />
         default:
-            return <AdminDashboard admin={admin} />
+            return <AdminDashboard admin={admin} Statistics={websiteData.Statistics}/>
     }
 }
 
