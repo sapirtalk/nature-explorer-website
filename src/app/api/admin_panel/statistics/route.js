@@ -9,10 +9,10 @@ import { ObjectId } from 'mongodb';
 // {
 // "includeArchived": false
 // }
-export async function POST(req) {
+export async function POST(req, db) {
     try {
         const { requesterId, includeArchived } = await req.json();
-        const db = await connectToDatabase();
+        // const db = await connectToDatabase();
     
         // Check if requester is authorized
         const requester = await db.collection('Users').findOne({_id: new ObjectId(requesterId)})
