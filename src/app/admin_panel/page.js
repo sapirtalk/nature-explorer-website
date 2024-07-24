@@ -127,7 +127,7 @@ const selectComponent = async (websiteData) => {
         case 'comments':
             return <AdminComments admin={admin} />
         case 'users':
-            return <AdminUsers admin={admin} UsersData={JSON.parse(JSON.stringify(websiteData.Users))} />
+            return <AdminUsers adminId={admin.id} UsersData={JSON.parse(JSON.stringify(websiteData.Users))} />
         default:
             return <AdminDashboard admin={admin} Statistics={websiteData.Statistics}/>
     }

@@ -17,12 +17,14 @@ import {
   Chip,
   Pagination,
 } from "@nextui-org/react";
-import {PlusIcon} from "./table/PlusIcon";
 import {VerticalDotsIcon} from "./table/VerticalDotsIcon";
 import {SearchIcon} from "./table/SearchIcon";
 import {ChevronDownIcon} from "./table/ChevronDownIcon";
 import {columns, roleOptions , roleTranslater , dateFormatter , connectName} from "./table/TableUtils";
 import AddUserModal from "./actions/AddUserModal";
+import WatchUser from "./actions/WatchUser";
+import EditUser from "./actions/EditUser";
+import DeleteUser from "./actions/DeleteUser";
 
 const roleColorMap = {
   admin: "danger",
@@ -32,20 +34,48 @@ const roleColorMap = {
 
 const INITIAL_VISIBLE_COLUMNS = ["name", "role","email", "LastLogin", "RegisterDate", "actions"];
 
-export default function UsersTable({users}) {
+export default function UsersTable({users , adminId}) {
 
   
-  const [addUsersModalOpen , setAddUsersModalOpen] = useState(false)
+  const [userModal , setUserModal] = useState({type : "none" , user : null});
   const [filterValue, setFilterValue] = useState("");
   const [selectedKeys, setSelectedKeys] = useState(new Set([]));
   const [visibleColumns, setVisibleColumns] = useState(new Set(INITIAL_VISIBLE_COLUMNS));
   const [statusFilter, setStatusFilter] = useState("all");
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(15);
   const [sortDescriptor, setSortDescriptor] = useState({
     column: "role",
     direction: "ascending",
   });
   const [page, setPage] = useState(1);
+
+
+
+  // Shows the actions on a specific user
+  const showUserModalComp = (type , user) => {
+
+    switch (type) {
+      case "view":
+        return <WatchUser user = {user} closeCallBack = {setUserModal} />;
+      case "edit":
+        return <EditUser adminId = {adminId} user = {user} closeCallBack = {setUserModal} />;
+      case "delete":
+        return <DeleteUser adminId = {adminId} user = {user} closeCallBack = {setUserModal} />;
+      case "none":
+        return null;
+    }
+  }
+
+  
+
+
+
+
+
+
+
+
+
 
   const hasSearchFilter = Boolean(filterValue);
 
@@ -176,10 +206,10 @@ const compareHebrew = (a, b) => {
                   <VerticalDotsIcon className="text-text" />
                 </Button>
               </DropdownTrigger>
-              <DropdownMenu align="center" color="transparent">
-                <DropdownItem className="text-center hover:bg-secondary hover:text-white">צפייה</DropdownItem>
-                <DropdownItem className="text-center hover:bg-secondary hover:text-white">עריכה</DropdownItem>
-                <DropdownItem className="text-center hover:bg-red-400 hover:text-white">מחיקה</DropdownItem>
+              <DropdownMenu onAction={(key) => setUserModal({type: key , user : user })} align="center" color="transparent">
+                <DropdownItem key ="view"  className="text-center hover:bg-secondary hover:text-white">צפייה</DropdownItem>
+                <DropdownItem key ="edit"  className="text-center hover:bg-secondary hover:text-white">עריכה</DropdownItem>
+                <DropdownItem key ="delete"  className="text-center hover:bg-red-400 hover:text-white">מחיקה</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </div>
@@ -289,9 +319,9 @@ const compareHebrew = (a, b) => {
               className="bg-transparent outline-none text-default-400 text-small hover:text-black"
               onChange={onRowsPerPageChange}
             >
-              <option className="w-full text-center" value="5">5</option>
-              <option className="w-full text-center" value="10">10</option>
               <option className="w-full text-center" value="15">15</option>
+              <option className="w-full text-center" value="10">10</option>
+              <option className="w-full text-center" value="5">5</option>
             </select>
           </label>
         </div>
@@ -311,9 +341,7 @@ const compareHebrew = (a, b) => {
     return (
       <div className="py-2 px-2 flex justify-between items-center">
         <span className="w-[30%] text-small text-default-400">
-          {selectedKeys === "all"
-            ? "כל הערכים נבחרו"
-            : `${selectedKeys.size} מתוך ${filteredItems.length} נבחרו`}
+          עמוד {page} מתוך {pages}
         </span>
         <Pagination
           isCompact
@@ -337,6 +365,7 @@ const compareHebrew = (a, b) => {
   }, [selectedKeys, items.length, page, pages, hasSearchFilter]);
 
   return (
+    <div>
     <Table
       aria-label="users table"
       dir="rtl"
@@ -376,5 +405,11 @@ const compareHebrew = (a, b) => {
         )}
       </TableBody>
     </Table>
+    {showUserModalComp(userModal.type , userModal.user)}
+    </div>
   );
 }
+
+
+
+

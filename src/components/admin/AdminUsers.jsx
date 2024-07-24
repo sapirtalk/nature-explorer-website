@@ -2,7 +2,7 @@ import UsersTable from "./usersComp/UsersTable";
 
 
 
-const AdminUsers = ({UsersData}) => {
+const AdminUsers = ({UsersData , adminId}) => {
 
 
     
@@ -11,7 +11,7 @@ const AdminUsers = ({UsersData}) => {
     
     return (
         <div>
-         <UsersTable users={UsersData}/>
+         <UsersTable adminId={adminId} users={UsersData}/>
         </div>
     );
     }

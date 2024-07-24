@@ -115,10 +115,10 @@ export async function PUT(req) {
             }
         }
 
-        // don't allow to edit passwords
-        if (updatedFields.password_hash) {
-            return NextResponse.json({ success: false, message: 'passwords of other users cannot be modified' });
-        }
+        // // don't allow to edit passwords
+        // if (updatedFields.password_hash) {
+        //     return NextResponse.json({ success: false, message: 'passwords of other users cannot be modified' });
+        // }
 
         const response = await updateUserById(userId, updatedFields);
         return NextResponse.json(response);
