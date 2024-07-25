@@ -34,7 +34,7 @@ const AdminSingleArticle = ({ article_id, title, source, text, writtenAt, image,
                 source: updatedSource, 
                 text: updatedText,
                 writtenAt: updatedWrittenAt,
-                newImages: newUpdatedImage,
+                newImages: (image == updatedImage) ? null : newUpdatedImage,
                 removeImages: pendingRemoveImages,
                 url: (url.slice(0, 4) !== 'http') ? 'https://' + updatedUrl : updatedUrl,
             }
@@ -96,84 +96,79 @@ const AdminSingleArticle = ({ article_id, title, source, text, writtenAt, image,
     };
 
 
-  return (
-    <div>
-    {!isFormOpen && (
-    <Card className="lg:w-[21vw] lg:h-[25vh] flex flex-col" dir='rtl'>
-      <CardHeader className="flex flex-col flex-[0_0_40%] overflow-hidden">
-        <div className="flex flex-1">
-          <div className="w-[35%] ml-3">
-            {image.length === 0 ? (
-              <div>
-                <Image src={logo} alt='logo' width={500} height={500} />
-              </div>
-            ) : (
-              <Image
-                src={image[0]}
-                width={500}
-                height={500}
-                className='w-full h-full rounded-lg'
-              />
-            )}
-          </div>
-          <div className="flex flex-col w-full overflow-hidden">
-            <header className="text-text font-bold text-ellipsis overflow-hidden whitespace-nowrap">{title}</header>
-            <p className="text-small text-default-500">{source}</p>
-            <p className="text-xs text-default-500">
-              נכתב ב: &nbsp;
-              {new Date(writtenAt).toLocaleDateString()}
-            </p>
-          </div>
-        </div>
-      </CardHeader>
-      <Divider />
-      <CardBody className="flex-1 overflow-auto">
-        <p className='text-right'>{text}</p>
-      </CardBody>
-      <Divider />
-      <CardFooter className="flex-shrink-0 h-[20%]">
-        {url ? (
-          <Link
-            isExternal
-            showAnchorIcon
-            href={url}
-            className="text-primary-500"
-          >
-            לכניסה לכתבה
-          </Link>
-        ) : (
-          <p>No URL available</p>
-        )}
+    return (
         <div>
-                                {clickedDelete && (
-                                    <Modal isOpen={clickedDelete} onClose={() => setClickedDelete(false)}>
-                                        <ModalContent dir="rtl">
-                                            <ModalBody>
-                                                <p>האם אתה בטוח שברצונך למחוק את הכתבה?</p>
-                                                <p>הכתבה תמחק לחלוטין ולא יהיה ניתן לשחזר אותה</p>
-                                            </ModalBody>
-                                            <ModalFooter>
-                                                <Button className='bg primary' onClick={() => setClickedDelete(false)}>לא</Button>
-                                                <Button className='bg-customRed text-primary' onClick={handleDelete}>כן</Button>
-                                            </ModalFooter>
-                                        </ModalContent>
-                                    </Modal> 
-                                )}
-                                {!isFormOpen && (
-                                    <Button className='bg-red-500 p-2 rounded-lg text-primary hover:opacity-50 mr-2' onClick={() => setClickedDelete(true)}>מחק כתבה</Button>
-                                )}
-                                {!isFormOpen && (
-                                    <Button type="button" className='bg-blue-500 hover:opacity-50 p-2 rounded-lg text-primary mr-2' onClick={() => setIsFormOpen(true)}>ערוך כתבה</Button>
+                <Card className="lg:w-[21vw] lg:h-[25vh] flex flex-col" dir='rtl'>
+                    <CardHeader className="flex flex-col flex-[0_0_40%] overflow-hidden">
+                        <div className="flex flex-1">
+                            <div className="w-[35%] ml-3">
+                                {image.length === 0 ? (
+                                    <div>
+                                        <Image src={logo} alt='logo' width={500} height={500} />
+                                    </div>
+                                ) : (
+                                    <Image
+                                        src={image[0]}
+                                        width={500}
+                                        height={500}
+                                        className='w-full h-full rounded-lg'
+                                    />
                                 )}
                             </div>
-      </CardFooter>
-    </Card>
-)}
-{isFormOpen && (
-                <div>
+                            <div className="flex flex-col w-full overflow-hidden">
+                                <header className="text-text font-bold text-ellipsis overflow-hidden whitespace-nowrap">{title}</header>
+                                <p className="text-small text-default-500">{source}</p>
+                                <p className="text-xs text-default-500">
+                                    נכתב ב: &nbsp;
+                                    {new Date(writtenAt).toLocaleDateString()}
+                                </p>
+                            </div>
+                        </div>
+                    </CardHeader>
+                    <Divider />
+                    <CardBody className="flex-1 overflow-auto">
+                        <p className='text-right'>{text}</p>
+                    </CardBody>
+                    <Divider />
+                    <CardFooter className="flex-shrink-0 h-[20%]">
+                        {url ? (
+                            <Link
+                                isExternal
+                                showAnchorIcon
+                                href={url}
+                                className="text-primary-500"
+                            >
+                                לכניסה לכתבה
+                            </Link>
+                        ) : (
+                            <p>No URL available</p>
+                        )}
+                        <div>
+                            {clickedDelete && (
+                                <Modal isOpen={clickedDelete} onClose={() => setClickedDelete(false)}>
+                                    <ModalContent dir="rtl">
+                                        <ModalBody>
+                                            <p>האם אתה בטוח שברצונך למחוק את הכתבה?</p>
+                                            <p>הכתבה תמחק לחלוטין ולא יהיה ניתן לשחזר אותה</p>
+                                        </ModalBody>
+                                        <ModalFooter>
+                                            <Button className='bg primary' onClick={() => setClickedDelete(false)}>לא</Button>
+                                            <Button className='bg-customRed text-primary' onClick={handleDelete}>כן</Button>
+                                        </ModalFooter>
+                                    </ModalContent>
+                                </Modal>
+                            )}
+                                <Button className='bg-red-500 p-2 rounded-lg text-primary hover:opacity-50 mr-2' onClick={() => setClickedDelete(true)}>מחק כתבה</Button>
+                                <Button type="button" className='bg-blue-500 hover:opacity-50 p-2 rounded-lg text-primary mr-2' onClick={() => setIsFormOpen(true)}>ערוך כתבה</Button>
+                        </div>
+                    </CardFooter>
+                </Card>
+            <Modal isOpen={isFormOpen} onClose={() => setIsFormOpen(false)}>
+                <ModalContent dir="rtl">
+                    <ModalHeader>עריכת כתבה</ModalHeader>
                     <form onSubmit={handleSubmit}>
-                        <div className="space-y-12">
-                                <h2 className="text-base font-semibold leading-7 text-gray-900">עריכת כתבה</h2>
+                        <ModalBody>
+                            <div className="space-y-12">
                                 <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                                     <div className="sm:col-span-4">
                                         <label htmlFor="title" className="block text-sm font-medium leading-6 text-gray-900">
@@ -182,63 +177,82 @@ const AdminSingleArticle = ({ article_id, title, source, text, writtenAt, image,
                                         <div>
                                             <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
                                                 <input
-                                                id="title"
-                                                name="title"
-                                                type="text"
-                                                value={updatedTitle}
-                                                onChange={(e) => setUpdatedTitle(e.target.value)}
-                                                className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                                    id="title"
+                                                    name="title"
+                                                    type="text"
+                                                    value={updatedTitle}
+                                                    onChange={(e) => setUpdatedTitle(e.target.value)}
+                                                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                                 />
                                             </div>
                                         </div>
                                     </div>
                                     <div className="sm:col-span-4">
-                                        <label htmlFor="title" className="block text-sm font-medium leading-6 text-gray-900">
+                                        <label htmlFor="source" className="block text-sm font-medium leading-6 text-gray-900">
                                             מקור הכתבה
                                         </label>
                                         <div>
                                             <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
                                                 <input
-                                                id="source"
-                                                name="source"
-                                                type="text"
-                                                value={updatedSource}
-                                                onChange={(e) => setUpdatedSource(e.target.value)}
-                                                className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                                    id="source"
+                                                    name="source"
+                                                    type="text"
+                                                    value={updatedSource}
+                                                    onChange={(e) => setUpdatedSource(e.target.value)}
+                                                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                                 />
                                             </div>
                                         </div>
                                     </div>
                                     <div className="sm:col-span-4">
-                                        <label htmlFor="tourDate" className="block text-sm font-medium leading-6 text-gray-900">
+                                        <label htmlFor="writtenAt" className="block text-sm font-medium leading-6 text-gray-900">
                                             נכתב ב-
                                         </label>
                                         <div>
                                             <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
                                                 <input
-                                                id="writtenAt"
-                                                name="writtenAt"
-                                                type="date"
-                                                value={updatedWrittenAt}
-                                                onChange={(e) => setUpdatedWrittenAt(e.target.value)}
-                                                className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                                    id="writtenAt"
+                                                    name="writtenAt"
+                                                    type="date"
+                                                    value={updatedWrittenAt}
+                                                    onChange={(e) => setUpdatedWrittenAt(e.target.value)}
+                                                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                                 />
                                             </div>
                                         </div>
                                     </div>
                                     <div className="col-span-full">
-                                        <label htmlFor="description" className="block text-sm font-medium leading-6 text-gray-900">
-                                            תיאור
+                                        <label htmlFor="text" className="block text-sm font-medium leading-6 text-gray-900">
+                                            תוכן הכתבה
                                         </label>
                                         <div>
-                                            <textarea
-                                            id="text"
-                                            name="text"
-                                            rows={3}
-                                            value={updatedText}
-                                            onChange={(e) => setUpdatedText(e.target.value)}
-                                            className="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:py-1.5 sm:text-sm sm:leading-6"
-                                            />
+                                            <div className="mt-2">
+                                                <textarea
+                                                    id="text"
+                                                    name="text"
+                                                    rows={3}
+                                                    value={updatedText}
+                                                    onChange={(e) => setUpdatedText(e.target.value)}
+                                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-span-full">
+                                        <label htmlFor="url" className="block text-sm font-medium leading-6 text-gray-900">
+                                            קישור לכתבה
+                                        </label>
+                                        <div>
+                                            <div className="mt-2">
+                                                <input
+                                                    id="url"
+                                                    name="url"
+                                                    type="text"
+                                                    value={updatedUrl}
+                                                    onChange={(e) => setUpdatedUrl(e.target.value)}
+                                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                                />
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="col-span-full">
@@ -288,34 +302,21 @@ const AdminSingleArticle = ({ article_id, title, source, text, writtenAt, image,
                                         </div>
                                     )}
                                 </div>
-                                <div className="sm:col-span-4">
-                                        <label htmlFor="title" className="block text-sm font-medium leading-6 text-gray-900">
-                                            קישור לכתבה 
-                                        </label>
-                                        <div>
-                                            <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                                                <input
-                                                id="url"
-                                                name="url"
-                                                type="text"
-                                                value={updatedUrl}
-                                                onChange={(e) => setUpdatedUrl(e.target.value)}
-                                                className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                        </div>
-                        <div className="mt-6 flex items-center justify-end gap-x-6">
-                                <Button type="button" className='bg-red-500 hover:opacity-50 p-2 rounded-lg text-primary' onClick={() => setIsFormOpen(false)}>ביטול</Button>
-                                <Button type="submit" className='bg-blue-500 hover:opacity-50 p-2 rounded-lg text-primary'>שמור שינויים</Button>
-                        </div>
+                            </div>
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button type="button" className="hover:opacity-50 text-text rounded-lg" onClick={() => setIsFormOpen(false)}>
+                                ביטול
+                            </Button>
+                            <Button type="submit" className="bg-blue-500 hover:opacity-50 text-primary rounded-lg mr-2">
+                                שמור
+                            </Button>
+                        </ModalFooter>
                     </form>
-                </div>
-            )}
-    </div>
-
-  );
+                </ModalContent>
+            </Modal>
+        </div>
+    );
 };
 
 export default AdminSingleArticle;
