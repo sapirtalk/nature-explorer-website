@@ -77,7 +77,7 @@ const Login = ({cookieCallback}) => {
 
   if (user) {
     return (
-      <div className="max-w-md  h-full mx-auto mt-10 p-6">
+      <div className="h-full mx-auto mt-10 p-6">
         <HelloLogin firstName={user.firstName} />
       </div>
     );

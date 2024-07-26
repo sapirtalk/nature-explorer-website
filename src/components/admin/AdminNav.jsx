@@ -21,7 +21,7 @@ const AdminNav = ({viewNav , admin , logoutCallback , curNav}) => {
 
             const current = await curNav
 
-            if (current.value) {
+            if (current) {
                 setActiveNav(current.value)
                 console.log("current nav is: ", current.value)
             }

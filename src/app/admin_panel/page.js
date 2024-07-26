@@ -115,7 +115,7 @@ const selectComponent = async (websiteData) => {
         case 'dashboard':
             return <AdminDashboard admin={admin} Statistics={websiteData.Statistics} />
         case 'trails':
-            return <AdminTrails admin={admin} />
+            return <AdminTrails admin={admin} trailsData={JSON.parse(JSON.stringify(websiteData.Trails))} />
         case 'tours':      
             return <AdminTours admin={admin} />
         case 'articles':       
