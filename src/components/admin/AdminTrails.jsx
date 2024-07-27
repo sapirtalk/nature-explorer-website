@@ -71,12 +71,14 @@ const AdminTrails = ({admin , trailsData}) => {
 
             case "comments":
                 return (
-                    <TrailComments trail={trail} />
+                    null
+                    // <TrailComments trail={trail} />
                 )
 
             case "edit":
                 return (
-                    <EditTrailModal trail={trail} />
+                    null
+                    // <EditTrailModal trail={trail} />
                 )
 
             case "delete":
