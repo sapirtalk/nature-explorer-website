@@ -24,10 +24,10 @@ const WatchUser = ({user , closeCallBack}) => {
                         <p>שם משתמש: {user.firstName} {user.lastName}</p>
                         <p>כתובת מייל: {user.email}</p>
                         <span className='flex flex-row justify-start'>    
-                        {showPassword && <p className='ml-2'>סיסמא: {user.password_hash}</p>}
+                        {/* {showPassword && <p className='ml-2'>סיסמא: {user.password_hash}</p>} */}
                         {!showPassword && <p className='ml-2'>סיסמא: ********</p>}
-                        {!showPassword && <IoIosEye className='cursor-pointer hover:opacity-50' onClick={() => setShowPassword(true)} size={25} />}
-                        {showPassword && <IoIosEyeOff className='cursor-pointer hover:opacity-50' onClick={() => setShowPassword(false)} size={25} />}
+                        {/* {!showPassword && <IoIosEye className='cursor-pointer hover:opacity-50' onClick={() => setShowPassword(true)} size={25} />} */}
+                        {/* {showPassword && <IoIosEyeOff className='cursor-pointer hover:opacity-50' onClick={() => setShowPassword(false)} size={25} />} */}
                         </span>
                         <p>תפקיד: {translateRole(user.role)}</p>
                         <p>הרשאות: {rolePermissionMsg(user.role)}</p>

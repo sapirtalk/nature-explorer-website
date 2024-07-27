@@ -7,6 +7,8 @@ import { SearchIcon } from "./usersComp/table/SearchIcon";
 import { MdModeEdit , MdDelete } from "react-icons/md";
 import { FaRegComments } from "react-icons/fa";
 import { PlusIcon } from "./usersComp/table/PlusIcon";
+import AddTrailModal from "./trailsComp/AddTrailModal";
+import DeleteTrailModal from "./trailsComp/DeleteTrailModal";
 
 
 
@@ -17,6 +19,7 @@ const AdminTrails = ({admin , trailsData}) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [filterValue, setFilterValue] = useState("");
     const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [trailModalSelected , setTrailModalSelected] = useState({modal :null , trail : null});
 
     const hasSearchFilter = Boolean(filterValue);
     
@@ -57,10 +60,42 @@ const AdminTrails = ({admin , trailsData}) => {
 
     const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
+
+
+    const modalShow = () => {
+        
+        const modal = trailModalSelected.modal
+        const trail = trailModalSelected.trail
+        
+        switch(modal){
+
+            case "comments":
+                return (
+                    <TrailComments trail={trail} />
+                )
+
+            case "edit":
+                return (
+                    <EditTrailModal trail={trail} />
+                )
+
+            case "delete":
+                return (
+                    <DeleteTrailModal trail={trail} adminId={admin.id} closeCallback={setTrailModalSelected} />
+                )
+
+            default:
+                return null
+            }
+    }
+
+
+
+
     return (
         <div className="w-full h-full flex flex-row-reverse">
             <div dir="rtl" className="w-[40%] h-full flex flex-col">
-                <div className="w-full h-[10%] flex items-center border-b-2 border-secondary">
+                <div className="w-full h-[10%] flex items-center justify-between border-b-2 border-secondary">
                 <Input
                     isClearable
                     isRtl
@@ -72,10 +107,9 @@ const AdminTrails = ({admin , trailsData}) => {
                     onClear={() => onClear()}
                     onValueChange={onSearchChange}
                 />
-                <Button color="success" endContent={<PlusIcon />} className="flex justify-center items-center mr-10">
-                    הוסף מסלול חדש
-                </Button>
+                <AddTrailModal adminId={admin.id} />
                 </div>
+                <p className="w-full text-sm py-4 text-default-400" >נמצאו {filteredItems.length} מסלולים</p>
                 <div dir="ltr" className="w-full h-[90%] flex items-end pr-10 flex-col justify-start overflow-y-scroll">
                     {items.map((trail) => <div key={trail._id} className="mt-4">
                         <Dropdown>
@@ -84,7 +118,7 @@ const AdminTrails = ({admin , trailsData}) => {
                                     <AdminSingleTrail key={trail._id} trail={trail} admin={admin} />
                                 </Button>
                             </DropdownTrigger>
-                            <DropdownMenu onAction={(key) => console.log(key)} aria-label="Actions">
+                            <DropdownMenu onAction={(key) => setTrailModalSelected({modal :key , trail : trail})} aria-label="Actions">
                                 <DropdownItem key="comments" endContent = {<FaRegComments />}>תגובות</DropdownItem>
                                 <DropdownItem key="edit" endContent = {<MdModeEdit />}>ערוך מסלול</DropdownItem>
                                 <DropdownItem key="delete" endContent = {<MdDelete />} className="text-danger" color="danger">
@@ -127,7 +161,7 @@ const AdminTrails = ({admin , trailsData}) => {
                 </div>
             </div>
             <div className="w-[60%] h-full p-3">
-
+                {modalShow()}   
             </div>
         </div>
     )

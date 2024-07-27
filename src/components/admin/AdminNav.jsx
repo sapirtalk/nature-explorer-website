@@ -63,9 +63,10 @@ const AdminNav = ({viewNav , admin , logoutCallback , curNav}) => {
             <div className="flex flex-col w-full border-b-2 border-tertiary">
             {Object.keys(navItems).map((key, index) => (
                 <Button
+                    disabled={'users' === key && admin.role !== 'admin'}
                     key={index}
                     size="lg"
-                    className={`text-lg w-full justify-start items-center mb-5 font-bold ${activeNav === key ? 'bg-tertiary text-white' : 'bg-transparent text-text'} hover:text-blue-500 hover:opacity-50`}
+                    className={` ${admin.role !== 'admin' && key === 'users' ? 'hidden' : ''} text-lg w-full justify-start items-center mb-5 font-bold ${activeNav === key ? 'bg-tertiary text-white' : 'bg-transparent text-text'} hover:text-blue-500 hover:opacity-50`}
                     onClick={ () => handleClick(key)}
                 >
                     {navItems[key].icon}
