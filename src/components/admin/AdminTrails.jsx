@@ -9,12 +9,14 @@ import { FaRegComments } from "react-icons/fa";
 import { PlusIcon } from "./usersComp/table/PlusIcon";
 import AddTrailModal from "./trailsComp/AddTrailModal";
 import DeleteTrailModal from "./trailsComp/DeleteTrailModal";
+import EditTrailModal from "./trailsComp/EditTrailModal";
+import TrailComments from "./trailsComp/TrailComments";
 
 
 
 
 
-const AdminTrails = ({admin , trailsData}) => {
+const AdminTrails = ({admin , trailsData , commentsData , usersData}) => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const [filterValue, setFilterValue] = useState("");
@@ -66,19 +68,19 @@ const AdminTrails = ({admin , trailsData}) => {
         
         const modal = trailModalSelected.modal
         const trail = trailModalSelected.trail
+ 
         
         switch(modal){
 
             case "comments":
+                const trailComments = commentsData.filter(comment => comment.trailId === trail._id) 
                 return (
-                    null
-                    // <TrailComments trail={trail} />
+                    <TrailComments trailName={trail.name} usersData={usersData} commentsData={trailComments} adminId={admin.id} closeCallback={setTrailModalSelected} />
                 )
 
             case "edit":
                 return (
-                    null
-                    // <EditTrailModal trail={trail} />
+                    <EditTrailModal trail={trail} adminId={admin.id} closeCallback={setTrailModalSelected} />
                 )
 
             case "delete":
@@ -162,7 +164,7 @@ const AdminTrails = ({admin , trailsData}) => {
                     </div>
                 </div>
             </div>
-            <div className="w-[60%] h-full p-3">
+            <div className="w-[60%] h-full p-3 flex justify-center items-center">
                 {modalShow()}   
             </div>
         </div>
