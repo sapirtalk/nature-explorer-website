@@ -1,28 +1,36 @@
-/* connection with mongoDB database */
-
-// src/api/middleware/mongo.js
 import { MongoClient } from 'mongodb';
 
 const uri = process.env.MONGODB_URI;
-let client;
-let cachedDb;
+let cachedClient = null;
+let cachedDb = null;
 
 if (!uri) {
     throw new Error('Please define the MONGODB_URI environment variable');
 }
 
-// connect to the database, or return the cached database connection
 export async function connectToDatabase() {
     if (cachedDb) {
+        console.log('Using cached database connection');
+        // Log the number of current connections
+        const serverStatus = await cachedDb.command({ serverStatus: 1 });
+        console.log(`Current number of connections: ${serverStatus.connections.current}`);
         return cachedDb;
     }
 
-    client = new MongoClient(uri);
+    if (!cachedClient) {
+        cachedClient = new MongoClient(uri);
+        console.log('Created new MongoDB client');
+    }
 
     try {
-        await client.connect();
-        console.log('Connected to MongoDB');
-        cachedDb = client.db('Nature_Haifa'); // change the database name here
+        if (!cachedClient.topology || cachedClient.topology.isDestroyed()) {
+            await cachedClient.connect();
+            console.log('Started MongoDB connection..');
+        }
+        cachedDb = cachedClient.db('Nature_Haifa');
+        // Log the number of current connections
+        const serverStatus = await cachedDb.command({ serverStatus: 1 });
+        console.log(`Current number of connections: ${serverStatus.connections.current}`);
         return cachedDb;
     } catch (error) {
         console.error('Error connecting to MongoDB:', error);
@@ -30,13 +38,19 @@ export async function connectToDatabase() {
     }
 }
 
-export async function disconnectFromDatabase() {
-    if (client) {
-        await client.close();
-        console.log('Disconnected from MongoDB');
-        cachedDb = null;
+// Ensure proper cleanup
+process.on('SIGINT', async () => {
+    if (cachedClient) {
+        await cachedClient.close();
+        console.log('MongoDB connection closed');
     }
-}
+    process.exit(0);
+});
 
-
-
+process.on('SIGTERM', async () => {
+    if (cachedClient) {
+        await cachedClient.close();
+        console.log('MongoDB connection closed');
+    }
+    process.exit(0);
+});

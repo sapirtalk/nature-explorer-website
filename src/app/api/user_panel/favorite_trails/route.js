@@ -27,7 +27,7 @@ export async function POST(req) {
             const filteredUserFavoriteTrailsIds = userFavoriteTrailsIds.filter(trailId => trailId !== null);
             userFavoriteTrailsIds = filteredUserFavoriteTrailsIds;
         }
-        console.log("inside POST favorite_trails", userFavoriteTrailsIds);
+
         const userFavoriteTrails = [];
 
         for (const trailId of userFavoriteTrailsIds) {
