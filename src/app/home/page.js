@@ -3,6 +3,8 @@ import RecommendedTrails from '@/components/home_comp/RecommendedTrails'
 import Greeting from '@/components/home_comp/Greeting'
 import { cookies } from 'next/headers';
 import { Link } from "@nextui-org/react";
+import WeatherComp from '@/components/home_comp/WeatherComp';
+import { connectToDatabase } from '../api/middleware/mongo';
 
 
 
@@ -14,6 +16,9 @@ const Home = () => {
   return (
     <div>
       <Greeting />
+      <div className="my-10">
+        <WeatherComp />
+      </div>
       <div className="my-10">
       <div className='border-8 border-tertiary'></div>
         <LatestTours />

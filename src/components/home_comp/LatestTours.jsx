@@ -56,7 +56,7 @@ const LatestTours = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-start flex-col pt-5 h-[40vh] items-center justify-center">
+      <div className="flex justify-start flex-col pt-5 h-[40vh] items-center">
         <Spinner label="...טוען סיורים" color="secondary" labelColor="secondary" size="lg" />
       </div>
     );

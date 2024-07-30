@@ -38,19 +38,29 @@ export async function connectToDatabase() {
     }
 }
 
-// Ensure proper cleanup
-process.on('SIGINT', async () => {
-    if (cachedClient) {
-        await cachedClient.close();
-        console.log('MongoDB connection closed');
-    }
-    process.exit(0);
-});
 
-process.on('SIGTERM', async () => {
-    if (cachedClient) {
-        await cachedClient.close();
-        console.log('MongoDB connection closed');
-    }
-    process.exit(0);
-});
+
+// Ensure proper cleanup
+if (process.listenerCount('SIGINT') === 0) {
+    process.on('SIGINT', async () => {
+        if (cachedClient) {
+            await cachedClient.close();
+            console.log('MongoDB connection closed');
+        }
+        process.exit(0);
+    });
+}
+
+if (process.listenerCount('SIGTERM') === 0) {
+    process.on('SIGTERM', async () => {
+        if (cachedClient) {
+            await cachedClient.close();
+            console.log('MongoDB connection closed');
+        }
+        process.exit(0);
+    });
+}
+
+
+
+

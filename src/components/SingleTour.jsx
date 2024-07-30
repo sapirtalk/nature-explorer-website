@@ -129,7 +129,8 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
                                     <Image src={logo} alt='logo' width={80} height={80} />
                                 </div>
                             ) : (
-                                <Image 
+                                <Image
+                                    alt = 'logo' 
                                     src={image[0]}
                                     width={500}
                                     height={500} 
