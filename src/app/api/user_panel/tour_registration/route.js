@@ -106,8 +106,7 @@ async function updateTourById(db, userId, tourId, action, numberOfPeople) {
         );
 
         if (result_1.matchedCount > 0 && result_2.matchedCount > 0) {
-            return { success: true, message: 'Registered Users list and Registered Tours list updated successfully.' };
-        } else if (result_1.matchedCount === 0 && result_2.matchedCount === 0) {
+            return { success: true, message: 'Registered Users list and Registered Tours list updated successfully.', existingPeopleCount: existingPeopleCount };        } else if (result_1.matchedCount === 0 && result_2.matchedCount === 0) {
             return { success: false, message: 'Tour not found. User not found.' };
         } else if (result_1.matchedCount === 0) {
             return { success: false, message: 'Tour not found.' };
