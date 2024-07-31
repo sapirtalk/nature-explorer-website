@@ -21,6 +21,8 @@ import { FaCircleExclamation } from "react-icons/fa6";
 import { toast } from 'react-toastify';
 import { FaFlag } from "react-icons/fa";
 import { Tooltip } from '@nextui-org/react';
+import { TiWeatherCloudy } from "react-icons/ti";
+
 
 
 
@@ -191,6 +193,13 @@ const Navbar = ({cookieCallback}) => {
               <AiFillMessage className='xl:text-[40px] lg:text-[30px]' />
             </Link>
             </Tooltip>
+            <Tooltip placement='bottom' content={<div className='text-xl p-1'>חיפוש</div>} shadow='none' showArrow>
+            <Link href='/weather' className={curPath == '/weather' ? navbar.desktop_link_curr : navbar.desktop_link} onClick={() => setPath('/weather')}>
+              <p className={navbar.desktop_p}>מזג אויר</p>
+              &nbsp;
+              <TiWeatherCloudy className='xl:text-[40px] lg:text-[30px]' />
+            </Link>
+            </Tooltip>
           </ul>
           <div className={`${navbar.hamburger}`}>
             <RxHamburgerMenu onClick={handleNav} className={!menuOpen ? 'text-4xl text-text' : 'text-blocked text-4xl'} />
@@ -247,6 +256,13 @@ const Navbar = ({cookieCallback}) => {
                   <AiFillMessage size={25} />
                   &nbsp;
                   צור קשר
+                </li>
+              </Link>
+              <Link className={curPath == '/weather' ? '  opacity-70 border-text' : ''} onClick={handleNav} href='/weather'>
+                <li className={`${navbar.li_opened_menu}`}>
+                  <TiWeatherCloudy size={25} />
+                  &nbsp;
+                  מזג אויר
                 </li>
               </Link>
               <hr className='w-full border-[2px] border-text' />
