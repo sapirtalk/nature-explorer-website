@@ -4,7 +4,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Textarea , Input, CheckboxGroup, Checkbox} from '@nextui-org/react';
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Textarea , Input, CheckboxGroup, Checkbox, Spinner} from '@nextui-org/react';
 import { ChevronDownIcon } from '../usersComp/table/ChevronDownIcon';
 import { FaRegClock , FaRegImages } from "react-icons/fa";
 import { GiPathDistance } from "react-icons/gi";
@@ -271,7 +271,10 @@ const EditTrailModal = ({adminId , trail , closeCallback }) => {
                                         </CheckboxGroup>
                                     </div>
                                     <div>
-                                        <Button
+                                        {isSubmitting ? (
+                                            <Spinner color="success" />
+                                        ) : (
+                                            <Button
                                             auto
                                             disabled={isSubmitting}
                                             flat
@@ -280,6 +283,7 @@ const EditTrailModal = ({adminId , trail , closeCallback }) => {
                                         >
                                             שמור שינויים
                                         </Button>
+                                        )}
                                     </div>
                                     {message && <div className="text-red-500 text-sm mt-1">{message}</div>}
                                 </Form>

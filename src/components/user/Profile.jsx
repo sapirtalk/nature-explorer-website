@@ -43,7 +43,7 @@ const Profile = ({ user, cookieCallback }) => {
                     <p className="text-center">{user.firstName} {user.lastName}</p>
                 </span>
             </div>
-            <div className="w-full h-full pt-4 border-b-2 border-black">
+            <div className="w-full h-full pt-4 border-b-2 border-black flex flex-row justify-center items-center">
                 <RegisteredTours userId={user._id ? user._id : user.id} />
             </div>
             <div className="w-full h-full pt-4">

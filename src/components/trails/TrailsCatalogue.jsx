@@ -1,15 +1,15 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import SingleTrail from './SingleTrail';
-import Link from 'next/link';
 import { FaSort } from "react-icons/fa6";
 import { FaFilter } from "react-icons/fa";
 import SortTrails from './SortTrails';
 import { FaSortAmountDownAlt } from "react-icons/fa";
 import { FaSortAmountUp } from "react-icons/fa";
 import FilterTrails from './filter/FilterTrails';
-import { Spinner } from '@nextui-org/react';
+import { Spinner , Pagination, Button } from '@nextui-org/react';
+
 
 
 const TrailsCatalogue = ({cookieCallback}) => {
@@ -22,6 +22,21 @@ const TrailsCatalogue = ({cookieCallback}) => {
     const [loading, setLoading] = useState(true);
     const [favTrails, setFavTrails] = useState([]);
     const [user_id_state, setUser_id_state] = useState(null);
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+
+    const onNextPage = useCallback(() => {
+        if (page < totalPages) {
+          setPage(page + 1);
+        }
+      }, [page, totalPages]);
+    
+      const onPreviousPage = useCallback(() => {
+        if (page > 1) {
+          setPage(page - 1);
+        }
+      }, [page]);
+
 
 
 
@@ -48,6 +63,7 @@ const TrailsCatalogue = ({cookieCallback}) => {
 
     const updateFilter = (filter) => {
         setFilter(filter);
+        setPage(1);
     }
 
     const updateOpenFilter = (value) => {
@@ -60,6 +76,7 @@ const TrailsCatalogue = ({cookieCallback}) => {
    
     const clearSortAndFilter = () => {
         setFilter({});
+        setPage(1);
         setSort({ by: 'name', order: 'asc' });
     }
 
@@ -72,7 +89,6 @@ const TrailsCatalogue = ({cookieCallback}) => {
 
     useEffect(() => {
 
-        
 
         const getFavorites = async () => {
 
@@ -110,7 +126,10 @@ const TrailsCatalogue = ({cookieCallback}) => {
 
     const trailsShow = () => {
         if (trails.length > 0) {
-          return trails.map((trail) => (
+            const start = (page - 1) * 10;
+            const end = start + 10;
+            const curpage = trails.slice(start, end);
+          return curpage.map((trail) => (
             <div key={trail._id}>
               <SingleTrail 
                 id={trail._id} 
@@ -156,6 +175,7 @@ const TrailsCatalogue = ({cookieCallback}) => {
 
         fetchTrails().then((trails) => {
             setTrails(trails);
+            setTotalPages(Math.ceil(trails.length / 10));
             setLoading(false);
         }).catch((err) => {
             console.log(err);
@@ -197,7 +217,6 @@ const TrailsCatalogue = ({cookieCallback}) => {
                         :  
                         <div className="lg:grid lg:mb-10 lg:grid-cols-4 lg:items-start lg:justify-normal lg:gap-4 lg:flex-none">{trailsShow()}</div>
             }
-
             <div className={openSort ? 'fixed bottom-0 w-[100%] sm:hidden backdrop-blur h-[30vh] bg-white bg-opacity-70 p-5 ease-in duration-300' : 'fixed bottom-[-100%] p-10 ease-in duration-300'}>
                 <SortTrails updateSort={updateSort} updateOpenSort={updateOpenSort} sort = {sort} openSort = {openSort}  />
             </div>
@@ -225,13 +244,29 @@ const TrailsCatalogue = ({cookieCallback}) => {
              {sort.order === 'asc' ? <FaSortAmountDownAlt size={20}/> : <FaSortAmountUp size={20} />}
             </button>   
             </div>
+            <div className='flex justify-center items-start flex-col'>
             {loading ? <div className='flex h-[80vh] w-full justify-center items-start'>
                         <Spinner label="...טוען מסלולים" color="secondary" labelColor="secondary" size="lg" />
                         </div> 
                         :  
                         <div className="lg:flex lg:mb-10 lg:flex-col lg:items-start lg:justify-center">{trailsShow()}</div>
             }
-            </div> 
+            </div>
+            <div className="hidden sm:flex w-[30%] justify-end gap-2">
+            <Pagination
+                total={totalPages}
+                initialPage={page}
+                onChange={setPage}
+                color='default' 
+            />
+            <Button isDisabled={totalPages === 1} size="md" variant="flat" onPress={onPreviousPage}>
+                קודם
+            </Button>
+            <Button isDisabled={totalPages === 1} size="md" variant="flat" onPress={onNextPage}>
+                הבא
+            </Button>
+            </div>
+        </div>
         </div>
         </div>
     )

@@ -65,7 +65,7 @@ const Trail = async ({ params }) => {
         <h1 className='text-3xl lg:text-[35px] my-6 font-bold text-center'>{trail.name}</h1>
         <ImageCarousel images={trail.image} options={OPTIONS} />
       </div>
-      <div className='border-t-2 flex flex-col pt-2'>
+      <div className='border-t-2 w-full flex flex-col pt-2'>
         <TrailDetails trail={trail} />
       </div>
       {user ?

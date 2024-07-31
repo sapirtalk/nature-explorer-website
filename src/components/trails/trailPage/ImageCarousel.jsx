@@ -57,7 +57,7 @@ const ImageCarousel = ({ images , options }) => {
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container">
           {images.map((image, index) => (
-            <div className="embla__slide" key={index} onClick={() => openModal(index)}>
+            <div className="embla__slide flex justify-center items-center hover:opacity-50 hover:cursor-pointer" key={index} onClick={() => openModal(index)}>
               <Image
                 src={image}
                 alt={`Image ${index}`}
@@ -99,7 +99,7 @@ const ImageCarousel = ({ images , options }) => {
           backdrop: "bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20"
         }}
       >
-        <ModalContent className="bg-zinc-900 justify-center items-center">
+        <ModalContent className="bg-zinc-900 flex justify-center items-center">
           <Image
             src={images[currentImage]}
             alt={`Image ${currentImage}`}

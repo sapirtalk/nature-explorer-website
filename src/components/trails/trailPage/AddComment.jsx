@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input } from "@nextui-org/react";
 import { Textarea } from "@nextui-org/input";
 import { MdOutlineAddComment } from 'react-icons/md';
@@ -12,6 +12,7 @@ export default function AddComment({ trailId, userId }) {
   const [textMessage, setComment] = useState("");
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const abortControllerRef = useRef(null);
 
   const validateForm = () => {
     let formErrors = {};
@@ -20,14 +21,18 @@ export default function AddComment({ trailId, userId }) {
     setErrors(formErrors);
 
     return Object.keys(formErrors).length === 0;
-
   };
 
   const handleSubmit = async () => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
 
-    console.log('now in handle submit')
+    const abortController = new AbortController();
+    abortControllerRef.current = abortController;
 
-    
+    console.log('now in handle submit');
+
     // Construct the data to be sent
     const commentData = {
       title,
@@ -44,38 +49,49 @@ export default function AddComment({ trailId, userId }) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(commentData),
+        signal: abortController.signal,
       });
 
       if (!response.ok) {
         // Handle the error
         console.error('Failed to submit comment');
         toast.error('שגיאה בשליחת התגובה');
+        setIsSubmitting(false);
         return;
       }
 
       // Clear form and close modal on success
-      //toast success
       toast.success('התגובה נוספה בהצלחה!');
       setTitle("");
       setComment("");
       setErrors({});
-      onOpenChange();
       setIsSubmitting(false);
+      onOpenChange();  // Close the modal only after resetting the submitting state
 
       // after 2 seconds reload the page
       setTimeout(() => {
         window.location.reload();
       }, 2000);
-
-
     } catch (error) {
-      console.error('Error submitting comment:', error);
+      if (error.name !== 'AbortError') {
+        console.error('Error submitting comment:', error);
+        setIsSubmitting(false);
+      }
+    }
+  };
+
+  const handleButtonClick = () => {
+    if (isSubmitting) return; // Prevent multiple submissions
+    if (validateForm()) {
+      setIsSubmitting(true);
+      handleSubmit();
     }
   };
 
   return (
     <>
-      <Button className="w-full mx-2 lg:text-xl" onPress={onOpen} color="secondary">הוסף תגובה
+      <Button className="w-full mx-2 lg:text-xl" onPress={onOpen} color="secondary">
+        הוסף תגובה
         <MdOutlineAddComment className="text-xl" />
       </Button>
       <Modal
@@ -126,17 +142,12 @@ export default function AddComment({ trailId, userId }) {
                 <Button className="bg-red-500 text-md" color="primary" variant="flat" onPress={onClose}>
                   ביטול
                 </Button>
-                <Button disabled={isSubmitting} className="bg-blue-500 text-md" color="primary" 
-                  onPress={() => {
-                    setIsSubmitting(true);
-                    if (validateForm()) {
-                      onOpenChange();
-                      handleSubmit();
-                    }
-                    else {
-                      setIsSubmitting(false);
-                    }
-                    }}>
+                <Button
+                  disabled={isSubmitting}
+                  className="bg-blue-500 text-md"
+                  color="primary"
+                  onPress={handleButtonClick}
+                >
                   {isSubmitting ? <Spinner size="xs" /> : 'הוסף תגובה'}
                 </Button>
               </ModalFooter>
