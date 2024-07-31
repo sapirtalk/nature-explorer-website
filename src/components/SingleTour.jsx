@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import React, { useState, useEffect } from "react";
-import { Card, CardHeader, CardBody, CardFooter, Divider } from "@nextui-org/react";
+import { Card, CardHeader, CardBody, CardFooter, Divider, Button, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from '@nextui-org/react';
 import { IoMdClose } from "react-icons/io";
 import logo from '../../public/resources/images/logo/logo.png';
 import { toast } from 'react-toastify';
@@ -14,7 +14,7 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
     const [isRegistered, setIsRegistered] = useState(false);
     const [registeredUsersCount1, setRegisteredUsersCount] = useState(registeredUsersCount);
     const [isProcessing, setIsProcessing] = useState(false);
-
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         const storedUser = document.cookie.split('; ').find(row => row.startsWith('user='));
@@ -69,9 +69,9 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
             if (result.success) {
                 toast.success('נרשמת בהצלחה לסיור');
                 setIsRegistered(true);
-                setRegisteredUsersCount(prevCount => parseInt(prevCount) + parseInt(numberOfPeople)); 
+                setRegisteredUsersCount(prevCount => prevCount + parseInt(numberOfPeople)); 
             } else {
-                alert(result.message);
+                toast.error(result.message);
             }
         } catch (error) {
             console.error('Error:', error);
@@ -83,6 +83,7 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
     };
 
     const handleCancel = async () => {
+        setIsModalOpen(false);
         if (!user) return;
 
         setIsProcessing(true);
@@ -108,7 +109,7 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
                 setIsRegistered(false);
                 setRegisteredUsersCount(prevCount => prevCount - result.existingPeopleCount);
             } else {
-                alert(result.message);
+                toast.error(result.message);
             }
         } catch (error) {
             console.error('Error:', error);
@@ -120,7 +121,7 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
 
     return (
         <div dir="rtl">
-            <Card className="lg:w-[21vw] lg:h-[26vh] w-[90vw] flex flex-col mx-2 ">
+            <Card className="lg:w-[21vw] lg:h-[26vh] w-[90vw] flex flex-col mx-2">
                 <div className="flex flex-col flex-[2]">
                     <CardHeader className="flex-1">
                         <div className='w-[30%] ml-3'>
@@ -138,7 +139,9 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
                         </div>
                         <div className="flex flex-col w-full">
                             <header className="text-text font-bold">{title}</header>
+                            <p className="text-xs text-default-500">
                                 {tourTime.slice(8,10)}.{tourTime.slice(5,7)}.{tourTime.slice(0, 4)}
+                            </p>
                             <p className="text-xs text-default-500">
                                 שעת הסיור: &nbsp;
                                 {tourTime.slice(11, 16)}
@@ -176,11 +179,11 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
                                             required
                                             value={numberOfPeople}
                                             onChange={(event) => {
-                                            const value = event.target.value;
-                                            if (value === '' || (Number(value) > 0 && Number.isInteger(Number(value)))) {
-                                            setNumberOfPeople(value);
-                                            }}}
-                                            className="flex-grow"
+                                                const value = event.target.value;
+                                                if (value === '' || (Number(value) > 0 && Number.isInteger(Number(value)))) {
+                                                    setNumberOfPeople(value);
+                                                }}}
+                                                className="flex-grow"
                                         />
                                         <button disabled={isProcessing} type="submit" className='bg-blue-500 hover:opacity-50 p-2 rounded-lg text-primary mr-5'>הרשמה</button>
                                         <IoMdClose onClick={handleCloseForm} className='text-4xl text-text cursor-pointer mr-5' />
@@ -188,7 +191,21 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
                                 </div>
                             )}
                             {isRegistered && (
-                                <button disabled={isProcessing} className='bg-red-500 p-2 rounded-lg hover:opacity-50 text-primary' onClick={handleCancel}>ביטול הרשמה</button>
+                                <div>
+                                    <button disabled={isProcessing} className='bg-red-500 p-2 rounded-lg hover:opacity-50 text-primary' onClick={() => setIsModalOpen(true)}>ביטול הרשמה</button>
+                                    <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} dir="rtl">
+                                        <ModalContent>
+                                            <ModalHeader>ביטול הרשמה</ModalHeader>
+                                            <ModalBody>
+                                                <p>האם אתה בטוח שברצונך לבטל את ההרשמה לסיור?</p>
+                                            </ModalBody>
+                                            <ModalFooter>
+                                                <Button auto onClick={() => setIsModalOpen(false)}>לא</Button>
+                                                <Button auto className='bg-customRed text-primary' onClick={handleCancel}>כן</Button>
+                                            </ModalFooter>
+                                        </ModalContent>
+                                    </Modal>
+                                </div>
                             )}
                         </div>
                     )}
