@@ -12,6 +12,14 @@ import AddComment from '@/components/trails/trailPage/AddComment';
 import AddRating from '@/components/trails/trailPage/AddRating';
 
 
+import dynamic from "next/dynamic";
+
+const LazyMap = dynamic(() => import("@/components/trails/trailPage/Map"), {
+  ssr: false,
+  loading: () => <p>Loading...</p>,
+});
+
+
 export const generateStaticParams = async () => {
   const db = await connectToDatabase();
   const trails = await db.collection('Trails').find({}).toArray();
@@ -39,7 +47,8 @@ const Trail = async ({ params }) => {
   const trail_id = trail ? trail._id.toString() : null;
   const liked = favorite_trails.includes(trail_id) ? true : false;
   const rating = trail ? trail.averageRating : null;
-  var refresh = false
+
+  
 
   if (!trail) {
     return (
@@ -64,9 +73,12 @@ const Trail = async ({ params }) => {
       </div>
         <h1 className='text-3xl lg:text-[35px] my-6 font-bold text-center'>{trail.name}</h1>
         <ImageCarousel images={trail.image} options={OPTIONS} />
-      </div>
+        </div>
       <div className='border-t-2 w-full flex flex-col pt-2'>
         <TrailDetails trail={trail} />
+      </div>
+      <div className='border-t-2 w-full justify-center items-center flex flex-col pt-2'>
+      <LazyMap />
       </div>
       {user ?
       <div className='border-t-2 flex flex-row justify-between items-center w-[60%] pt-[50px]'>

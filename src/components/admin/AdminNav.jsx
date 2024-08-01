@@ -106,15 +106,6 @@ const navItems = {
     articles: {
         icon: <IoNewspaperSharp className="ml-3" size={25} />,
     },
-    about: {
-        icon: <BsFillInfoCircleFill className="ml-3" size={25} />,
-    },
-    contact: {
-        icon: <AiFillMessage className="ml-3" size={25} />,
-    },
-    comments: {
-        icon: <FaComments className="ml-3" size={25} />,
-    },
     users: {
         icon: <FaUsersGear className="ml-3" size={25} />,
     }
@@ -143,3 +134,12 @@ const translateNav = (item) => {
             return item;
     }
 }
+
+
+
+
+
+
+
+
+
