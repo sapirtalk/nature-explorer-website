@@ -1,84 +1,52 @@
-'use client'
+'use client';
 
-
-
-import React, { use } from "react";
-import {CheckboxGroup} from "@nextui-org/react";
+import React, { useEffect, useState } from "react";
+import { CheckboxGroup } from "@nextui-org/react";
 import CustomCheckBox from "./CustomCheckBox";
 
-export default function CheckBoxOptions({updateFilter, filter}) {
+export default function CheckBoxOptions({ updateFilter, filter }) {
 
-
-
-  const [groupSelected, setGroupSelected] = React.useState([]);
-
-
-
+  const [groupSelected, setGroupSelected] = useState([]);
 
   // compile a filter format from the group
-const compileToFilter = (group) => {
-  let newfilter = { ...filter }; // Create a shallow copy of the existing filter object
+  const compileToFilter = (group) => {
+    let newfilter = { ...filter }; // Create a shallow copy of the existing filter object
 
-  if (group.includes('kids')) {
-    newfilter.kids = true;
-  } else if (!group.includes('kids') && filter.kids) {
-    delete newfilter.kids; // Remove the key from the object
-    console.log('we are here', newfilter);
-  }
-
-  if (group.includes('pets')) {
-    newfilter.pets = true;
-  } else if (!group.includes('pets') && filter.pets) {
-    delete newfilter.pets; // Remove the key from the object
-  }
-
-  if (group.includes('babyStroller')) {
-    newfilter.babyStroller = true;
-  } else if (!group.includes('babyStroller') && filter.babyStroller) {
-    delete newfilter.babyStroller; // Remove the key from the object
-  }
-
-  let diff = group.filter((el) => el === 'easy' || el === 'medium' || el === 'hard');
-
-  if (diff.length > 0) {
-    newfilter.difficulty = diff.map((el) => difficultyTranslate(el));
-  } else {
-    delete newfilter.difficulty; // Remove the key from the object
-  }
-
-  return newfilter;
-};
-
-
-
-
-
-
-
-  React.useEffect(() => {
-
-    // timeout to prevent multiple calls
-    let timeout = setTimeout(() => {
-
-      let properFilter = compileToFilter(groupSelected);
-      
-      console.log("properFilter" , properFilter);
-
-      updateFilter(properFilter);
-
-    }, 1000);
-
-    return () => {
-      clearTimeout(timeout);
+    if (group.includes('kids')) {
+      newfilter.kids = true;
+    } else if (!group.includes('kids') && filter.kids) {
+      delete newfilter.kids; // Remove the key from the object
+      console.log('we are here', newfilter);
     }
 
+    if (group.includes('pets')) {
+      newfilter.pets = true;
+    } else if (!group.includes('pets') && filter.pets) {
+      delete newfilter.pets; // Remove the key from the object
+    }
+
+    if (group.includes('babyStroller')) {
+      newfilter.babyStroller = true;
+    } else if (!group.includes('babyStroller') && filter.babyStroller) {
+      delete newfilter.babyStroller; // Remove the key from the object
+    }
+
+    let diff = group.filter((el) => el === 'easy' || el === 'medium' || el === 'hard');
+
+    if (diff.length > 0) {
+      newfilter.difficulty = diff.map((el) => difficultyTranslate(el));
+    } else {
+      delete newfilter.difficulty; // Remove the key from the object
+    }
+
+    return newfilter;
+  };
+
+  useEffect(() => {
+    let properFilter = compileToFilter(groupSelected);
+    console.log("properFilter", properFilter);
+    updateFilter(properFilter);
   }, [groupSelected]);
-
-
-
-
-
-
 
   return (
     <div className="flex flex-col mt-5 gap-1 w-full">
@@ -100,8 +68,6 @@ const compileToFilter = (group) => {
   );
 }
 
-
-
 // translate difficulty to number
 const difficultyTranslate = (diff) => {
   switch (diff) {
@@ -115,6 +81,3 @@ const difficultyTranslate = (diff) => {
       return 0;
   }
 }
-
-
-

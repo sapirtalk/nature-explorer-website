@@ -6,6 +6,7 @@ import Stars from '../../trails/ratingStars/Stars';
 import { GiPathDistance } from "react-icons/gi";
 import { FaWeightHanging } from "react-icons/fa6";
 import { MdAccessTimeFilled } from "react-icons/md";
+import { Link } from '@nextui-org/react';
 
 
 
@@ -30,7 +31,7 @@ const AdminSingleTrail = ({trail , admin}) => {
 
   
   return (
-    <div>
+    <div >
     <div dir="rtl" className='flex text-text h-[20vh] lg:h-[20vh] w-full min-w-[95vw] lg:min-w-[30vw] lg:w-[30vw] rounded-lg bg-white shadow-2xl flex-row '>
       <div className='w-[30%]'>
         <Image 

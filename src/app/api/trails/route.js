@@ -27,8 +27,18 @@ export async function POST(req) {
     const {filterReq , SortReq} = await req.json();
     const db = await connectToDatabase();
 
-
     const SortIndex = SortReq ? { [SortReq.by]: SortReq.order === 'asc' ? 1 : -1 } : { name: 1 };
+
+    console.log("filter Keys in POST : ", filterReq);
+
+    if (Object.keys(filterReq).length === 0){
+        const trails = await db.collection('Trails').find().sort(SortIndex).toArray();
+
+        return NextResponse.json({ trails });
+    }
+
+
+    
 
     const query = MakeQuery(filterReq); 
     

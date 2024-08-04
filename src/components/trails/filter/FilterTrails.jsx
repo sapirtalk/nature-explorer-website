@@ -17,7 +17,7 @@ const FilterTrails = ({desktop ,updateFilter , updateOpenFilter , filter , openF
 
     return (
         <div className='lg:w-full'>
-            <div classname = ''>
+            <div className = ''>
                 <p className='text-l pb-1'>סנן לפי:</p>
             <div className='flex flex-col justify-center'>
                 <DistanceSlider updateFilter={updateFilter} filter={filter} />

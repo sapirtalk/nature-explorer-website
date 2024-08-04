@@ -6,7 +6,7 @@ import { Slider } from '@nextui-org/slider';
 
 export default function DurationSlider({updateFilter , filter}) {
 
-  const [value, setValue] = useState([0, 30]);
+  const [value, setValue] = useState([0, 10]);
 
 
 

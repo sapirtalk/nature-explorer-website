@@ -1,6 +1,6 @@
 'use client'
 
-import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Input, Pagination } from "@nextui-org/react"
+import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Input, Pagination, Link } from "@nextui-org/react"
 import AdminSingleTrail from "./trailsComp/AdminSingleTrail"
 import { useState , useMemo, useCallback } from "react";
 import { SearchIcon } from "./usersComp/table/SearchIcon";
@@ -11,6 +11,14 @@ import AddTrailModal from "./trailsComp/AddTrailModal";
 import DeleteTrailModal from "./trailsComp/DeleteTrailModal";
 import EditTrailModal from "./trailsComp/EditTrailModal";
 import TrailComments from "./trailsComp/TrailComments";
+
+import dynamic from "next/dynamic";
+
+const LazyAddTrailModal = dynamic(() => import("./trailsComp/AddTrailModal"), {
+  ssr: false,
+  loading: () => <p>טוען...</p>,
+});
+
 
 
 
@@ -98,7 +106,7 @@ const AdminTrails = ({admin , trailsData , commentsData , usersData}) => {
 
     return (
         <div className="w-full h-full flex flex-row-reverse">
-            <div dir="rtl" className="w-[40%] h-full flex flex-col">
+            <div dir="rtl" className="w-[50%] h-full flex flex-col">
                 <div className="w-full h-[10%] flex items-center justify-between border-b-2 border-secondary">
                 <Input
                     isClearable
@@ -111,16 +119,16 @@ const AdminTrails = ({admin , trailsData , commentsData , usersData}) => {
                     onClear={() => onClear()}
                     onValueChange={onSearchChange}
                 />
-                <AddTrailModal adminId={admin.id} />
+                <LazyAddTrailModal adminId={admin.id} />
                 </div>
                 <p className="w-full text-sm py-4 text-default-400" >נמצאו {filteredItems.length} מסלולים</p>
                 <div dir="ltr" className="w-full h-[90%] flex items-end pr-10 flex-col justify-start overflow-y-scroll">
-                    {items.map((trail) => <div key={trail._id} className="mt-4">
+                    {items.map((trail) => <div key={trail._id} className="mt-4 flex flex-row-reverse">
                         <Dropdown>
                             <DropdownTrigger>
                                 <Button className="w-full h-full bg-transparent p-0 flex shadow-lg justify-center items-center">
                                     <AdminSingleTrail key={trail._id} trail={trail} admin={admin} />
-                                </Button>
+                                </Button>  
                             </DropdownTrigger>
                             <DropdownMenu onAction={(key) => setTrailModalSelected({modal :key , trail : trail})} aria-label="Actions">
                                 <DropdownItem key="comments" endContent = {<FaRegComments />}>תגובות</DropdownItem>
@@ -130,6 +138,9 @@ const AdminTrails = ({admin , trailsData , commentsData , usersData}) => {
                                 </DropdownItem>
                             </DropdownMenu>
                         </Dropdown>
+                        <Link color="secondary" className='hover:text-purple-300 text-end items-center justify-center flex' showAnchorIcon href = {`/trails/${trail._id}`}>
+                                <p className="text-center">לצפייה במסלול</p>
+                        </Link>
                     </div>)}
                 </div>
                 <div className="w-full flex items-start flex-col justify-end h-[10%]">
@@ -164,7 +175,7 @@ const AdminTrails = ({admin , trailsData , commentsData , usersData}) => {
                     </div>
                 </div>
             </div>
-            <div className="w-[60%] h-full p-3 flex justify-center items-center">
+            <div className="w-[50%] h-full p-3 flex justify-center items-center">
                 {modalShow()}   
             </div>
         </div>
