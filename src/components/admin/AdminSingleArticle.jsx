@@ -36,7 +36,7 @@ const AdminSingleArticle = ({ article_id, title, source, text, writtenAt, image,
                 writtenAt: updatedWrittenAt,
                 newImages: (image == updatedImage) ? null : newUpdatedImage,
                 removeImages: pendingRemoveImages,
-                url: (url.slice(0, 4) !== 'http') ? 'https://' + updatedUrl : updatedUrl,
+                url: (updatedUrl.slice(0, 4) !== 'http') ? 'https://' + updatedUrl : updatedUrl,
             }
         };
 

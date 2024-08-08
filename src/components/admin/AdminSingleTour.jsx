@@ -4,7 +4,7 @@ import { Card, CardHeader, CardBody, CardFooter, Divider, Button, Modal, ModalCo
 import { toast } from 'react-toastify';
 import logo from '../../../public/resources/images/logo/logo.png';
 
-const AdminSingleTour = ({ tour_id, title, description, tourTime, registeredUsersCount, registeredUsers, image, admin, fetchTours }) => {
+const AdminSingleTour = ({ tour_id, title, description, tourTime, registeredUsersCount, registeredUsers, image, whatsappGroupUrl, maxNumOfPeople, maxNumOfPeoplePerUser, admin, fetchTours }) => {
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [clickedDelete, setClickedDelete] = useState(false);
     const [updatedTitle, setUpdatedTitle] = useState(title);
@@ -14,6 +14,9 @@ const AdminSingleTour = ({ tour_id, title, description, tourTime, registeredUser
     const [updatedImage, setUpdatedImage] = useState(image);
     const [pendingRemoveImages, setPendingRemoveImages] = useState([]);
     const [registeredUsersList, setRegisteredUsersList] = useState(false);
+    const [updatedMaxNumOfPeople, setUpdatedMaxNumOfPeople] = useState(maxNumOfPeople);
+    const [updatedMaxNumOfPeoplePerUser, setUpdatedMaxNumOfPeoplePerUser] = useState(maxNumOfPeoplePerUser);
+    const [updatedWhatsappGroupUrl, setUpdatedWhatsappGroupUrl] = useState(whatsappGroupUrl);
 
     const handleImageRemove = (imageUrl) => {
         setPendingRemoveImages([...pendingRemoveImages, imageUrl]);
@@ -38,7 +41,10 @@ const AdminSingleTour = ({ tour_id, title, description, tourTime, registeredUser
                 description: updatedDescription,
                 tourTime: updatedTourTime(),
                 newImages: (image == updatedImage) ? null : newUpdatedImage,
-                removeImages: pendingRemoveImages
+                removeImages: pendingRemoveImages,
+                maxNumOfPeople: updatedMaxNumOfPeople,
+                maxNumOfPeoplePerUser: updatedMaxNumOfPeoplePerUser,
+                whatsappGroupUrl: (updatedWhatsappGroupUrl.slice(0, 4) !== 'http') ? 'https://' + updatedWhatsappGroupUrl : updatedWhatsappGroupUrl,
             }
         };
 
@@ -80,6 +86,7 @@ const AdminSingleTour = ({ tour_id, title, description, tourTime, registeredUser
             requesterId: admin.id,
             tourId: tour_id,
         };
+
 
         try {
             const response = await fetch('/api/admin_panel/tours', {
@@ -152,6 +159,12 @@ const AdminSingleTour = ({ tour_id, title, description, tourTime, registeredUser
                                         </ModalContent>
                                     </Modal>
                                 )}
+                            </p>
+                            <p className="text-xs text-default-500">
+                                מספר משתתפים מקסימלי: {maxNumOfPeople}
+                            </p>
+                            <p className="text-xs text-default-500">
+                                מספר משתתפים מקסימלי למשתמש: {maxNumOfPeoplePerUser}
                             </p>
                         </div>
                     </CardHeader>
@@ -265,6 +278,61 @@ const AdminSingleTour = ({ tour_id, title, description, tourTime, registeredUser
                                                 />
                                             </div>
                                         </div>
+
+                                        <div className="sm:col-span-4">
+                                            <label htmlFor="title" className="block text-sm font-medium leading-6 text-gray-900">
+                                                מספר משתתפים מקסימלי
+                                            </label>
+                                            <div>
+                                                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                                                    <input
+                                                    id="title"
+                                                    name="title"
+                                                    type="text"
+                                                    value={updatedMaxNumOfPeople}
+                                                    onChange={(e) => setUpdatedMaxNumOfPeople(e.target.value)}
+                                                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="sm:col-span-4">
+                                            <label htmlFor="title" className="block text-sm font-medium leading-6 text-gray-900">
+                                                מספר משתתפים מקסימלי למשתמש
+                                            </label>
+                                            <div>
+                                                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                                                    <input
+                                                    id="title"
+                                                    name="title"
+                                                    type="text"
+                                                    value={updatedMaxNumOfPeoplePerUser}
+                                                    onChange={(e) => setUpdatedMaxNumOfPeoplePerUser(e.target.value)}
+                                                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="col-span-full">
+                                        <label htmlFor="url" className="block text-sm font-medium leading-6 text-gray-900">
+                                            קישור לקבוצת הוואטסאפ
+                                        </label>
+                                        <div>
+                                            <div className="mt-2">
+                                                <input
+                                                    id="url"
+                                                    name="url"
+                                                    type="text"
+                                                    value={updatedWhatsappGroupUrl}
+                                                    onChange={(e) => setUpdatedWhatsappGroupUrl(e.target.value)}
+                                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                        
 
                                         <div className="col-span-full">
                                         {updatedImage.length === 0 && (
