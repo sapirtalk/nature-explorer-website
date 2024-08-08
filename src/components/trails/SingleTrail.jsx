@@ -74,9 +74,9 @@ const SingleTrail = ({id ,image , name , desc , length , difficulty , duration ,
           <p className='px-2 py-4 text-[12px] lg:text-[15px]'>{desc}</p>
         </div>
         <div className='flex flex-col justify-center w-[40%] border-r-2 pr-2 lg:text-[15px] text-[12px]'>
-          <p className='flex flex-row-'><GiPathDistance className='mx-2 text-[20px]' /> {length} קמ</p>
-          <p className='flex flex-row-'><FaWeightHanging className='mx-2 text-[20px]' /> {difficultyTranslate(difficulty)}</p>
-          <p className='flex flex-row-'><MdAccessTimeFilled className='mx-2 text-[20px]' /> {duration} שעות</p>
+          <p className='flex flex-row-'><GiPathDistance className='mx-2 lg:text-[20px]' /> {length} קמ</p>
+          <p className='flex flex-row-'><FaWeightHanging className='mx-2 lg:text-[20px]' /> {difficultyTranslate(difficulty)}</p>
+          <p className='flex flex-row-'><MdAccessTimeFilled className='mx-2 lg:text-[20px]' /> {duration} שעות</p>
         </div>  
       </div>
       <div className='flex text-[12px] lg:text-[15px] flex-row text-center justify-between px-3 border-t-2 pt-1'>
