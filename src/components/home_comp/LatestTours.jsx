@@ -56,7 +56,7 @@ const LatestTours = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-start flex-col pt-5 h-[40vh] items-center">
+      <div className="flex justify-center flex-col pt-5 h-[30vh] items-center">
         <Spinner label="...טוען סיורים" color="secondary" labelColor="secondary" size="lg" />
       </div>
     );
@@ -87,6 +87,7 @@ const LatestTours = () => {
       image={tour.image}
       createdAt={tour.createdAt}
       updatedAt={tour.updatedAt}
+      whatsappGroupUrl={tour.whatsappGroupUrl}
     />
   ));
 

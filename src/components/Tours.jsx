@@ -77,6 +77,9 @@ const Tours = () => {
             image={tour.image}
             createdAt={tour.createdAt}
             updatedAt={tour.updatedAt}
+            whatsappGroupUrl={tour.whatsappGroupUrl}
+            maxNumOfPeople={tour.maxNumOfPeople}
+            fetchTours={fetchTours}
           />
         ))}
       </div>

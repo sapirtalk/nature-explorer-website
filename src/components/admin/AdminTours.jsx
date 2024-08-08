@@ -15,7 +15,10 @@ const AdminTours = ({ admin }) => {
   const [tourDate, setTourDate] = useState('');
   const [tourClock, setTourClock] = useState('');
   const [image, setImage] = useState(null);
+  const [whatsappGroupUrl, setWhatsappGroupUrl] = useState('');
   const [archivedToursMenu, setArchivedToursMenu] = useState(false);
+  const [maxNumOfPeople, setMaxNumOfPeople] = useState(0);
+  const [maxNumOfPeoplePerUser, setMaxNumOfPeoplePerUser] = useState(0);
 
   const setArchivedTours = () => {
     if (archivedToursMenu) {
@@ -66,7 +69,10 @@ const AdminTours = ({ admin }) => {
         title,
         description,
         tourTime: `${tourDate}T${tourClock}:00.000Z`,
-        image: [image]
+        image: [image],
+        whatsappGroupUrl: (whatsappGroupUrl.slice(0, 4) !== 'http') ? 'https://' + whatsappGroupUrl : whatsappGroupUrl, 
+        maxNumOfPeople,
+        maxNumOfPeoplePerUser
       };
 
       const res = await fetch('/api/admin_panel/tours', {
@@ -203,6 +209,57 @@ const AdminTours = ({ admin }) => {
                           />
                         </div>
                       </div>
+                      <div className="sm:col-span-4">
+                        <label htmlFor="title" className="block text-sm font-medium leading-6 text-gray-900">
+                          מספר משתתפים מקסימלי בסיור
+                        </label>
+                        <div>
+                          <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                            <input
+                              id="title"
+                              name="title"
+                              type="text"
+                              value={maxNumOfPeople}
+                              onChange={(event) => setMaxNumOfPeople(event.target.value)}
+                              className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="sm:col-span-4">
+                        <label htmlFor="title" className="block text-sm font-medium leading-6 text-gray-900">
+                          מספר משתתפים מקסימלי למשתמש
+                        </label>
+                        <div>
+                          <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                            <input
+                              id="title"
+                              name="title"
+                              type="text"
+                              value={maxNumOfPeoplePerUser}
+                              onChange={(event) => setMaxNumOfPeoplePerUser(event.target.value)}
+                              className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-span-full">
+                        <label htmlFor="whatsappGroupUrl" className="block text-sm font-medium leading-6 text-gray-900">
+                          קישור לקבוצת וואטסאפ
+                        </label>
+                        <div>
+                          <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                            <input
+                              id="url"
+                              name="url"
+                              type="text"
+                              value={whatsappGroupUrl}
+                              onChange={(event) => setWhatsappGroupUrl(event.target.value)}
+                              className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                            />
+                          </div>
+                        </div>
+                      </div>
                       <div className="col-span-full">
                         {!image ? (
                           <div>
@@ -274,6 +331,9 @@ const AdminTours = ({ admin }) => {
             image={tour.image}
             createdAt={tour.createdAt}
             updatedAt={tour.updatedAt}
+            whatsappGroupUrl={tour.whatsappGroupUrl}
+            maxNumOfPeople={tour.maxNumOfPeople}
+            maxNumOfPeoplePerUser={tour.maxNumOfPeoplePerUser}
             admin={admin}
             fetchTours={fetchTours}
           />
@@ -314,6 +374,9 @@ const AdminTours = ({ admin }) => {
               image={tour.image}
               createdAt={tour.createdAt}
               updatedAt={tour.updatedAt}
+              whatsappGroupUrl={tour.whatsappGroupUrl}
+              maxNumOfPeople={tour.maxNumOfPeople}
+              maxNumOfPeoplePerUser={tour.maxNumOfPeoplePerUser}
               admin={admin}
               fetchTours={fetchTours}
             />
