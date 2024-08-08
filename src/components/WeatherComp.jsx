@@ -121,11 +121,11 @@ const WeatherComp = () => {
                             />
                         )}
                     </div>
-                    <div className="w-full flex overflow-x-auto">
+                    <div className="w-full flex overflow-x-auto flex-row justify-around items-center">
                         {weather.map((day, index) => (
                             <div
                                 key={index}
-                                className={`flex-none sm:w-[30%] lg:w-[24%] bg-white rounded-lg shadow-lg cursor-pointer my-2 mx-2 ${selectedDay === day ? 'border-2 border-blue-500' : ''}`}
+                                className={`flex flex-row justify-center items-center sm:w-[30%] lg:w-[20%] bg-[#8884d8] bg-opacity-70 rounded-lg shadow-xl hover:opacity-70 cursor-pointer my-2 mx-2 ${selectedDay === day ? 'border-2 border-blue-500' : ''}`}
                                 onClick={() => handleDayClick(day)}
                             >
                                 <div className="flex flex-col items-center">
@@ -134,7 +134,7 @@ const WeatherComp = () => {
                                         alt={getIconForTime(day, 15)}
                                         width={100}
                                         height={100}
-                                        className="mb-4"
+                                        className="mb-4 mt-2"
                                     />
                                     <p className="text-center font-bold text-lg">יום {extractDayFromUnix(day[0].localTimestamp)}</p>
                                     <p className="text-center text-sm">{extractFullDate(day[0].localTimestamp)}</p>

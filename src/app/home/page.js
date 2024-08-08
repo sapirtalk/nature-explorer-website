@@ -4,15 +4,19 @@ import Greeting from '@/components/home_comp/Greeting'
 import { cookies } from 'next/headers';
 import { Link } from "@nextui-org/react";
 import WeatherHome from '@/components/home_comp/WeatherHome';
-import { connectToDatabase } from '../api/middleware/mongo';
+
 
 const Home = () => {
   return (
-    <div className="p-1">
-      <div dir='rtl' className="lg:flex lg:items-center lg:justify-between lg:space-x-4">
+    <div className="p-1 w-full flex flex-col">
+      <div dir='rtl' className="lg:flex w-[100%] lg:items-center lg:justify-around">
+        <div className='lg:w-[85%] '>
         <Greeting />
-        <div className='lg:w-[20%]'>
+        </div>
+        <div  className='lg:w-[10%] hover:border-text hover:cursor-pointer rounded-xl hover:opacity-70 '>
+        <Link href='/weather' className='text-text' >
           <WeatherHome />
+        </Link>
         </div>
       </div>
       <div className="my-1">

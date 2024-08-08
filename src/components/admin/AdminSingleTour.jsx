@@ -4,7 +4,7 @@ import { Card, CardHeader, CardBody, CardFooter, Divider, Button, Modal, ModalCo
 import { toast } from 'react-toastify';
 import logo from '../../../public/resources/images/logo/logo.png';
 
-const AdminSingleTour = ({ tour_id, title, description, tourTime, registeredUsersCount, registeredUsers, image, whatsappGroupUrl, maxNumOfPeople, maxNumOfPeoplePerUser, admin, fetchTours }) => {
+const AdminSingleTour = ({ tour_id, title, users , description, tourTime, registeredUsersCount, registeredUsers, image, whatsappGroupUrl, maxNumOfPeople, maxNumOfPeoplePerUser, admin, fetchTours }) => {
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [clickedDelete, setClickedDelete] = useState(false);
     const [updatedTitle, setUpdatedTitle] = useState(title);
@@ -146,9 +146,9 @@ const AdminSingleTour = ({ tour_id, title, description, tourTime, registeredUser
                                             </ModalHeader>
                                             <ModalBody>
                                                 <div className="flex flex-col">
-                                                {Object.entries(registeredUsers).map(([userId, numOfPeople]) => (
+                                                {Object.entries(registeredUsers).map(([userId , numOfPeople ]) => (
                                                     <div key={userId} className="flex justify-between items-center p-2 border-b border-gray-300">
-                                                        <span>{userId} : {numOfPeople}</span>
+                                                        <span> {findFullName(userId , users)}: {numOfPeople}</span>
                                                         </div>
                                                     ))}
                                                 </div>
@@ -396,3 +396,17 @@ const AdminSingleTour = ({ tour_id, title, description, tourTime, registeredUser
 };
 
 export default AdminSingleTour;
+
+
+
+
+    
+const findFullName = (userId, users) => {
+
+    console.log('users', users)
+
+    const user = users.find(user => user._id === userId);
+    return user ? `${user.firstName} ${user.lastName}` : undefined;
+};
+    
+

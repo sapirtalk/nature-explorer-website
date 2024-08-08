@@ -50,7 +50,7 @@ const SingleWeather = ({ weatherEntry }) => {
                         alt={icon}
                         width={100}
                         height={100}
-                        className="mb-4"
+                        className="mb-4 bg-[#8884d8] bg-opacity-70 rounded-full"
                     />
                     <p className="text-6xl font-bold">{Math.round(temperature)}°C</p>
                     </div>

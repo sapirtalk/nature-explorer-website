@@ -5,7 +5,7 @@ import AdminSingleTour from "./AdminSingleTour";
 import { Spinner, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Button } from '@nextui-org/react';
 import { toast } from 'react-toastify';
 
-const AdminTours = ({ admin }) => {
+const AdminTours = ({ admin , users }) => {
   const [tours, setTours] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -122,7 +122,7 @@ const AdminTours = ({ admin }) => {
   }
 
   return (
-    <div className="flex grid" dir='rtl'>
+    <div className="grid" dir='rtl'>
       <div>
       <div className="flex items-center justify-center my-3">
       <button className="bg-blue-500 hover:opacity-50 p-2 rounded-lg text-primary" onClick={() => setIsFormOpen(true)}>
@@ -334,6 +334,7 @@ const AdminTours = ({ admin }) => {
             whatsappGroupUrl={tour.whatsappGroupUrl}
             maxNumOfPeople={tour.maxNumOfPeople}
             maxNumOfPeoplePerUser={tour.maxNumOfPeoplePerUser}
+            users={users}
             admin={admin}
             fetchTours={fetchTours}
           />
@@ -378,6 +379,7 @@ const AdminTours = ({ admin }) => {
               maxNumOfPeople={tour.maxNumOfPeople}
               maxNumOfPeoplePerUser={tour.maxNumOfPeoplePerUser}
               admin={admin}
+              users = {users}
               fetchTours={fetchTours}
             />
           ))}
@@ -390,3 +392,5 @@ const AdminTours = ({ admin }) => {
 };
 
 export default AdminTours;
+
+

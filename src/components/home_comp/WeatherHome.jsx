@@ -94,7 +94,7 @@ const WeatherHome = () => {
             <img
               src={`https://openweathermap.org/img/wn/${icon}@4x.png`}
               alt='weather icon'
-              className='w-20 h-20'
+              className='w-16 h-16 bg-[#8884d8] bg-opacity-70 rounded-full ml-2'
             />
             <div className='text-3xl font-bold'>
               {weather.temperature}°C

@@ -53,7 +53,7 @@ const SingleTrail = ({id ,image , name , desc , length , difficulty , duration ,
     <div dir="rtl" className='flex text-text h-[20vh] lg:h-[25vh] w-full min-w-[95vw] lg:min-w-[60vw] lg:w-[60vw] rounded-lg bg-white shadow-2xl flex-row mt-4 '>
       <div className='w-[30%]'>
         <Image 
-          src={image[0]}
+          src={image[0] ? image[0] : '/resources/images/logo/logo.png'}
           alt={name}
           width={500}
           height={500} 
