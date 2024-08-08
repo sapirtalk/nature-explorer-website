@@ -4,7 +4,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Textarea , Input, CheckboxGroup, Checkbox} from '@nextui-org/react';
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Textarea , Input, CheckboxGroup, Checkbox, Spinner} from '@nextui-org/react';
 import { PlusIcon } from '../usersComp/table/PlusIcon';
 import { ChevronDownIcon } from '../usersComp/table/ChevronDownIcon';
 import { FaRegClock , FaRegImages } from "react-icons/fa";
@@ -39,7 +39,8 @@ const AddTrailModal = ({adminId}) => {
         accessibility: [],
         description: '',
         image: [],
-        location: '',
+        startLocation: { lat: null, lng: null },
+        endLocation: { lat: null, lng: null },
     };
 
 
@@ -57,11 +58,14 @@ const AddTrailModal = ({adminId}) => {
 
     const onSubmit = async (values, { setSubmitting }) => {
 
+        console.log('Form input', values);
+
         const valuesBody = {
             requesterId: adminId,
             name: values.name,
             difficulty: Number(values.difficulty),
-            location: '',
+            startLocation: values.startLocation,
+            endLocation: values.endLocation,
             distance: Number(values.distance),
             duration: Number(values.duration),
             description: values.description,
@@ -266,9 +270,18 @@ const AddTrailModal = ({adminId}) => {
                                                 </CheckboxGroup>
                                             </div>
                                             <div className="flex flex-col">
-                                                    <LazyMap/>
+                                                <label htmlFor="location" className="mb-1 font-medium text-gray-700">מיקום המסלול</label>
+                                                <LazyMap startMarkerCallback={(value) => {
+                                                    console.log('Start Location:', value);
+                                                    setFieldValue('startLocation', value);
+                                                }}
+                                                endMarkerCallback={(value) => {
+                                                    console.log('End Location:', value);
+                                                    setFieldValue('endLocation', value);
+                                                }}/>
                                             </div>
                                             <div>
+                                                {isSubmitting ?  <Spinner color="success" size="sm" /> : 
                                                 <Button
                                                     auto
                                                     disabled={isSubmitting}
@@ -278,6 +291,7 @@ const AddTrailModal = ({adminId}) => {
                                                 >
                                                     הוסף מסלול
                                                 </Button>
+                                                }
                                             </div>
                                             {message && <div className="text-red-500 text-sm mt-1">{message}</div>}
                                         </Form>

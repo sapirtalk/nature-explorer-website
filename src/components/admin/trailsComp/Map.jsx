@@ -10,7 +10,7 @@ import L from "leaflet";
 import { Button } from "@nextui-org/react";
 import { MdCenterFocusStrong } from "react-icons/md";
 
-function MapClickHandler({ setSelfPosition, startMarker, setStartMarker, endMarker, setEndMarker }) {
+function MapClickHandler({ setSelfPosition, startMarkerCallback, setStartMarker, endMarkerCallback, setEndMarker }) {
   const [clickCount, setClickCount] = useState(0);
 
   useMapEvents({
@@ -20,12 +20,16 @@ function MapClickHandler({ setSelfPosition, startMarker, setStartMarker, endMark
 
         if (newCount === 1) {
           setStartMarker(e.latlng);
+          startMarkerCallback(e.latlng);
         } else if (newCount === 2) {
           setEndMarker(e.latlng);
+          endMarkerCallback(e.latlng);
         } else if (newCount === 3) {
           // Reset on the third click
           setStartMarker(null);
           setEndMarker(null);
+          startMarkerCallback(null);
+          endMarkerCallback(null);
           return 0; // reset the click count
         }
 
@@ -42,10 +46,10 @@ function MapClickHandler({ setSelfPosition, startMarker, setStartMarker, endMark
   return null;
 }
 
-export default function Map() {
+export default function Map({startMarkerCallback, endMarkerCallback , startLocation, endLocation}) {
   const [selfPosition, setSelfPosition] = useState(null);
-  const [startMarker, setStartMarker] = useState(null);
-  const [endMarker, setEndMarker] = useState(null);
+  const [startMarker, setStartMarker] = useState(startLocation);
+  const [endMarker, setEndMarker] = useState(endLocation);
   const mapRef = useRef();
 
   const redIcon = new L.Icon({
@@ -95,7 +99,7 @@ export default function Map() {
         הראה מיקום עצמי
       </Button>
       <MapContainer
-        center={[32.7923, 34.9925]}
+        center={startLocation ? startLocation : [32.7923, 34.9925]}
         zoom={11}
         scrollWheelZoom={true}
         style={{ height: "400px", width: "70%", zIndex: 0 }}
@@ -109,9 +113,9 @@ export default function Map() {
 
         <MapClickHandler 
           setSelfPosition={setSelfPosition}
-          startMarker={startMarker}
+          startMarkerCallback={startMarkerCallback}
           setStartMarker={setStartMarker}
-          endMarker={endMarker}
+          endMarkerCallback={endMarkerCallback}
           setEndMarker={setEndMarker}
         />
 

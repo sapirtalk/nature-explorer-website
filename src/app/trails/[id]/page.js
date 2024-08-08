@@ -78,7 +78,7 @@ const Trail = async ({ params }) => {
         <TrailDetails trail={trail} />
       </div>
       <div className='border-t-2 w-full justify-center items-center flex flex-col pt-2'>
-      <LazyMap />
+      <LazyMap startLocation={trail.startLocation ? trail.startLocation : null} endLocation={trail.endLocation ? trail.endLocation : null} />
       </div>
       {user ?
       <div className='border-t-2 flex flex-row justify-between items-center w-[60%] pt-[50px]'>

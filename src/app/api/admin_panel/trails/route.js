@@ -41,26 +41,8 @@ async function uploadImages(images) {
 //     "requesterId": "667dcd842f4666fa50754116",
 //     "name": "trail",
 //     "difficulty": 2,
-//     "location": [
-//         {
-//           "name": "start location",
-//           "description": "1",
-//           "color": "green",
-//           "coordinates": {
-//               "latitude": 32.794046,
-//               "longitude": 34.989571
-//           }
-//         },
-//         {
-//           "name": "end location",
-//           "description": "2",
-//           "color": "red",
-//           "coordinates": {
-//               "latitude": 32.794101,
-//               "longitude": 34.989606
-//           }
-//         }
-//     ],
+//     "startLocation" : latlng object,
+//     "endLocation" : latlng object,
 //     "distance": 5,
 //     "duration": 3,
 //     "kidsFriendly": false,
@@ -74,7 +56,7 @@ async function uploadImages(images) {
 //   }
 export async function POST(req) {
     try {
-        const { requesterId, name, difficulty, location, distance, duration, kidsFriendly, petsFriendly, babyStrollerFriendly, description, image } = await req.json();
+        const { requesterId, name, difficulty, startLocation, endLocation, distance, duration, kidsFriendly, petsFriendly, babyStrollerFriendly, description, image } = await req.json();
         const db = await connectToDatabase();
 
         // Check if requester is authorized
@@ -85,11 +67,9 @@ export async function POST(req) {
             }
         } else return NextResponse.json({ success: false, message: "Requester user not found" });
 
-        // Validate the location field
-        if (location && (!Array.isArray(location) || !location.every(loc => 
-            loc.name && loc.description && loc.color && loc.coordinates && 
-            loc.coordinates.latitude && loc.coordinates.longitude))) {
-            return NextResponse.json({ success: false, message: "Invalid location format" });
+        // Validate that start and end locations are a latlng object
+        if (typeof startLocation !== 'object' || typeof endLocation !== 'object') {
+            return NextResponse.json({ success: false, message: 'Start and end locations must be a latlng object' });
         }
 
         // Upload images to Cloudinary and get their URLs if images are provided
@@ -103,7 +83,8 @@ export async function POST(req) {
         const newTrail = {
             name,
             difficulty,
-            location,
+            startLocation,
+            endLocation,
             distance,
             duration,
             kidsFriendly,
@@ -246,13 +227,7 @@ export async function PUT(req) {
             return NextResponse.json({ success: false, message: "Trail not found" });
         }
 
-        // Validate the location field if it is being updated
-        if (updatedFields.location && (!Array.isArray(updatedFields.location) || !updatedFields.location.every(loc => 
-            loc.name && loc.description && loc.color && loc.coordinates && 
-            loc.coordinates.latitude && loc.coordinates.longitude))) {
-            return NextResponse.json({ success: false, message: "Invalid location format" });
-        }
-
+     
         // Don't let modify 'image' field directly
         if (updatedFields.image) {
             return NextResponse.json({ success: false, message: "Cannot modify 'image' field directly! Send 'newImages' and 'removeImages' instead." })

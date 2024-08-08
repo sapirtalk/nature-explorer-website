@@ -9,6 +9,13 @@ import { ChevronDownIcon } from '../usersComp/table/ChevronDownIcon';
 import { FaRegClock , FaRegImages } from "react-icons/fa";
 import { GiPathDistance } from "react-icons/gi";
 
+import dynamic from "next/dynamic";
+
+const LazyMap = dynamic(() => import("./Map"), {
+  ssr: false,
+  loading: () => <p>טוען...</p>,
+});
+
 
 
 const EditTrailModal = ({adminId , trail , closeCallback }) => {
@@ -36,10 +43,11 @@ const EditTrailModal = ({adminId , trail , closeCallback }) => {
         accessibility: initialAccessibility(),
         description: trail.description,
         image: trail.image,
+        startLocation: trail.startLocation ? trail.startLocation : null,
+        endLocation: trail.endLocation ? trail.endLocation : null,
     };
 
 
-    console.log("initialValues" , initialValues);
 
     const validationSchema = Yup.object({
         name: Yup.string().required('שדה חובה'),
@@ -62,7 +70,8 @@ const EditTrailModal = ({adminId , trail , closeCallback }) => {
             updatedFields: {
                 name: values.name,
                 difficulty: Number(values.difficulty),
-                location: '',
+                startLocation: values.startLocation,
+                endLocation: values.endLocation,
                 distance: Number(values.distance),
                 duration: Number(values.duration),
                 description: values.description,
@@ -270,6 +279,20 @@ const EditTrailModal = ({adminId , trail , closeCallback }) => {
                                             <Checkbox value="babyStrollerFriendly">עגלות</Checkbox>
                                         </CheckboxGroup>
                                     </div>
+                                    <div className="flex flex-col">
+                                                <label htmlFor="location" className="mb-1 font-medium text-gray-700">מיקום המסלול</label>
+                                                <LazyMap startMarkerCallback={(value) => {
+                                                    console.log('Start Location:', value);
+                                                    setFieldValue('startLocation', value);
+                                                }}
+                                                endMarkerCallback={(value) => {
+                                                    console.log('End Location:', value);
+                                                    setFieldValue('endLocation', value);
+                                                }}
+                                                startLocation={values.startLocation}
+                                                endLocation={values.endLocation}
+                                                />
+                                            </div>
                                     <div>
                                         {isSubmitting ? (
                                             <Spinner color="success" />
