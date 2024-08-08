@@ -105,54 +105,97 @@ export async function POST(req) {
 //     "articleId": "667dba5a2f4666fa50754110"
 // }
 export async function DELETE(req) {
-    try {
+  try {
       const { requesterId, tourId } = await req.json();
       const db = await connectToDatabase();
 
       // Check if requester is authorized
-      const requester = await db.collection('Users').findOne({_id: new ObjectId(requesterId)})
+      const requester = await db.collection('Users').findOne({ _id: new ObjectId(requesterId) });
       if (requester) {
-          if (requester.role !== "admin" && requester.role !== "editor") { 
+          if (requester.role !== "admin" && requester.role !== "editor") {
               return NextResponse.json({ success: false, message: "Not authorized!" });
           }
-      } else return NextResponse.json({ success: false, message: "Requester user not found" });
-  
+      } else {
+          return NextResponse.json({ success: false, message: "Requester user not found" });
+      }
+
       const tour = await db.collection('Tours').findOne({ _id: new ObjectId(tourId) });
       if (!tour) {
-        return NextResponse.json({ success: false, message: 'Tour not found' });
+          return NextResponse.json({ success: false, message: 'Tour not found' });
       }
 
-      deleteImages(tour.image)
+      // Remove the tour from each registered user's record
+      if (tour.registeredUsers && Object.keys(tour.registeredUsers).length > 0) {
+          const registeredUsers = Object.keys(tour.registeredUsers);
+          for (const registeredUserId of registeredUsers) {
+              const registeredUser = await db.collection('Users').findOne({ _id: new ObjectId(registeredUserId) });
+              if (registeredUser) {
+                  delete registeredUser.registeredTours[tourId];
+                  await db.collection('Users').updateOne(
+                      { _id: new ObjectId(registeredUserId) },
+                      { $set: { registeredTours: registeredUser.registeredTours } }
+                  );
+              }
+          }
+      }
 
+      // Delete tour images
+      await deleteImages(tour.image);
+
+      // Delete the tour from the database
       const result = await db.collection('Tours').deleteOne({ _id: new ObjectId(tourId) });
-  
+
       if (result.deletedCount > 0) {
-        return NextResponse.json({ success: true });
+          return NextResponse.json({ success: true });
       } else {
-        return NextResponse.json({ success: false, message: 'Tour not found' });
+          return NextResponse.json({ success: false, message: 'Tour not found' });
       }
-    } catch (error) {
-      console.error('Error deleting article:', error);
+  } catch (error) {
+      console.error('Error deleting tour:', error);
       return NextResponse.json({ success: false, message: 'Failed to delete tour' });
-    }
   }
+}
   
 
-// GET /api/admin_panel/tours
-// Purpose:
-// Present to admins/editors the entire tours collection from the database,
-// so they can modify/delete if needed
-export async function GET(req) {
+  export async function GET(req) {
     try {
-      const db = await connectToDatabase();
-      const articles = await db.collection('Tours').find({}).toArray();
-  
-      return NextResponse.json({ success: true, articles });
+        const db = await connectToDatabase();
+        let tours = await db.collection('Tours').find({}).toArray();
+
+        // for (const tour of tours) {
+        //     const tourTime = new Date(tour.tourTime);
+        //     tourTime.setUTCHours(23, 59, 59, 999);
+
+        //     if (tourTime < Date.now() && tour.registeredUsers && Object.keys(tour.registeredUsers).length > 0) {
+        //         const registeredUsers = Object.keys(tour.registeredUsers);
+        //         for (const registeredUserId of registeredUsers) {
+        //             const registeredUser = await db.collection('Users').findOne({ _id: new ObjectId(registeredUserId) });
+        //             if (registeredUser) {
+        //                 // Remove the tour from the user's registeredTours
+        //                 delete registeredUser.registeredTours[tour._id.toString()];
+        //                 await db.collection('Users').updateOne(
+        //                     { _id: new ObjectId(registeredUserId) },
+        //                     { $set: { registeredTours: registeredUser.registeredTours } }
+        //                 );
+        //             }
+        //         }
+        //         // Remove all registrations from the tour
+        //         await db.collection('Tours').updateOne(
+        //             { _id: new ObjectId(tour._id) },
+        //             { $set: { registeredUsers: {}, registeredUsersCount: 0 } }
+        //         );
+        //     }
+        // }
+
+        // Fetch updated tours after modifications
+        tours = await db.collection('Tours').find({}).toArray();
+
+        return NextResponse.json({ success: true, tours });
     } catch (error) {
-      console.error('Error retrieving tours:', error);
-      return NextResponse.json({ success: false, message: 'Failed to retrieve tours' });
+        console.error('Error retrieving tours:', error);
+        return NextResponse.json({ success: false, message: 'Failed to retrieve tours' });
     }
-  }
+}
 
 // PUT /api/admin_panel/tours
 // Purpose:

@@ -41,7 +41,26 @@ async function uploadImages(images) {
 //     "requesterId": "667dcd842f4666fa50754116",
 //     "name": "trail",
 //     "difficulty": 2,
-//     "location": "location",
+//     "location": [
+//         {
+//           "name": "start location",
+//           "description": "1",
+//           "color": "green",
+//           "coordinates": {
+//               "latitude": 32.794046,
+//               "longitude": 34.989571
+//           }
+//         },
+//         {
+//           "name": "end location",
+//           "description": "2",
+//           "color": "red",
+//           "coordinates": {
+//               "latitude": 32.794101,
+//               "longitude": 34.989606
+//           }
+//         }
+//     ],
 //     "distance": 5,
 //     "duration": 3,
 //     "kidsFriendly": false,
@@ -66,14 +85,20 @@ export async function POST(req) {
             }
         } else return NextResponse.json({ success: false, message: "Requester user not found" });
 
-        
-    // Upload images to Cloudinary and get their URLs if images are provided
-    let imageUrls = [];
-    if (image && image.length > 0) {
-      const uploadResults = await uploadImages(image);
-      // Filter out successful uploads to get the URLs
-      imageUrls = uploadResults.filter(result => result.result === 'ok').map(result => result.url);
-    }
+        // Validate the location field
+        if (location && (!Array.isArray(location) || !location.every(loc => 
+            loc.name && loc.description && loc.color && loc.coordinates && 
+            loc.coordinates.latitude && loc.coordinates.longitude))) {
+            return NextResponse.json({ success: false, message: "Invalid location format" });
+        }
+
+        // Upload images to Cloudinary and get their URLs if images are provided
+        let imageUrls = [];
+        if (image && image.length > 0) {
+        const uploadResults = await uploadImages(image);
+        // Filter out successful uploads to get the URLs
+        imageUrls = uploadResults.filter(result => result.result === 'ok').map(result => result.url);
+        }
 
         const newTrail = {
             name,
@@ -168,7 +193,26 @@ export async function GET(req) {
 //     "updatedFields": {
 //         "name": "updated_trail",
 //         "difficulty": 3,
-//         "location": "updated_location",
+//     "location": [
+//         {
+//           "name": "start location",
+//           "description": "1",
+//           "color": "green",
+//           "coordinates": {
+//               "latitude": 32.795546,
+//               "longitude": 34.979571
+//           }
+//         },
+//         {
+//           "name": "end location",
+//           "description": "2",
+//           "color": "red",
+//           "coordinates": {
+//               "latitude": 32.781102,
+//               "longitude": 34.988805
+//           }
+//         }
+//     ],
 //         "distance": 6,
 //         "duration": 4,
 //         "kidsFriendly": false,
@@ -200,6 +244,13 @@ export async function PUT(req) {
         const trail = await db.collection('Trails').findOne({ _id: new ObjectId(trailId) });
         if (!trail) {
             return NextResponse.json({ success: false, message: "Trail not found" });
+        }
+
+        // Validate the location field if it is being updated
+        if (updatedFields.location && (!Array.isArray(updatedFields.location) || !updatedFields.location.every(loc => 
+            loc.name && loc.description && loc.color && loc.coordinates && 
+            loc.coordinates.latitude && loc.coordinates.longitude))) {
+            return NextResponse.json({ success: false, message: "Invalid location format" });
         }
 
         // Don't let modify 'image' field directly

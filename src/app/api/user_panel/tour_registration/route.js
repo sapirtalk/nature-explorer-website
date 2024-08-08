@@ -14,19 +14,51 @@ export async function POST(req) {
         const { userId } = await req.json();
         const db = await connectToDatabase();
 
-        const user = await db.collection('Users').findOne({_id: new ObjectId(userId)})
+        const user = await db.collection('Users').findOne({ _id: new ObjectId(userId) });
 
         if (!user) {
             return NextResponse.json({ success: false, message: "User not found" });
         }
 
-        const userRegisteredToursIds = Object.keys(user.registeredTours)
-        var userRegisteredTours = []
+        const userRegisteredToursIds = Object.keys(user.registeredTours);
+        const userRegisteredTours = [];
+
         for (const tourId of userRegisteredToursIds) {
-            const tour = await db.collection('Tours').findOne(
-                { _id: new ObjectId(tourId) }
-                // { projection: { title: 1, description: 1, registeredUsersCount: 1, isArchived: 1 } }  // Specify fields to include
-            );
+            const tour = await db.collection('Tours').findOne({ _id: new ObjectId(tourId) });
+
+            if (!tour) {
+                // If tour is not found, remove the tour from the user's registeredTours
+                delete user.registeredTours[tourId];
+                await db.collection('Users').updateOne(
+                    { _id: new ObjectId(userId) },
+                    { $set: { registeredTours: user.registeredTours } }
+                );
+                continue;
+            }
+
+            const tourTime = new Date(tour.tourTime);
+            tourTime.setUTCHours(23, 59, 59, 999);
+
+            if (tourTime < Date.now()) {
+                const registeredUsers = Object.keys(tour.registeredUsers);
+                for (const registeredUserId of registeredUsers) {
+                    const registeredUser = await db.collection('Users').findOne({ _id: new ObjectId(registeredUserId) });
+                    if (registeredUser) {
+                        // Remove the tour from the user's registeredTours
+                        delete registeredUser.registeredTours[tourId];
+                        await db.collection('Users').updateOne(
+                            { _id: new ObjectId(registeredUserId) },
+                            { $set: { registeredTours: registeredUser.registeredTours } }
+                        );
+                    }
+                }
+                // Remove all registrations from the tour
+                await db.collection('Tours').updateOne(
+                    { _id: new ObjectId(tourId) },
+                    { $set: { registeredUsers: {}, registeredUsersCount: 0 } }
+                );
+                continue;
+            }
             userRegisteredTours.push(tour);
         }
 
