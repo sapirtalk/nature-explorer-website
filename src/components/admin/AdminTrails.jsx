@@ -6,18 +6,10 @@ import { useState , useMemo, useCallback } from "react";
 import { SearchIcon } from "./usersComp/table/SearchIcon";
 import { MdModeEdit , MdDelete } from "react-icons/md";
 import { FaRegComments } from "react-icons/fa";
-import { PlusIcon } from "./usersComp/table/PlusIcon";
 import AddTrailModal from "./trailsComp/AddTrailModal";
 import DeleteTrailModal from "./trailsComp/DeleteTrailModal";
 import EditTrailModal from "./trailsComp/EditTrailModal";
 import TrailComments from "./trailsComp/TrailComments";
-
-import dynamic from "next/dynamic";
-
-const LazyAddTrailModal = dynamic(() => import("./trailsComp/AddTrailModal"), {
-  ssr: false,
-  loading: () => <p>טוען...</p>,
-});
 
 
 
@@ -119,7 +111,7 @@ const AdminTrails = ({admin , trailsData , commentsData , usersData}) => {
                     onClear={() => onClear()}
                     onValueChange={onSearchChange}
                 />
-                <LazyAddTrailModal adminId={admin.id} />
+                <AddTrailModal adminId={admin.id} />
                 </div>
                 <p className="w-full text-sm py-4 text-default-400" >נמצאו {filteredItems.length} מסלולים</p>
                 <div dir="ltr" className="w-full h-[90%] flex items-end pr-10 flex-col justify-start overflow-y-scroll">

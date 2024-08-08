@@ -11,6 +11,15 @@ import { FaRegClock , FaRegImages } from "react-icons/fa";
 import { GiPathDistance } from "react-icons/gi";
 
 
+import dynamic from "next/dynamic";
+
+const LazyMap = dynamic(() => import("./Map"), {
+  ssr: false,
+  loading: () => <p>טוען...</p>,
+});
+
+
+
 
 const AddTrailModal = ({adminId}) => {
     const [message, setMessage] = useState(null);
@@ -30,6 +39,7 @@ const AddTrailModal = ({adminId}) => {
         accessibility: [],
         description: '',
         image: [],
+        location: '',
     };
 
 
@@ -254,6 +264,9 @@ const AddTrailModal = ({adminId}) => {
                                                     <Checkbox value="petsFriendly">חיות מחמד</Checkbox>
                                                     <Checkbox value="babyStrollerFriendly">עגלות</Checkbox>
                                                 </CheckboxGroup>
+                                            </div>
+                                            <div className="flex flex-col">
+                                                    <LazyMap/>
                                             </div>
                                             <div>
                                                 <Button
