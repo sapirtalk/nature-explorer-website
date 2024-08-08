@@ -13,7 +13,7 @@ const Home = () => {
         <div className='lg:w-[85%] '>
         <Greeting />
         </div>
-        <div  className='lg:w-[10%] hover:border-text hover:cursor-pointer rounded-xl hover:opacity-70 '>
+        <div  className='lg:w-[10%] hover:border-text flex justify-center items-center hover:cursor-pointer rounded-xl hover:opacity-70 '>
         <Link href='/weather' className='text-text' >
           <WeatherHome />
         </Link>

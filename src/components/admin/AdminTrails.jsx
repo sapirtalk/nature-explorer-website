@@ -130,7 +130,13 @@ const AdminTrails = ({admin , trailsData , commentsData , usersData}) => {
                                 </DropdownItem>
                             </DropdownMenu>
                         </Dropdown>
-                        <Link color="secondary" className='hover:text-purple-300 text-end items-center justify-center flex' showAnchorIcon href = {`/trails/${trail._id}`}>
+                        <Link 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            color="secondary" 
+                            className='hover:text-purple-300 text-end items-center justify-center flex' 
+                            showAnchorIcon 
+                            href = {`/trails/${trail._id}`}>
                                 <p className="text-center">לצפייה במסלול</p>
                         </Link>
                     </div>)}

@@ -143,9 +143,6 @@ const Login = ({cookieCallback}) => {
                 {badLogin && <div className="text-red-500 text-sm mt-1">אימייל או סיסמא לא נכונים</div>}
               </div>
               <div className="text-center">
-                <a href="/forgotpassword" className="text-blue-500 hover:underline">שכחת את הסיסמא?</a>
-              </div>
-              <div className="text-center">
                 <a href="/register" className="text-blue-500 hover:underline">לא רשום? הירשם כאן</a>
               </div>
             </Form>
