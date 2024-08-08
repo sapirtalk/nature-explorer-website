@@ -6,8 +6,10 @@ import { Card, CardHeader, CardBody, CardFooter, Divider, Button, Modal, ModalCo
 import { IoMdClose } from "react-icons/io";
 import logo from '../../public/resources/images/logo/logo.png';
 import { toast } from 'react-toastify';
+import Link from 'next/link';
+import { SiWhatsapp } from 'react-icons/si';
 
-const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, registeredUsersCount, image }) => {
+const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, registeredUsersCount, image, whatsappGroupUrl, maxNumOfPeople, fetchTours }) => {
     const [user, setUser] = useState(null);
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [numberOfPeople, setNumberOfPeople] = useState('');
@@ -79,6 +81,11 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
         } finally {
             setIsProcessing(false);
             handleCloseForm();
+            fetchTours();
+            // add tour to cookie
+            const newRegisteredTours = { ...user.registeredTours, [tour_id]: parseInt(numberOfPeople) };
+            setUser({ ...user, registeredTours: newRegisteredTours });
+            document.cookie = `user=${encodeURIComponent(JSON.stringify({ ...user, registeredTours: newRegisteredTours }))}; path=/`;
         }
     };
 
@@ -131,7 +138,7 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
                                 </div>
                             ) : (
                                 <Image
-                                    alt = 'logo' 
+                                    alt='logo' 
                                     src={image[0]}
                                     width={500}
                                     height={500} 
@@ -150,6 +157,9 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
                             <p className="text-xs text-default-500">
                                 מספר משתתפים: {registeredUsersCount1}
                             </p>
+                            <p className="text-xs text-default-500">
+                                מספר מקסימלי של משתתפים בסיור זה: {maxNumOfPeople}
+                            </p>
                         </div>
                     </CardHeader>
                     <Divider />
@@ -161,7 +171,7 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
                     </div>
                 </CardBody>
                 <Divider />
-                <CardFooter className="p-5 flex-[2] justify-center">
+                <CardFooter className="p-5 flex-[3] justify-center">
                     {user == null ? (
                         <div>
                             ההתחבר/הרשם לאתר כדי להירשם לסיור
@@ -184,7 +194,7 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
                                                 if (value === '' || (Number(value) > 0 && Number.isInteger(Number(value)))) {
                                                     setNumberOfPeople(value);
                                                 }}}
-                                                className="flex-grow"
+                                            className="flex-grow"
                                         />
                                         <button disabled={isProcessing} type="submit" className='bg-blue-500 hover:opacity-50 p-2 rounded-lg text-primary mr-5'>הרשמה</button>
                                         <IoMdClose onClick={handleCloseForm} className='text-4xl text-text cursor-pointer mr-5' />
@@ -192,7 +202,8 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
                                 </div>
                             )}
                             {isRegistered && (
-                                <div>
+                                <div className='flex flex-col items-center mb-2'>
+                                    <p>נרשמת לסיור זה עם {user.registeredTours[tour_id]} משתתפים</p>
                                     <button disabled={isProcessing} className='bg-red-500 p-2 rounded-lg hover:opacity-50 text-primary' onClick={() => setIsModalOpen(true)}>ביטול הרשמה</button>
                                     <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} dir="rtl">
                                         <ModalContent>
@@ -209,6 +220,11 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
                                 </div>
                             )}
                         </div>
+                    )}
+                    {whatsappGroupUrl && (
+                        <Link href={whatsappGroupUrl} className='mr-5'>
+                            <SiWhatsapp size={45} color={'#25d366'} />
+                        </Link>
                     )}
                 </CardFooter>
             </Card>
