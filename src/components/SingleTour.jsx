@@ -222,9 +222,9 @@ const SingleTour = ({ tour_id, title, description, tourTime, registeredUsers, re
                         </div>
                     )}
                     {whatsappGroupUrl && isRegistered && (
-                        <Link href={whatsappGroupUrl} className='mr-5'>
+                        <Link href={whatsappGroupUrl} className='mr-5' target="_blank" rel="noopener noreferrer">
                             <SiWhatsapp size={45} color={'#25d366'} />
-                        </Link>
+                        </Link>                    
                     )}
                 </CardFooter>
             </Card>
