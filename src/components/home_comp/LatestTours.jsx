@@ -10,6 +10,40 @@ const LatestTours = () => {
   const [currentToursIndex, setCurrentToursIndex] = useState(0);
   const [loading, setLoading] = useState(true);
 
+  const fetchLatestTours = async () => {
+    try {
+      const res = await fetch('/api/tours', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          SortReq: {
+            by: 'createdAt',
+            order: 'dsc'
+          }
+        })
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        const tours = Array.isArray(data.tours) ? data.tours : [];
+        setLatestTours(tours);
+      } else {
+        setError(data.message || 'Failed to fetch tours');
+      }
+    } catch (err) {
+      setError(err.message || 'An error occurred');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchLatestTours();
+  }, []);
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentToursIndex((prevIndex) =>
@@ -19,40 +53,6 @@ const LatestTours = () => {
 
     return () => clearInterval(interval);
   }, [latestTours.length]);
-
-  useEffect(() => {
-    const fetchLatestTours = async () => {
-      try {
-        const res = await fetch('/api/tours', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            SortReq: {
-              by: 'createdAt',
-              order: 'dsc'
-            }
-          })
-        });
-
-        const data = await res.json();
-
-        if (res.ok) {
-          const tours = Array.isArray(data.tours) ? data.tours : [];
-          setLatestTours(tours);
-        } else {
-          setError(data.message || 'Failed to fetch tours');
-        }
-      } catch (err) {
-        setError(err.message || 'An error occurred');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchLatestTours();
-  }, []);
 
   if (loading) {
     return (
@@ -89,6 +89,7 @@ const LatestTours = () => {
       updatedAt={tour.updatedAt}
       whatsappGroupUrl={tour.whatsappGroupUrl}
       maxNumOfPeople={tour.maxNumOfPeople}
+      fetchTours={fetchLatestTours}
     />
   ));
 
