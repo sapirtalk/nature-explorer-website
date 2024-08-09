@@ -7,7 +7,7 @@ import Register from "@/components/register_comp/Register";
 const RegisterPage = () => {
 
     return (
-        <div className="h-[80vh]">
+        <div className="h-full">
             <Register />
         </div>
     )

@@ -23,7 +23,7 @@ const Register = () => {
 
   const validationSchema = Yup.object({
     email: Yup.string().email('Invalid email format').required('שדה חובה'),
-    password: Yup.string().min(6, 'Password must be at least 6 characters').required('שדה חובה'),
+    password: Yup.string().min(6, 'ססמא חייבת להיות לפחות 6 תווים').required('שדה חובה'),
     confirmPassword: Yup.string()
       .oneOf([Yup.ref('password'), null], 'הסיסמאות אינן תואמות')
       .required('שדה חובה'),
@@ -52,7 +52,7 @@ const Register = () => {
         toast.success('נרשמת בהצלחה!');
       });
     } catch (error) {
-      setMessage('Error registering user');
+      setMessage('שגיאה בהרשמה, נסה שוב מאוחר יותר');
       setSubmitting(false);
     }
     

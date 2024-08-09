@@ -1,7 +1,10 @@
+
+const {nextui} = require("@nextui-org/theme");
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
     './src/**/*.{js,jsx,ts,tsx}',
+     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}"
   ],
   theme: {
     extend: {
@@ -16,15 +19,19 @@ module.exports = {
         'xl': '1280px', // Extra large screens, default: 1280px
       },
       colors: {
-        'primary': '#D8DFE9', // Primary color
+        'primary': '#EFEFED', // Primary color
         'secondary': '#04566E', // Secondary color
-        'tertiary': '#B8E4BE', // Tertiary color
+        'tertiary': '#004137', // Tertiary color
         'text': '#264027', // Text color
         'accent': '#B4D330', // Accent color
         'blocked': '#F2F2F2', // Blocked color
+        'customBlue': '#3C82F6', // Blue color
+        'customRed': '#F63C3C', // Red color
+
       },
     },
   },
-  plugins: [],
+  darkMode: "class",
+  plugins: [nextui()],
 }
 
