@@ -44,8 +44,10 @@ const AdminSingleTour = ({ tour_id, title, users , description, tourTime, regist
                 removeImages: pendingRemoveImages,
                 maxNumOfPeople: updatedMaxNumOfPeople,
                 maxNumOfPeoplePerUser: updatedMaxNumOfPeoplePerUser,
-                whatsappGroupUrl: (updatedWhatsappGroupUrl.slice(0, 4) !== 'http') ? 'https://' + updatedWhatsappGroupUrl : updatedWhatsappGroupUrl,
-            }
+                whatsappGroupUrl: updatedWhatsappGroupUrl 
+                ? (updatedWhatsappGroupUrl.slice(0, 4) !== 'http' ? 'https://' + updatedWhatsappGroupUrl : updatedWhatsappGroupUrl) 
+                : null,
+                        }
         };
 
         try {

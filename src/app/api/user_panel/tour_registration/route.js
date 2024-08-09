@@ -104,7 +104,7 @@ async function updateTourById(db, userId, tourId, action, numberOfPeople) {
 
         // Check `maxNumOfPeoplePerUser`
         if (numberOfPeople > tour.maxNumOfPeoplePerUser) {
-            return { success: false, message: `You cannot register more than ${tour.maxNumOfPeoplePerUser} people for this tour.` };
+            return { success: false, message: `לא ניתן להירשם יותר מ- ${tour.maxNumOfPeoplePerUser} אנשים לסיור זה.` };
         }
 
         const existingPeopleCount = tour.registeredUsers[userId] || 0;
@@ -116,7 +116,7 @@ async function updateTourById(db, userId, tourId, action, numberOfPeople) {
         if (action === "add") {
             // Check `maxNumOfPeople`
             if (totalRegisteredCount + numberOfPeople - existingPeopleCount > tour.maxNumOfPeople) {
-                return { success: false, message: `Cannot register. Total number of people exceeds the maximum limit of ${tour.maxNumOfPeople} for this tour.` };
+                return { success: false, message: `לא ניתן להירשם. סך כל האנשים חורג מהמגבלה המקסימלית של ${tour.maxNumOfPeople} עבור הסיור הזה.` };
             }
 
             registeredUsersCountUpdate = numberOfPeople - existingPeopleCount;

@@ -88,6 +88,7 @@ const LatestTours = () => {
       createdAt={tour.createdAt}
       updatedAt={tour.updatedAt}
       whatsappGroupUrl={tour.whatsappGroupUrl}
+      maxNumOfPeople={tour.maxNumOfPeople}
     />
   ));
 
