@@ -5,9 +5,7 @@ import { Button } from "@nextui-org/react"
 import { BiLogOut } from "react-icons/bi"
 import { toast } from "react-toastify"
 import { IoBarChart, IoNewspaperSharp } from "react-icons/io5";
-import { BsFillInfoCircleFill } from "react-icons/bs"
-import { FaComments, FaFlag, FaMapSigns } from "react-icons/fa"
-import { AiFillMessage } from "react-icons/ai"
+import { FaFlag, FaMapSigns } from "react-icons/fa"
 import { FaUsersGear } from "react-icons/fa6"
 
 const AdminNav = ({viewNav , admin , logoutCallback , curNav}) => {
@@ -46,10 +44,8 @@ const AdminNav = ({viewNav , admin , logoutCallback , curNav}) => {
         }
         toast.success('התנתקת בהצלחה')
         await logoutCallback()
-        // reload the page
-        setTimeout(() => {
-            window.location.reload();
-        }, 1000);
+        // redirect to home page
+        window.location.href = '/home'
     }
 
 
@@ -122,10 +118,6 @@ const translateNav = (item) => {
             return 'סיורים';
         case 'articles':
             return 'כתבות';
-        case 'about':
-            return 'עלינו';
-        case 'contact':
-            return 'צור קשר';
         case 'comments':
             return 'תגובות';
         case 'users':
