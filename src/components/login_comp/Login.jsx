@@ -145,6 +145,9 @@ const Login = ({cookieCallback}) => {
               <div className="text-center">
                 <a href="/register" className="text-blue-500 hover:underline">לא רשום? הירשם כאן</a>
               </div>
+              <div className="text-center">
+                <a href='/contact' className="text-blue-500 hover:underline">אם שכחתם סיסמא - צרו קשר</a>
+              </div>
             </Form>
           )}
         </Formik>

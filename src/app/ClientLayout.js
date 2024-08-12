@@ -20,7 +20,7 @@ const ClientLayout = ({ children, cookieCallback }) => {
           {!isAdminPanel && <BackButton />}
           {children}
         </main>
-        {!isAdminPanel && <Footer />}
+        {!isAdminPanel && <Footer cookieCallback={cookieCallback} />}
       </ToastProvider>
     </>
   );
