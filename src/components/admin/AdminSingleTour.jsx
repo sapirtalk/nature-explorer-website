@@ -40,12 +40,14 @@ const AdminSingleTour = ({ tour_id, title, users , description, tourTime, regist
                 title: updatedTitle,
                 description: updatedDescription,
                 tourTime: updatedTourTime(),
-                newImages: (image == updatedImage) ? null : newUpdatedImage,
+                newImages: (image[0] == updatedImage) ? null : newUpdatedImage,
                 removeImages: pendingRemoveImages,
                 maxNumOfPeople: updatedMaxNumOfPeople,
                 maxNumOfPeoplePerUser: updatedMaxNumOfPeoplePerUser,
-                whatsappGroupUrl: (updatedWhatsappGroupUrl.slice(0, 4) !== 'http') ? 'https://' + updatedWhatsappGroupUrl : updatedWhatsappGroupUrl,
-            }
+                whatsappGroupUrl: updatedWhatsappGroupUrl 
+                ? (updatedWhatsappGroupUrl.slice(0, 4) !== 'http' ? 'https://' + updatedWhatsappGroupUrl : updatedWhatsappGroupUrl) 
+                : null,
+                        }
         };
 
         try {

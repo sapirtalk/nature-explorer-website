@@ -2,9 +2,9 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useState, useEffect } from 'react';
 import * as Yup from 'yup';
-import HelloLogin from '../login_comp/HelloLogin';
 import { toast } from 'react-toastify';
 import { Spinner } from '@nextui-org/react';
+import { Link } from "@nextui-org/react";
 
 const AdminLogin = ({loginCallback}) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -115,6 +115,14 @@ const AdminLogin = ({loginCallback}) => {
             </Form>
           )}
         </Formik>
+        <div className="flex justify-center mt-5" dir='rtl'>
+        <Link
+          showAnchorIcon
+          className="text-primary-500 text-xl"
+          href='/home'>
+          חזרה לדף הבית
+        </Link>
+      </div>
       </div>
     );
 };
