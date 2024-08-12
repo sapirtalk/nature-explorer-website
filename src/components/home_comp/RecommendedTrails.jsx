@@ -54,7 +54,13 @@ const RecommendedTrails = ({cookieCallback}) => {
     useEffect(() => {
 
        
-        fetchData('/api/trails_recommended')
+        const res = fetch ('/api/trails_recommended', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then((res) => res.json())
         .then((data) => {
             
             setTrails(data.trails.map((trail) => (
