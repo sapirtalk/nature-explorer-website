@@ -78,12 +78,13 @@ const RecommendedTrails = ({cookieCallback}) => {
             ))
             )
             setLoading(false);
+            console.log('RecommendedTrails fetched');
             
         })
         .catch((error) => {
             console.log('Error fetching data:', error);
         });
-    }, []);
+    }, [user_id_state , favTrails]);
     
     return (
         <div className='flex flex-col justify-center items-center flex-wrap'>
