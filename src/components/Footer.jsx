@@ -41,7 +41,7 @@ const Footer = ({cookieCallback}) => {
                 </div>  
                 <div> 
                 {user && user.role !== 'user' && (
-                    <Link href='/admin_panel' className="flex items-center group">
+                    <Link href='/admin_panel' className="hidden lg:flex items-center group">
                         <p className="text-primary group-hover:text-blue-500 group-hover:underline">פאנל מנהלים</p>
                         &nbsp;
                         <RiAdminLine className='text-primary lg:text-[30px] group-hover:text-blue-500' />

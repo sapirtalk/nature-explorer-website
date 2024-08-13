@@ -57,22 +57,37 @@ const WeatherHome = () => {
         if (response.ok) {
           const now = new Date();
           const closestWeather = result.data.reduce((prev, curr) => {
-            const prevDiff = Math.abs(new Date(prev.localTimestamp) - now);
-            const currDiff = Math.abs(new Date(curr.localTimestamp) - now);
+            const prevTime = new Date(prev.localTimestamp);
+            const currTime = new Date(curr.localTimestamp);
+            const prevDiff = Math.abs(prevTime - now);
+            const currDiff = Math.abs(currTime - now);
             return (currDiff < prevDiff ? curr : prev);
           });
 
           if (closestWeather) {
-            setWeather({
-              temperature: Math.round(closestWeather.weatherData.temperature),
-              feelsLike: Math.round(closestWeather.weatherData.feels_like),
-              humidity: Math.round(closestWeather.weatherData.humidity),
-              description: getDescription(closestWeather.weatherData.icon),
-              time: new Date(closestWeather.localTimestamp).toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' })
+            const closestTime = new Date(closestWeather.localTimestamp);
+            const futureTime = new Date(closestTime.getTime() + 3 * 60 * 60 * 1000); // 3 שעות קדימה
+
+            // מציאת תחזית מזג האוויר עבור הזמן העתידי
+            const futureWeather = result.data.find(weather => {
+              const weatherTime = new Date(weather.localTimestamp);
+              return weatherTime.getTime() === futureTime.getTime();
             });
-            setIcon(closestWeather.weatherData.icon);
+
+            if (futureWeather) {
+              setWeather({
+                temperature: Math.round(futureWeather.weatherData.temperature),
+                feelsLike: Math.round(futureWeather.weatherData.feels_like),
+                humidity: Math.round(futureWeather.weatherData.humidity),
+                description: getDescription(futureWeather.weatherData.icon),
+                time: new Date(futureWeather.localTimestamp).toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' })
+              });
+              setIcon(futureWeather.weatherData.icon);
+            } else {
+              setError('לא נמצאה תחזית למועד הרצוי.');
+            }
           } else {
-            setWeather(null);
+            setError('לא נמצאה תחזית קרובה לזמן הנוכחי.');
           }
         } else {
           setError(result.message);
