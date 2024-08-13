@@ -18,8 +18,6 @@ const TrailsCatalogue = ({ cookieCallback }) => {
     const [loading, setLoading] = useState(true);
     const [favTrails, setFavTrails] = useState([]);
     const [user_id_state, setUser_id_state] = useState(null);
-    const [page, setPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
 
     const updateSort = useCallback((by) => {
         setSort((prevSort) => ({
@@ -42,7 +40,7 @@ const TrailsCatalogue = ({ cookieCallback }) => {
 
     const updateFilter = useCallback((newFilter) => {
         setFilter(newFilter);
-        setPage(1);
+        
     }, []);
 
     const updateOpenFilter = useCallback((value) => {
@@ -53,7 +51,7 @@ const TrailsCatalogue = ({ cookieCallback }) => {
     const clearSortAndFilter = useCallback(() => {
         setFilter({});
         setSort({ by: 'name', order: 'asc' });
-        setPage(1);
+        
     }, []);
 
     const checkCleared = useCallback(() => {
@@ -100,7 +98,6 @@ const TrailsCatalogue = ({ cookieCallback }) => {
             const data = await res.json();
             console.log('trails : ', data.trails);
             setTrails(data.trails);
-            setTotalPages(Math.ceil(data.trails.length / 10));
             setLoading(false);
         };
 
@@ -110,20 +107,11 @@ const TrailsCatalogue = ({ cookieCallback }) => {
         
     }, [filter, sort]);
 
-    const onPreviousPage = () => {
-        if (page > 1) setPage((prev) => prev - 1);
-    };
 
-    const onNextPage = () => {
-        if (page < totalPages) setPage((prev) => prev + 1);
-    };
 
     const trailsShow = () => {
         if (trails.length > 0) {
-            const start = (page - 1) * 10;
-            const end = start + 10;
-            const curpage = trails.slice(start, end);
-            return curpage.map((trail) => (
+            return trails.map((trail) => (
                 <div key={trail._id}>
                     <SingleTrail
                         id={trail._id}
@@ -193,15 +181,6 @@ const TrailsCatalogue = ({ cookieCallback }) => {
                 <div className={openFilter ? 'fixed bottom-0 w-[100%] sm:hidden backdrop-blur h-[60vh] bg-white bg-opacity-70 p-5 ease-in duration-300' : 'fixed bottom-[-100%] p-10 ease-in duration-300'}>
                     <FilterTrails updateFilter={updateFilter} updateOpenFilter={updateOpenFilter} filter={filter} openFilter={openFilter} />
                 </div>
-                <div className="flex w-full justify-center items-center h-[10vh] gap-2">
-                    <Pagination total={totalPages} page={page} onChange={setPage} color='secondary' />
-                    <Button isDisabled={page <= 1} size="md" variant="flat" onPress={onPreviousPage}>
-                        קודם
-                    </Button>
-                    <Button isDisabled={page >= totalPages} size="md" variant="flat" onPress={onNextPage}>
-                        הבא
-                    </Button>
-                </div>
             </div>
 
             {/* DESKTOP */}
@@ -234,15 +213,6 @@ const TrailsCatalogue = ({ cookieCallback }) => {
                         ) : (
                             <div className="lg:flex lg:mb-10 lg:flex-col lg:items-start lg:justify-center">{trailsShow()}</div>
                         )}
-                    </div>
-                    <div dir='rtl' className="hidden lg:flex w-full justify-center items-center gap-3">
-                        <Pagination dir='rtl' total={totalPages} page={page} onChange={setPage} color='secondary' />
-                        <Button isDisabled={page <= 1} size="md" variant="flat" onPress={onPreviousPage}>
-                            קודם
-                        </Button>
-                        <Button isDisabled={page >= totalPages} size="md" variant="flat" onPress={onNextPage}>
-                            הבא
-                        </Button>
                     </div>
                 </div>
             </div>
