@@ -11,6 +11,12 @@ export default function AddRating({ trailId, userId }) {
   const [ userRating, setUserRating ] = useState(0);
 
   const handleSubmit = async () => {
+    
+    if (userRating === 0) {
+      toast.warn('דירוג לא יכול להיות אפס!');
+      return;
+    }
+
     try {
         if (userId) {
 
