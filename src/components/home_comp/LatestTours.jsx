@@ -72,7 +72,13 @@ const LatestTours = () => {
 
   const today = new Date();
 
-  const sortedTours = latestTours.filter(tour => new Date(tour.tourTime) > today).sort((a, b) => new Date(a.tourTime) - new Date(b.tourTime));
+    const todayDateString = today.toISOString().split('T')[0];
+
+  const sortedTours = latestTours.filter(tour => {
+      const tourDateString = tour.tourTime.split('T')[0];
+      return tourDateString >= todayDateString;
+  }).sort((a, b) => new Date(a.tourTime) - new Date(b.tourTime));
+
 
   const tours = sortedTours.map((tour) => (
     <SingleTour
@@ -97,7 +103,7 @@ const LatestTours = () => {
     <div className="flex justify-center p-5">
       <div className="w-full max-w-7xl">
         <h1 className="mb-2 text-2xl text-center">סיורים קרובים</h1>
-        <div className="hidden lg:grid lg:grid-cols-3 lg:gap-10" dir='rtl'>
+        <div className="hidden lg:grid-cols-3 lg:gap-10 lg:flex lg:justify-center" dir='rtl'>
           {tours.slice(0, 3)}
         </div>
         <div className="lg:hidden">

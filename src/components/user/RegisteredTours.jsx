@@ -38,6 +38,8 @@ const RegisteredTours = ({userId}) => {
                             tourTime={tour.tourTime}
                             registeredUsers={tour.registeredUsers}
                             registeredUsersCount={tour.registeredUsersCount}
+                            whatsappGroupUrl={tour.whatsappGroupUrl}
+                            maxNumOfPeople={tour.maxNumOfPeople}
                         />
                     </div>
                 )))
