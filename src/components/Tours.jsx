@@ -58,8 +58,12 @@ const Tours = () => {
 
   const today = new Date();
 
-  const sortedTours = tours.filter(tour => new Date(tour.tourTime) > today).sort((a, b) => new Date(a.tourTime) - new Date(b.tourTime));
+  const todayDateString = today.toISOString().split('T')[0];
 
+  const sortedTours = tours.filter(tour => {
+      const tourDateString = tour.tourTime.split('T')[0];
+      return tourDateString >= todayDateString;
+  }).sort((a, b) => new Date(a.tourTime) - new Date(b.tourTime));
 
   return (
     <div className="flex justify-center" dir='rtl'>

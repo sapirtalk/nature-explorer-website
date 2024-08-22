@@ -102,8 +102,17 @@ const AdminTours = ({ admin , users }) => {
   };
 
   const today = new Date();
-  const sortedTours = tours.filter(tour => new Date(tour.tourTime) > today).sort((a, b) => new Date(a.tourTime) - new Date(b.tourTime));
-  const archivedTours = tours.filter(tour => new Date(tour.tourTime) < today);
+  const todayDateString = today.toISOString().split('T')[0];
+
+  const sortedTours = tours.filter(tour => {
+      const tourDateString = tour.tourTime.split('T')[0];
+      return tourDateString >= todayDateString;
+  }).sort((a, b) => new Date(a.tourTime) - new Date(b.tourTime));
+  
+  const archivedTours = tours.filter(tour => {
+    const tourDateString = tour.tourTime.split('T')[0];
+    return tourDateString < todayDateString;
+  }).sort((a, b) => new Date(a.tourTime) - new Date(b.tourTime));
 
   if (loading) {
     return (
